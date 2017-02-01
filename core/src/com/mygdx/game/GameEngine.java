@@ -250,7 +250,8 @@ public class GameEngine {
             else {
                 phase = 4;
 
-                timer.setTime(0, 0);
+                timer.setTime(0, 5);
+                timer.start();
                 //Stop the timer if the game is entering phase 4
 
                 switchCurrentPlayer();
