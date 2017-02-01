@@ -183,6 +183,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private Batch batch;
     private int height;
     private int width;
+    private Label currentPlayerLabel;
 
     /**
      * The game-screen's initial constructor
@@ -501,10 +502,14 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         gameFont.setSize(24);
         Table collegeInfo = new Table();
         currentPlayerIcon = engine.currentPlayer().getCollege().getLogo();
+        currentPlayerLabel = new Label("", new Label.LabelStyle(gameFont.font(), Color.WHITE));
         drawer.addTableRow(collegeInfo, currentPlayerIcon, 64, 64);
         drawer.addTableRow(collegeInfo, new Label("COLLEGE", new Label.LabelStyle(gameFont.font(), Color.WHITE)));
+        drawer.addTableRow(collegeInfo, currentPlayerLabel);
         drawer.addTableRow(tableLeft, collegeInfo, 5, 0, 0, 0);
         //Prepare icon region to show the icon of the college which is currently active
+
+
 
         Table resourceCounters = new Table();
         foodCounter = new Label(engine.currentPlayer().getFoodCount().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
@@ -534,6 +539,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
 
         updatePhaseLabel();
+        updatePlayerName();
     }
 
     /**
@@ -1023,5 +1029,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         s.Height = height;
         s.Width = width;
         return s;
+    }
+
+    public void updatePlayerName() {
+        currentPlayerLabel.setText("Player " + engine.currentPlayerID());
     }
 }

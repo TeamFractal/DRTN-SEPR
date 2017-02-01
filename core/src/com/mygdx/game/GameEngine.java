@@ -338,6 +338,7 @@ public class GameEngine {
         gameScreen.updateInventoryLabels();
         //Display the "new" player's inventory on-screen
 
+        gameScreen.updatePlayerName();
     }
 
     /**
