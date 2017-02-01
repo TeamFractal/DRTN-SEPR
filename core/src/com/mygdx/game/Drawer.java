@@ -37,6 +37,9 @@ public class Drawer {
         //Import current game-state
     }
 
+    private final static SpriteBatch batch = new SpriteBatch();
+    private final static ShapeRenderer renderer = new ShapeRenderer();
+
     /**
      * Draws a rectangle on the next frame to be rendered
      * Works by kickstarting a rendering pipeline and drawing a rectangle in that pipeline before disposing of it again
@@ -49,25 +52,17 @@ public class Drawer {
      * @param height Height of the new rectangle
      */
     public void rectangle(ShapeRenderer.ShapeType type, Color color, int x, int y, int width, int height, int thickness) {
-        ShapeRenderer renderer = new ShapeRenderer();
-        //Establish shape-renderer
+        synchronized (renderer) {
+            renderer.begin(type);
+            renderer.setColor(color);
 
-        renderer.begin(type);
-        //Activate the renderer
+            int baseY = Gdx.graphics.getHeight() - y - height;
+            for (int i = 0; i < thickness; i++) {
+                renderer.rect(x + i, baseY + i, width - (i * 2), height - (i * 2));
+            }
 
-        renderer.setColor(color);
-        //Set the colour of the rectangle to be rendered
-
-        for (int i = 0; i < thickness; i++) {
-            renderer.rect(x + i, Gdx.graphics.getHeight() - y - height + i, width - (i * 2), height - (i * 2));
+            renderer.end();
         }
-        //Render a rectangle with the specified parameters
-
-        renderer.end();
-        //Shut the renderer down after the shape has been drawn
-
-        renderer.dispose();
-        //Get rid of the renderer now that it isn't useful anymore
     }
 
     /**
@@ -127,9 +122,6 @@ public class Drawer {
      * @param y The Y-coordinate of the text's location
      */
     public void text(String text, TTFont font, int x, int y) {
-        SpriteBatch batch = new SpriteBatch();
-        //Establish rendering batch
-
         Camera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         batch.setProjectionMatrix(camera.combined);
@@ -143,10 +135,6 @@ public class Drawer {
         //...specifically by simulating the printing process through the orthographic projection of a 3D textual object
 
         batch.end();
-        //End the rendering batch
-
-        batch.dispose();
-        //Dispose of the rendering batch now that it's run its course
     }
 
     /**
@@ -314,11 +302,6 @@ public class Drawer {
         button.getLabel().setColor(buttonColor);
         //Assign a new colour to the specified label
 
-        if (enabled == true) {
-            button.setTouchable(Touchable.enabled);
-        } else {
-            button.setTouchable(Touchable.disabled);
-        }
-        //Enable or disable the button as specified
+        button.setTouchable(enabled ? Touchable.enabled : Touchable.disabled);
     }
 }

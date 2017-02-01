@@ -11,7 +11,8 @@ public class AnimationTileFlash implements IAnimation {
     private final float y;
     private final float width;
     private float time;
-    private final static float timeout = 1f;
+    private final static float timeout = 0.5f;
+    private IAnimationFinish callback;
 
     public AnimationTileFlash(float x, float y, float width, float height) {
         this.x = x;
@@ -41,18 +42,33 @@ public class AnimationTileFlash implements IAnimation {
         return time >= timeout;
     }
 
+    /**
+     * Updates rectangle opacity.
+     */
     private void updateRectOpacity() {
-        rect.setColor(1, 1, 1,  1 - time/timeout);
+        rect.setColor(1, 1, 1,  calculateOpacity());
+    }
+
+    /**
+     * Calculate opacity for rectangle.
+     * @return   Calculated opacity for current time.
+     */
+    private float calculateOpacity() {
+        float v = time/timeout;
+        v = 1 - v * v;
+        v *= 0.8;
+        return v;
     }
 
     @Override
     public void setAnimationFinish(IAnimationFinish callback) {
-
+        this.callback = callback;
     }
 
     @Override
     public void callAnimationFinish() {
-
+        if (callback != null)
+            callback.OnAnimationFinish();
     }
 
     @Override

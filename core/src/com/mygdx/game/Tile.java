@@ -342,6 +342,9 @@ public class Tile extends Button {
         }
     }
 
+    private static int roboCustOffsetX[] = {55, 55, 55};
+    private static int roboCustOffsetY[] = {25, 38, 50};
+
     /**
      * Draws the tile's coloured border on the game's stage
      * This must be called during the construction of each frame in which the border is to be shown
@@ -350,6 +353,10 @@ public class Tile extends Button {
     public void drawBorder() {
         if (isOwned()) {
             drawer.lineRectangle(tileBorderColor, (128 * ((getID() - 1) % 4)) + 260, (128 * ((getID() - 1) / 4)) + 3, (int) (this.getWidth() - 5), (int) (this.getHeight() - 4), tileBorderThickness);
+
+            if (hasRoboticon()) {
+
+            }
         }
     }
 
