@@ -141,7 +141,7 @@ public class GameEngine {
             tiles[i] = new Tile(this.game, i + 1, 5, 5, 5, false, new Runnable() {
                 @Override
                 public void run() {
-                    gs.selectTile(tiles[fi]);
+                    gs.selectTile(tiles[fi], true);
                     selectedTile = tiles[fi];
                 }
             });
@@ -155,16 +155,16 @@ public class GameEngine {
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
-        Player Player1 = new Player(1);
-        Player Player2 = new Player(2);
-        players[1] = Player1;
-        players[2] = Player2;
-        College Goodricke = new College(1, "The best college");
-        College Derwent = new College(2, "Play at your own risk");
-        players[1].assignCollege(Goodricke);
-        players[2].assignCollege(Derwent);
-        Goodricke.assignPlayer(players[1]);
-        Derwent.assignPlayer(players[2]);
+        Player goodrickePlayer = new Player(1);
+        Player derwentPlayer = new Player(2);
+        players[1] = goodrickePlayer;
+        players[2] = derwentPlayer;
+        College Goodricke = new College(1, "Goodricke");
+        College Derwent = new College(2, "Derwent");
+        goodrickePlayer.assignCollege(Goodricke);
+        derwentPlayer.assignCollege(Derwent);
+        Goodricke.assignPlayer(goodrickePlayer);
+        Derwent.assignPlayer(derwentPlayer);
         //Temporary assignment of player-data for testing purposes
     }
 
@@ -229,7 +229,7 @@ public class GameEngine {
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 3){
@@ -249,7 +249,7 @@ public class GameEngine {
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 4){
@@ -277,7 +277,7 @@ public class GameEngine {
             market.refreshButtonAvailability();
             //Open the market again
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 5){
@@ -298,7 +298,7 @@ public class GameEngine {
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
 

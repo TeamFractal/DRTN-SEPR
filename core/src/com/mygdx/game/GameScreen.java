@@ -374,7 +374,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 engine.claimTile();
 
-                selectTile(engine.selectedTile());
+                selectTile(engine.selectedTile(), true);
                 //Refresh tile information and tile management UI
             }
         });
@@ -389,7 +389,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 if (!engine.selectedTile().hasRoboticon()) {
                     engine.deployRoboticon();
 
-                    selectTile(engine.selectedTile());
+                    selectTile(engine.selectedTile(), false);
                     //Re-select the current tile to update the UI
                 } else {
                     updateUpgradeOptions();
@@ -882,13 +882,15 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      *
      * @param tile The tile being clicked on
      */
-    public void selectTile(Tile tile) {
-        if (lastTileClickedFlash != null) {
-            lastTileClickedFlash.cancelAnimation();
-        }
+    public void selectTile(Tile tile, boolean showAnimation) {
+        if (showAnimation) {
+            if (lastTileClickedFlash != null) {
+                lastTileClickedFlash.cancelAnimation();
+            }
 
-        lastTileClickedFlash = new AnimationTileFlash(tileXOffset + tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
-        addAnimation(lastTileClickedFlash);
+            lastTileClickedFlash = new AnimationTileFlash(tileXOffset + tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
+            addAnimation(lastTileClickedFlash);
+        }
 
 
 
