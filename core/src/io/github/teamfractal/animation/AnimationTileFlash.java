@@ -105,4 +105,9 @@ public class AnimationTileFlash implements IAnimation {
         keepFlashing = false;
         time = timeout;
     }
+
+    @Override
+    public AnimationType getType() {
+        return AnimationType.Tile;
+    }
 }

@@ -266,17 +266,21 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             gameStage.draw();
             //Draw the stage onto the screen
 
+            // Draw owned tile's border
             for (Tile tile : engine.tiles()) {
-                tile.drawBorder(); //Draw each tile's border too
+                tile.drawBorder();
+            }
 
-                if (!upgradeOverlayVisible) {
+            // Draw animation.
+            renderAnimation(delta, IAnimation.AnimationType.Tile);
+
+            // Draw
+            if (!upgradeOverlayVisible) {
+                for (Tile tile : engine.tiles()) {
                     tile.drawTooltip();
                     //If any of the tiles' tooltips are deemed "active", render them to the screen too
                 }
             }
-
-            // Draw animation under the upgrade overlay.
-            renderAnimation(delta);
 
             if (upgradeOverlayVisible) {
                 upgradeOverlay.act(delta);
@@ -291,6 +295,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             pauseStage.draw();
             //...followed by the menu itself
         }
+
+        renderAnimation(delta, IAnimation.AnimationType.Overlay);
     }
 
     @Override
