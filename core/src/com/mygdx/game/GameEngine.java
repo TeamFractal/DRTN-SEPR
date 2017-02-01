@@ -17,6 +17,11 @@ import java.util.List;
  * Our website is: https://jm179796.github.io/SEPR/
  */
 public class GameEngine {
+    private static GameEngine _instance;
+    public static GameEngine getInstance() {
+        return _instance;
+    }
+
     /**
      * Stores current game-state, enabling transitions between screens and external QOL drawing functions
      */
@@ -103,6 +108,8 @@ public class GameEngine {
      * @param gameScreen The object encoding the in-game interface which is to be controlled by this engine
      */
     public GameEngine(Game game, GameScreen gameScreen) {
+        _instance = this;
+
         this.game = game;
         //Import current game-state to access the game's renderer
 
@@ -590,6 +597,10 @@ public class GameEngine {
         //0: ORE
         //1: ENERGY
         //2: FOOD
+    }
+
+    public int getPhase() {
+        return phase;
     }
 
     /**

@@ -275,13 +275,14 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 }
             }
 
+            // Draw animation under the upgrade overlay.
+            renderAnimation(delta);
+
             if (upgradeOverlayVisible) {
                 upgradeOverlay.act(delta);
                 upgradeOverlay.draw();
             }
             //Draw the roboticon upgrade overlay to the screen if the "upgrade" button has been selected
-
-            renderAnimation(delta);
         } else if (engine.state() == GameEngine.State.PAUSE) {
             drawer.filledRectangle(Color.WHITE, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             //If the game is paused, render a white background...

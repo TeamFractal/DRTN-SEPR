@@ -2,19 +2,34 @@ package io.github.teamfractal.animation;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.game.GameEngine;
 import io.github.teamfractal.screens.AbstractAnimationScreen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AnimationTileFlash implements IAnimation {
-    private static ShapeRenderer rect = new ShapeRenderer();
+    private static final ShapeRenderer rect = new ShapeRenderer();
     private final float height;
     private final float x;
     private final float y;
     private final float width;
+    private final int currentPhase;
     private float time;
     private final static float timeout = 0.5f;
     private IAnimationFinish callback;
+    private boolean keepFlashing;
+    private boolean reverseAnimation;
+    private static final List<Integer> flashPhase = new ArrayList<Integer>(){{
+        add(1);
+        add(2);
+        add(3);
+    }};
 
     public AnimationTileFlash(float x, float y, float width, float height) {
+        currentPhase = GameEngine.getInstance().getPhase();
+        keepFlashing = flashPhase.contains(currentPhase);
+
         this.x = x;
         this.y = y;
         this.width = width;
@@ -30,7 +45,18 @@ public class AnimationTileFlash implements IAnimation {
      */
     @Override
     public boolean tick(float delta, AbstractAnimationScreen screen, Batch batch) {
+        // Phase changed, mark current animation as finished.
+        if (GameEngine.getInstance().getPhase() != currentPhase) {
+            return true;
+        }
+
         time += delta;
+        if (keepFlashing) {
+            while (time > timeout) {
+                time -= timeout;
+                reverseAnimation = !reverseAnimation;
+            }
+        }
 
         synchronized (rect) {
             rect.begin(ShapeRenderer.ShapeType.Filled);
@@ -54,9 +80,12 @@ public class AnimationTileFlash implements IAnimation {
      * @return   Calculated opacity for current time.
      */
     private float calculateOpacity() {
-        float v = time/timeout;
+        float v = time / timeout;
         v = 1 - v * v;
-        v *= 0.8;
+        if (reverseAnimation) {
+            v = 1 - v;
+        }
+        v = 0.1f + v * 0.4f;
         return v;
     }
 
@@ -73,6 +102,7 @@ public class AnimationTileFlash implements IAnimation {
 
     @Override
     public void cancelAnimation() {
+        keepFlashing = false;
         time = timeout;
     }
 }
