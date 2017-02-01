@@ -15,6 +15,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,8 +28,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
+import io.github.teamfractal.animation.AnimationTileFlash;
+import io.github.teamfractal.animation.IAnimation;
+import io.github.teamfractal.screens.AbstractAnimationScreen;
 
-public class GameScreen implements Screen {
+public class GameScreen extends AbstractAnimationScreen implements Screen {
+    private final static int tileXOffset = 256;
 
     /**
      * Stores current game-state, enabling transitions between screens and external QOL drawing functions
@@ -174,6 +180,9 @@ public class GameScreen implements Screen {
      * Determines whether the aforementioned roboticon upgrade overlay is to be drawn to the screen
      */
     private boolean upgradeOverlayVisible;
+    private Batch batch;
+    private int height;
+    private int width;
 
     /**
      * The game-screen's initial constructor
@@ -186,6 +195,10 @@ public class GameScreen implements Screen {
 
         engine = new GameEngine(game, this);
         //Start game engine up
+
+        batch = new SpriteBatch();
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
     }
 
     /**
@@ -251,22 +264,23 @@ public class GameScreen implements Screen {
             gameStage.act(delta);
             gameStage.draw();
             //Draw the stage onto the screen
-            
+
             for (Tile tile : engine.tiles()) {
-                if (upgradeOverlayVisible == false) {
+                tile.drawBorder(); //Draw each tile's border too
+
+                if (!upgradeOverlayVisible) {
                     tile.drawTooltip();
                     //If any of the tiles' tooltips are deemed "active", render them to the screen too
                 }
-
-                tile.drawBorder();
-                //Draw each tile's border too
             }
 
-            if (upgradeOverlayVisible == true) {
+            if (upgradeOverlayVisible) {
                 upgradeOverlay.act(delta);
                 upgradeOverlay.draw();
             }
             //Draw the roboticon upgrade overlay to the screen if the "upgrade" button has been selected
+
+            renderAnimation(delta);
         } else if (engine.state() == GameEngine.State.PAUSE) {
             drawer.filledRectangle(Color.WHITE, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             //If the game is paused, render a white background...
@@ -279,7 +293,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        this.width = width;
+        this.height = height;
     }
 
     @Override
@@ -325,7 +340,7 @@ public class GameScreen implements Screen {
         /**
          * Button that, when clicked, ends the current turn for the current player prematurely
          */
-        endTurnButton = new TextButton("END TURN", gameButtonStyle);
+        endTurnButton = new TextButton("NEXT PHASE", gameButtonStyle);
         endTurnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -471,10 +486,10 @@ public class GameScreen implements Screen {
 
         gameFont.setSize(22);
         Table phaseTable = new Table();
-        phaseLabel = new Label("PHASE 1\nACQUISITION", new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        phaseLabel = new Label("", new Label.LabelStyle(gameFont.font(), Color.WHITE));
         phaseLabel.setAlignment(Align.center);
-        phaseTable.add(phaseLabel).width(105);
-        phaseTable.add().width(25);
+        phaseTable.add(phaseLabel).width(120);
+        phaseTable.add().width(5);
         phaseTable.add(endTurnButton);
         drawer.addTableRow(tableLeft, phaseTable, 0, 0, 15, 0, 2);
         //Prepare and add the "End Phase" button to the table
@@ -516,6 +531,9 @@ public class GameScreen implements Screen {
 
         gameStage.addActor(tableLeft);
         //Add left-hand table to the stage
+
+
+        updatePhaseLabel();
     }
 
     /**
@@ -780,6 +798,38 @@ public class GameScreen implements Screen {
         phaseLabel.setText("PHASE " + engine.phase() + "\n" + description);
     }
 
+    public void updatePhaseLabel () {
+        int phase = engine.phase();
+        String description;
+        switch (phase) {
+            case 1:
+                description = "ACQUISITION";
+                break;
+
+            case 2:
+                description = "BUY ROBOTICONS";
+                break;
+
+            case 3:
+                description = "PLACE ROBOTICONS";
+                break;
+
+            case 4:
+                description = "PRODUCTION";
+                break;
+
+            case 5:
+                description = "MARKET OPEN";
+                break;
+
+            default:
+                description = "UNKNOWN";
+                break;
+        }
+
+        updatePhaseLabel(description);
+    }
+
     /**
      * Returns the button used to allow for players to prematurely end their turns
      * This method is required to allow for the GameEngine class to turn the button off during phase 1
@@ -816,6 +866,8 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(pauseStage);
     }
 
+    IAnimation lastTileClickedFlash;
+
     /**
      * The code to be run whenever a particular tile is clicked on
      * Specifically updates the label identifying the selected tile, the college icon linked to the player who owns
@@ -825,6 +877,15 @@ public class GameScreen implements Screen {
      * @param tile The tile being clicked on
      */
     public void selectTile(Tile tile) {
+        if (lastTileClickedFlash != null) {
+            lastTileClickedFlash.cancelAnimation();
+        }
+
+        lastTileClickedFlash = new AnimationTileFlash(tileXOffset + tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
+        addAnimation(lastTileClickedFlash);
+
+
+
         selectedTileLabel.setText("TILE " + tile.getID());
 
         if (tile.isOwned()) {
@@ -865,6 +926,8 @@ public class GameScreen implements Screen {
                 //This will only happen if the game is in phase 3
             }
         } else {
+            // tile.getX()
+
             selectedTileOwnerIcon.setVisible(false);
             selectedTileRoboticonIcon.setVisible(false);
 
@@ -947,5 +1010,18 @@ public class GameScreen implements Screen {
             drawer.switchTextButton(foodUpgradeButton, false, Color.RED);
         }
         //Conditionally enable food upgrade button
+    }
+
+    @Override
+    protected Batch getBatch() {
+        return batch;
+    }
+
+    @Override
+    public Size getScreenSize() {
+        Size s = new Size();
+        s.Height = height;
+        s.Width = width;
+        return s;
     }
 }
