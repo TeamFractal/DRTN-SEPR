@@ -194,7 +194,6 @@ public class GameEngine {
                     switchCurrentPlayer();
                 } else {
                     phase = 2;
-                    gameScreen.updatePhaseLabel("BUY ROBOTICONS");
 
                     timer.setTime(0, 30);
                     timer.start();
@@ -223,7 +222,6 @@ public class GameEngine {
             }
             else{
                 phase = 3;
-                gameScreen.updatePhaseLabel("PLACE ROBOTICONS");
 
                 market.refreshButtonAvailability();
                 //Disable the market's interface
@@ -244,7 +242,6 @@ public class GameEngine {
             }
             else {
                 phase = 4;
-                gameScreen.updatePhaseLabel("PRODUCTION");
 
                 timer.setTime(0, 0);
                 //Stop the timer if the game is entering phase 4
@@ -276,7 +273,6 @@ public class GameEngine {
             }
 
             phase = 5;
-            gameScreen.updatePhaseLabel("MARKET OPEN");
 
             market.refreshButtonAvailability();
             //Open the market again
@@ -293,7 +289,6 @@ public class GameEngine {
             }
             else if (checkGameEnd() == false) {
                 phase = 1;
-                gameScreen.updatePhaseLabel("ACQUISITION");
 
                 market.refreshButtonAvailability();
                 //Close the market again
@@ -319,6 +314,8 @@ public class GameEngine {
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
         //Each player should own 8 tiles when this block is executed
+
+        gameScreen.updatePhaseLabel();
 
         gameScreen.closeUpgradeOverlay();
         //If the upgrade overlay is open, close it when the next phase begins
@@ -547,8 +544,8 @@ public class GameEngine {
      */
     private boolean checkGameEnd(){
         boolean end = true;
-        for(Tile Tile : tiles){
-            if(Tile.getOwner().getPlayerID() == 0){
+        for(Tile tile : tiles){
+            if(tile.getOwner().getPlayerID() == 0){
                 end = false;
             }
         }
