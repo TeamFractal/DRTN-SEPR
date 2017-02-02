@@ -342,8 +342,7 @@ public class Tile extends Button {
         }
     }
 
-    private static int roboCustOffsetX[] = {55, 55, 55};
-    private static int roboCustOffsetY[] = {25, 38, 50};
+    private final static int tileXOffset = 256;
 
     /**
      * Draws the tile's coloured border on the game's stage
@@ -352,10 +351,28 @@ public class Tile extends Button {
      */
     public void drawBorder() {
         if (isOwned()) {
-            drawer.lineRectangle(tileBorderColor, (128 * ((getID() - 1) % 4)) + 260, (128 * ((getID() - 1) / 4)) + 3, (int) (this.getWidth() - 5), (int) (this.getHeight() - 4), tileBorderThickness);
+            /*
+            * Basically, the old drawer cord system and the new cord system have a different Y direction.
+            *
+            * For the old version, flip the Y cords are required for it to draw properly.
+            *
+            ***********************************************************************************************************/
+            float tileX = tileXOffset + getX();
+            float tileY = Gdx.graphics.getHeight() - getHeight() - getY();
+
+            drawer.lineRectangle(tileBorderColor,
+                    (int)tileX, (int)tileY,
+                    (int)(this.getWidth() - 1),
+                    (int)(this.getHeight() - 1),
+                    tileBorderThickness);
+
+            // TODO: draw owner
+
 
             if (hasRoboticon()) {
-
+                drawer.drawRoboticon(roboticonStored,
+                        tileX + this.getWidth() - 64 - 10,
+                        getY() + 10);
             }
         }
     }

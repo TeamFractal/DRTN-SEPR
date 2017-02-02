@@ -900,8 +900,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             addAnimation(lastTileClickedFlash);
         }
 
-
-
         selectedTileLabel.setText("TILE " + tile.getID());
 
         if (tile.isOwned()) {
@@ -928,6 +926,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 //If the tile already has a Roboticon, offer an upgrade button if the Roboticon upgrade conditions are met
                 //Also show an icon representing the Roboticon inhabiting the tile
                 //This will only happen if the game is in phase 3
+
+                updateRoboticonIconLevels();
             } else {
                 deployRoboticonButton.setText("DEPLOY");
 
@@ -957,6 +957,10 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         //If the tile isn't yet owned by anyone, allow the current player to claim it if the game is in phase 1
     }
 
+    private void updateRoboticonIconLevels() {
+        // TODO: Draw roboticon icon levels.
+    }
+
     /**
      * Run this to deselect the currently selected tile
      * Specifically resets the labels and icons that identify the selected tile and disables the buttons for
@@ -983,6 +987,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         Gdx.input.setInputProcessor(gameStage);
         //Direct user inputs back towards the main stage
+
+        updateRoboticonIconLevels();
     }
 
     /**

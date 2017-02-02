@@ -5,13 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
+
 /**
  * @author Duck Related Team Name in Big Massive Letters
  * @since Assessment 2
@@ -38,7 +45,42 @@ public class Drawer {
     }
 
     private final static SpriteBatch batch = new SpriteBatch();
+    private final static SpriteBatch textDrawBatch = new SpriteBatch();
     private final static ShapeRenderer renderer = new ShapeRenderer();
+    private final static Sprite roboticonSprite;
+    private final static TTFont defaultTTFont;
+    private final static BitmapFont defaultFont;
+    private final static BitmapFont font04b08;
+    private final static GlyphLayout glyphLayout = new GlyphLayout();
+
+    static {
+        roboticonSprite = new Sprite(new Texture("roboticon/roboticon.png"));
+        defaultTTFont = new TTFont(Gdx.files.internal("font/earthorbiter.ttf"),
+                12, 1, Color.BLACK, false);
+        defaultFont = defaultTTFont.font();
+
+        // Load 8px bitmap retro style (that is clear to see) font.
+        FreeTypeFontGenerator TTFGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/04B_08__.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter TTFStyle = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        TTFStyle.size = 8;
+        TTFStyle.color = Color.WHITE;
+        TTFStyle.borderWidth = 0;
+        TTFStyle.hinting = FreeTypeFontGenerator.Hinting.None;
+
+        font04b08 = TTFGenerator.generateFont(TTFStyle);
+
+        // Setup camera and the projection matrix for text method.
+        Camera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        textDrawBatch.setProjectionMatrix(camera.combined);
+    }
+
+
+
+
+
+
+
 
     /**
      * Draws a rectangle on the next frame to be rendered
@@ -121,20 +163,15 @@ public class Drawer {
      * @param x The X-coordinate of the text's location
      * @param y The Y-coordinate of the text's location
      */
-    public void text(String text, TTFont font, int x, int y) {
-        Camera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        batch.setProjectionMatrix(camera.combined);
-        //Set up a direct orthographic projection of the provided text
-
-        batch.begin();
+    public void text(String text, TTFont font, float x, float y) {
+        textDrawBatch.begin();
         //Start the rendering batch
 
-        font.font().draw(batch, text, x - (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - y);
+        font.font().draw(textDrawBatch, text, x - (Gdx.graphics.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - y);
         //Print the provided text to the screen...
         //...specifically by simulating the printing process through the orthographic projection of a 3D textual object
 
-        batch.end();
+        textDrawBatch.end();
     }
 
     /**
@@ -303,5 +340,31 @@ public class Drawer {
         //Assign a new colour to the specified label
 
         button.setTouchable(enabled ? Touchable.enabled : Touchable.disabled);
+    }
+
+    private static int roboCustOffsetX[] = {56, 56, 56};
+    private static int roboCustOffsetY[] = {15, 28, 41};
+    private static Color roboCustColours[] = {Color.BLACK, Color.WHITE, Color.WHITE};
+
+
+    public void drawRoboticon(Roboticon roboticon, float x, float y) {
+        batch.begin();
+
+        batch.draw(roboticonSprite, x, y, 64, 64);
+
+        int[] levels;
+        if (roboticon == null) {
+            levels = new int[]{0, 0, 0};
+        } else {
+            levels = roboticon.getLevel();
+        }
+
+        for(int i = 0; i < 3; i++) {
+            glyphLayout.setText(font04b08, "" + levels[i], roboCustColours[i],
+                    0, Align.center, false);
+            font04b08.draw(batch, glyphLayout, x + roboCustOffsetX[i], y + roboCustOffsetY[i]);
+
+        }
+        batch.end();
     }
 }
