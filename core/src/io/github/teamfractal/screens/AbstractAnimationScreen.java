@@ -29,6 +29,7 @@ public abstract class AbstractAnimationScreen {
     /**
      * Request to render animation.
      * @param delta   Time delta from last render call.
+     * @param type    The animation type to render.
      */
     public void renderAnimation(float delta, IAnimation.AnimationType type) {
         Batch batch = getBatch();
@@ -55,6 +56,18 @@ public abstract class AbstractAnimationScreen {
             }
 
             Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
+    }
+
+    private static IAnimation.AnimationType[] animationTypes = IAnimation.AnimationType.Overlay.getDeclaringClass().getEnumConstants();
+
+    /**
+     * Request to render all animation registered.
+     * @param delta   Time delta from last render call.
+     */
+    public void renderAnimation(float delta) {
+        for (IAnimation.AnimationType type : animationTypes) {
+            renderAnimation(delta, type);
         }
     }
 

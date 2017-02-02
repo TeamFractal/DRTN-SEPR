@@ -22,7 +22,6 @@ public class AnimationTileFlash implements IAnimation {
     private boolean reverseAnimation;
     private static final List<Integer> flashPhase = new ArrayList<Integer>(){{
         add(1);
-        add(2);
         add(3);
     }};
 
