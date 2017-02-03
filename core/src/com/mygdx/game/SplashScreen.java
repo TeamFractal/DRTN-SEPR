@@ -123,7 +123,7 @@ public class SplashScreen implements Screen {
         logo.setCenter(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         //Create logo sprite and re-size/re-position it to fit into game window
 
-        delay = System.getenv("splash").trim().toLowerCase().equals("false") ? 0 : 3;
+        delay = 1;
 
         //Set the splash-screen's delay
 
