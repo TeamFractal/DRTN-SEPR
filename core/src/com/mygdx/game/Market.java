@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.Random;
 
@@ -151,6 +152,12 @@ public class Market extends Table {
      */
     private Label roboticonStockLabel;
 
+	private TextButton marketButton;
+
+	private TextButton auctionButton;
+
+	private Array<TextButton> marketButtonArray;
+
     /**
      * Constructs the market by calculating buying/selling costs and arranging the associated visual interface
      * Imports the game's state (for direct renderer access) and the engine which controls it, before setting up
@@ -210,10 +217,35 @@ public class Market extends Table {
         tableButtonStyle.pressedOffsetY = -1;
         //Set the visual parameters for the rest of the market's labels and buttons
 
+        marketButtonArray = new Array<TextButton>();
+        marketButton = new TextButton("Market", tableButtonStyle);
+        marketButton.addListener(new ChangeListener() {
+        	@Override
+            public void changed(ChangeEvent event, Actor actor) {
+        	drawer.switchTextButton(auctionButton, true, Color.WHITE);	
+        	drawer.switchTextButton(marketButton, false, Color.GRAY);
+        	for(int i = 0 ; i < marketButtonArray.size; i++){
+        		marketButtonArray.get(i).setVisible(true);
+        	}
+        	}
+        });
+        
+        auctionButton = new TextButton("Auction", tableButtonStyle);
+        auctionButton.addListener(new ChangeListener() {
+        	@Override
+            public void changed(ChangeEvent event, Actor actor) {
+        	drawer.switchTextButton(marketButton, true, Color.WHITE);	
+        	drawer.switchTextButton(auctionButton, false, Color.GRAY);
+        	for(int i = 0 ; i < marketButtonArray.size; i++){
+        		marketButtonArray.get(i).setVisible(false);
+        	}
+        	}
+        });
         /**
          * Button that attempts to buy a Roboticon for the current player when clicked on
          */
         buyRoboticon = new TextButton("-" + getRoboticonBuyPrice().toString(), tableButtonStyle);
+        marketButtonArray.add(buyRoboticon);
         buyRoboticon.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -232,6 +264,7 @@ public class Market extends Table {
          * Button that attempts to buy a unit of ore for the current player when clicked on
          */
         buyOre = new TextButton("-" + getOreBuyPrice().toString(), tableButtonStyle);
+        marketButtonArray.add(buyOre);
         buyOre.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -249,6 +282,7 @@ public class Market extends Table {
          * Button that attempts to buy a unit of food for the current player when clicked on
          */
         buyFood = new TextButton("-" + getFoodBuyPrice().toString(), tableButtonStyle);
+        marketButtonArray.add(buyFood);
         buyFood.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -266,6 +300,7 @@ public class Market extends Table {
          * Button that attempts to buy a unit of energy for the current player when clicked on
          */
         buyEnergy = new TextButton("-" + getEnergyBuyPrice().toString(), tableButtonStyle);
+        marketButtonArray.add(buyEnergy);
         buyEnergy.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -284,6 +319,7 @@ public class Market extends Table {
          * when clicked on
          */
         sellEnergy = new TextButton("+" + getEnergySellPrice().toString(), tableButtonStyle);
+        marketButtonArray.add(sellEnergy);
         sellEnergy.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -303,6 +339,7 @@ public class Market extends Table {
          * when clicked on
          */
         sellOre = new TextButton("+" + getOreSellPrice().toString(), tableButtonStyle);
+        marketButtonArray.add(sellOre);
         sellOre.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -321,6 +358,7 @@ public class Market extends Table {
          * when clicked on
          */
         sellFood = new TextButton("+" + getFoodSellPrice().toString(), tableButtonStyle);
+        marketButtonArray.add(sellFood);
         sellFood.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -337,6 +375,7 @@ public class Market extends Table {
 
         refreshButtonAvailability();
         //Ensure that these buttons are disabled at the beginning of the game
+        
     }
 
     /**
@@ -345,7 +384,10 @@ public class Market extends Table {
      */
     private void constructInterface() {
         tableFont.setSize(36);
-        drawer.addTableRow(this, new Label("Market", new Label.LabelStyle(tableFont.font(), Color.WHITE)), 0, 0, 5, 0, 3);
+        drawer.switchTextButton(marketButton, false, Color.GRAY);
+        drawer.switchTextButton(auctionButton, true, Color.WHITE);
+        drawer.addTableRow(this, marketButton);
+        this.add(auctionButton).left();
         //Add a heading to the market interface
 
         tableFont.setSize(24);
