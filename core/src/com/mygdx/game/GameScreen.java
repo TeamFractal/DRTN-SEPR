@@ -184,6 +184,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private int height;
     private int width;
     private Label currentPlayerLabel;
+    private boolean drawRoboticonIcon;
 
     /**
      * The game-screen's initial constructor
@@ -902,6 +903,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         selectedTileLabel.setText("TILE " + tile.getID());
 
+        drawRoboticonIcon = false;
         if (tile.isOwned()) {
             selectedTileOwnerIcon.setVisible(true);
             selectedTileOwnerIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(tile.getOwner().getCollege().getLogoTexture())));
@@ -914,6 +916,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             if (tile.hasRoboticon()) {
                 deployRoboticonButton.setText("UPGRADE");
 
+                drawRoboticonIcon = true;
+                updateRoboticonIcon();1
                 selectedTileRoboticonIcon.setVisible(true);
                 selectedTileRoboticonIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(tile.getRoboticonStored().getIconTexture())));
                 selectedTileOwnerIcon.setSize(64, 64);
