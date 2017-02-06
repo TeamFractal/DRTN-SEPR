@@ -31,6 +31,8 @@ import com.badlogic.gdx.utils.Scaling;
 import io.github.teamfractal.animation.AnimationTileFlash;
 import io.github.teamfractal.animation.IAnimation;
 import io.github.teamfractal.screens.AbstractAnimationScreen;
+import io.github.teamfractal.animation.AnimationPlayerWin;
+
 
 public class GameScreen extends AbstractAnimationScreen implements Screen {
     private final static int tileXOffset = 256;
@@ -516,6 +518,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         drawer.addTableRow(tableLeft, new Label("CURRENT PLAYER", new Label.LabelStyle(gameFont.font(), Color.BLACK)), 0, 0, 10, 0, 2);
         //Window-dressing: adds "CURRENT PLAYER" label
 
+
+
         gameFont.setSize(24);
         Table collegeInfo = new Table();
         currentPlayerIcon = engine.currentPlayer().getCollege().getLogo();
@@ -891,7 +895,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     }
 
     IAnimation lastTileClickedFlash;
-
+    IAnimation playerWin;
     /**
      * The code to be run whenever a particular tile is clicked on
      * Specifically updates the label identifying the selected tile, the college icon linked to the player who owns
@@ -1052,6 +1056,13 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         s.Width = width;
         return s;
     }
+
+    public void showPlayerWin(){
+        playerWin = new AnimationPlayerWin();
+        addAnimation(playerWin);
+    }
+
+
 
     public void updatePlayerName() {
         currentPlayerLabel.setText("Player " + engine.currentPlayerID());
