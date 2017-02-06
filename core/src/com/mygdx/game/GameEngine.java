@@ -17,6 +17,11 @@ import java.util.List;
  * Our website is: https://jm179796.github.io/SEPR/
  */
 public class GameEngine {
+    private static GameEngine _instance;
+    public static GameEngine getInstance() {
+        return _instance;
+    }
+
     /**
      * Stores current game-state, enabling transitions between screens and external QOL drawing functions
      */
@@ -103,6 +108,8 @@ public class GameEngine {
      * @param gameScreen The object encoding the in-game interface which is to be controlled by this engine
      */
     public GameEngine(Game game, GameScreen gameScreen) {
+        _instance = this;
+
         this.game = game;
         //Import current game-state to access the game's renderer
 
@@ -141,7 +148,7 @@ public class GameEngine {
             tiles[i] = new Tile(this.game, i + 1, 5, 5, 5, false, new Runnable() {
                 @Override
                 public void run() {
-                    gs.selectTile(tiles[fi]);
+                    gs.selectTile(tiles[fi], true);
                     selectedTile = tiles[fi];
                 }
             });
@@ -155,16 +162,16 @@ public class GameEngine {
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
-        Player Player1 = new Player(1);
-        Player Player2 = new Player(2);
-        players[1] = Player1;
-        players[2] = Player2;
-        College Goodricke = new College(1, "The best college");
-        College Derwent = new College(2, "Play at your own risk");
-        players[1].assignCollege(Goodricke);
-        players[2].assignCollege(Derwent);
-        Goodricke.assignPlayer(players[1]);
-        Derwent.assignPlayer(players[2]);
+        Player goodrickePlayer = new Player(1);
+        Player derwentPlayer = new Player(2);
+        players[1] = goodrickePlayer;
+        players[2] = derwentPlayer;
+        College Goodricke = new College(1, "Goodricke");
+        College Derwent = new College(2, "Derwent");
+        goodrickePlayer.assignCollege(Goodricke);
+        derwentPlayer.assignCollege(Derwent);
+        Goodricke.assignPlayer(goodrickePlayer);
+        Derwent.assignPlayer(derwentPlayer);
         //Temporary assignment of player-data for testing purposes
     }
 
@@ -194,7 +201,6 @@ public class GameEngine {
                     switchCurrentPlayer();
                 } else {
                     phase = 2;
-                    gameScreen.updatePhaseLabel("BUY ROBOTICONS");
 
                     timer.setTime(0, 30);
                     timer.start();
@@ -223,7 +229,6 @@ public class GameEngine {
             }
             else{
                 phase = 3;
-                gameScreen.updatePhaseLabel("PLACE ROBOTICONS");
 
                 market.refreshButtonAvailability();
                 //Disable the market's interface
@@ -231,7 +236,7 @@ public class GameEngine {
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 3){
@@ -244,15 +249,15 @@ public class GameEngine {
             }
             else {
                 phase = 4;
-                gameScreen.updatePhaseLabel("PRODUCTION");
 
-                timer.setTime(0, 0);
+                timer.setTime(0, 5);
+                timer.start();
                 //Stop the timer if the game is entering phase 4
 
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 4){
@@ -276,12 +281,11 @@ public class GameEngine {
             }
 
             phase = 5;
-            gameScreen.updatePhaseLabel("MARKET OPEN");
 
             market.refreshButtonAvailability();
             //Open the market again
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 5){
@@ -293,7 +297,6 @@ public class GameEngine {
             }
             else if (checkGameEnd() == false) {
                 phase = 1;
-                gameScreen.updatePhaseLabel("ACQUISITION");
 
                 market.refreshButtonAvailability();
                 //Close the market again
@@ -303,7 +306,7 @@ public class GameEngine {
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
 
@@ -319,6 +322,8 @@ public class GameEngine {
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
         //Each player should own 8 tiles when this block is executed
+
+        gameScreen.updatePhaseLabel();
 
         gameScreen.closeUpgradeOverlay();
         //If the upgrade overlay is open, close it when the next phase begins
@@ -341,6 +346,7 @@ public class GameEngine {
         gameScreen.updateInventoryLabels();
         //Display the "new" player's inventory on-screen
 
+        gameScreen.updatePlayerName();
     }
 
     /**
@@ -547,8 +553,8 @@ public class GameEngine {
      */
     private boolean checkGameEnd(){
         boolean end = true;
-        for(Tile Tile : tiles){
-            if(Tile.getOwner().getPlayerID() == 0){
+        for(Tile tile : tiles){
+            if(tile.getOwner().getPlayerID() == 0){
                 end = false;
             }
         }
@@ -592,6 +598,10 @@ public class GameEngine {
         //0: ORE
         //1: ENERGY
         //2: FOOD
+    }
+
+    public int getPhase() {
+        return phase;
     }
 
     /**
