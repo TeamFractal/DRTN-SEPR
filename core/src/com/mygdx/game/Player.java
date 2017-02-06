@@ -12,6 +12,8 @@ import java.util.List;
  * Our website is: https://jm179796.github.io/SEPR/
  */
 public class Player {
+    public boolean isAi () { return false; }
+
     /**
      * Unique numerical identifier of the player.
      */

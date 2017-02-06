@@ -163,7 +163,7 @@ public class GameEngine {
         //Mark the game's current play-state as "running" (IE: not paused)
 
         Player goodrickePlayer = new Player(1);
-        Player derwentPlayer = new Player(2);
+        Player derwentPlayer = new AiPlayer(2);
         players[1] = goodrickePlayer;
         players[2] = derwentPlayer;
         College Goodricke = new College(1, "Goodricke");
@@ -173,6 +173,10 @@ public class GameEngine {
         Goodricke.assignPlayer(goodrickePlayer);
         Derwent.assignPlayer(derwentPlayer);
         //Temporary assignment of player-data for testing purposes
+    }
+
+    public void selectTile(Tile tile) {
+        selectedTile = tile;
     }
 
     /**
@@ -327,6 +331,11 @@ public class GameEngine {
 
         gameScreen.closeUpgradeOverlay();
         //If the upgrade overlay is open, close it when the next phase begins
+
+        if (isCurrentlyAiPlayer()) {
+            AiPlayer aiPlayer = (AiPlayer)currentPlayer();
+            aiPlayer.performPhase(this, gameScreen);
+        }
     }
 
     /**
@@ -334,10 +343,10 @@ public class GameEngine {
      * Updates the in-game interface to reflect the statistics and the identity of the player now controlling it
      */
     private void switchCurrentPlayer() {
-        currentPlayerID = 3 - currentPlayerID;
-        //3 - 1 = 2
-        //3 - 2 = 1
-        //This naturally switches the getID of the currently-active player from 1 to 2 and vice-versa
+        currentPlayerID ++;
+        if (currentPlayerID == 3)
+            currentPlayerID = 1;
+        System.out.println("Change to player " + currentPlayerID);
 
         gameScreen.currentPlayerIcon().setDrawable(new TextureRegionDrawable(new TextureRegion(players[currentPlayerID].getCollege().getLogoTexture())));
         gameScreen.currentPlayerIcon().setSize(64, 64);
@@ -602,6 +611,10 @@ public class GameEngine {
 
     public int getPhase() {
         return phase;
+    }
+
+    public boolean isCurrentlyAiPlayer() {
+        return currentPlayer().isAi();
     }
 
     /**
