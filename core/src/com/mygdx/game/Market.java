@@ -188,6 +188,16 @@ public class Market extends Table {
 	private TextButton priceMinus10;
 
 	private TextButton priceMinus100;
+
+	private Label oreTradeLabel;
+
+	private Label energyTradeLabel;
+
+	private Label foodTradeLabel;
+
+	private int tradePrice;
+
+	private Label tradePriceLabel;
 	
 	
 
@@ -397,20 +407,132 @@ public class Market extends Table {
         //Set the button for selling food to do just that (but only when the game is in phase 5)
         
         playerBuyOre = new TextButton("+", tableButtonStyle);
+        oreTradeLabel = new Label("Ore:        " + oreTradeAmount, 
+        		new Label.LabelStyle(tableFont.font(), Color.WHITE));
+        playerBuyOre.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                  oreTradeAmount += 1;
+                  oreTradeLabel.setText("Ore:        " + oreTradeAmount);
+                  
+            }
+        });
+        
         playerBuyEnergy = new TextButton("+", tableButtonStyle);
+        energyTradeLabel = new Label("Energy:   " + energyTradeAmount, 
+        		new Label.LabelStyle(tableFont.font(), Color.WHITE));
+        playerBuyEnergy.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                  energyTradeAmount += 1;
+                  energyTradeLabel.setText("Energy:   " + energyTradeAmount);
+                  
+            }
+        });
+        
         playerBuyFood = new TextButton("+", tableButtonStyle);
+        foodTradeLabel = new Label("Food:      " + foodTradeAmount, 
+        		new Label.LabelStyle(tableFont.font(), Color.WHITE));
+        playerBuyFood.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                  foodTradeAmount += 1;
+                  foodTradeLabel.setText("Food:      " + foodTradeAmount);
+                  
+            }
+        });
         
         playerSellOre = new TextButton("-", tableButtonStyle);
-        playerSellEnergy = new TextButton("-", tableButtonStyle);
-        playerSellFood = new TextButton("-", tableButtonStyle);
+        playerSellOre.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                  oreTradeAmount -= 1;
+                  oreTradeLabel.setText("Ore:        " + oreTradeAmount);
+                  
+            }
+        });
         
+        playerSellEnergy = new TextButton("-", tableButtonStyle);
+        playerSellEnergy.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                  energyTradeAmount -= 1;
+                  energyTradeLabel.setText("Energy:   " + energyTradeAmount);
+                  
+            }
+        });
+        
+        playerSellFood = new TextButton("-", tableButtonStyle);
+        playerSellFood.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                  foodTradeAmount -= 1;
+                  foodTradeLabel.setText("Food:      " + foodTradeAmount);
+                  
+            }
+        });
+        
+        tradePriceLabel = new Label("" + tradePrice, new Label.LabelStyle(tableFont.font(), Color.WHITE)); 
         pricePlus1 = new TextButton("+ 1", tableButtonStyle);
+        pricePlus1.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                  tradePrice += 1;
+                  tradePriceLabel.setText("" + tradePrice);
+                  
+            }
+        });
+        
         pricePlus10 = new TextButton("+ 10", tableButtonStyle);
+        pricePlus10.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            	tradePrice += 10;
+                tradePriceLabel.setText("" + tradePrice);
+                  
+            }
+        });
+        
         pricePlus100 = new TextButton("+ 100", tableButtonStyle);
+        pricePlus100.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            	tradePrice += 100;
+                tradePriceLabel.setText("" + tradePrice);
+                  
+            }
+        });
+        
         
         priceMinus1 = new TextButton("- 1", tableButtonStyle);
+        priceMinus1.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            	tradePrice -= 1;
+                tradePriceLabel.setText("" + tradePrice);
+                  
+            }
+        });
+        
         priceMinus10 = new TextButton("- 10", tableButtonStyle);
+        priceMinus10.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            	tradePrice -= 10;
+                tradePriceLabel.setText("" + tradePrice);
+                  
+            }
+        });
+        
         priceMinus100 = new TextButton("- 100", tableButtonStyle);
+        priceMinus100.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            	tradePrice -= 100;
+                tradePriceLabel.setText("" + tradePrice);
+                  
+            }
+        });
         
         confirmSale = new TextButton("confirm", tableButtonStyle);
         refreshButtonAvailability();
@@ -518,45 +640,46 @@ public class Market extends Table {
         //Visual guff
         
         this.row();
-        this.add(new Label("Ore", new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
+        oreTradeAmount = 0;
+        this.add(oreTradeLabel).left();
         this.add(playerBuyOre).left().padLeft(10);
         this.add(playerSellOre).left().padLeft(10);
         
         this.row();
-        this.add(new Label("Energy", new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
+        energyTradeAmount = 0;
+        this.add(energyTradeLabel).left();
         this.add(playerBuyEnergy).left().padLeft(10);
         this.add(playerSellEnergy).left().padLeft(10);
         
         this.row();
-        this.add(new Label("Food", new Label.LabelStyle(tableFont.font(), Color.WHITE))).left().padBottom(15);
+        foodTradeAmount = 0;
+        this.add(foodTradeLabel).left().padBottom(15);
         this.add(playerBuyFood).left().padLeft(10).padBottom(15);
         this.add(playerSellFood).left().padLeft(10).padBottom(15);
         
         this.row();
-        this.add(new Label("To Sell", new Label.LabelStyle(tableFont.font(), Color.WHITE)));
-        this.add(new Label("Change", new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
-        this.add(new Label("Price", new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
+        tradePrice = 0;
+        this.add(new Label("Price:", new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
+        
         
         this.row();
-        oreTradeAmount = 0;
-        this.add(new Label("Ore:   " + oreTradeAmount , new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
+        
+        this.add();
         this.add(pricePlus1).left();
         this.add(priceMinus1).left();
         
         this.row();
-        energyTradeAmount = 0;
-        this.add(new Label("Energy:   " +  energyTradeAmount, new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
+        
+        this.add(tradePriceLabel);
         this.add(pricePlus10).left();
         this.add(priceMinus10).left();
         
         this.row();
-        foodTradeAmount = 0;
-        this.add(new Label("Food:   " +  foodTradeAmount, new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
+        
+        this.add();
         this.add(pricePlus100).left();
         this.add(priceMinus100).left();
         
-        this.row();
-        this.add (new Label("Price:", new Label.LabelStyle(tableFont.font(), Color.WHITE))).left();
         
         this.row();
         this.add(confirmSale).left();
