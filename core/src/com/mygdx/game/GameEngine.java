@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class GameEngine {
      * Stores data pertaining to the game's active players
      * For more information, check the "Player" class
      */
-    private Player[] players;
+    private static Player[] players;
 
     /**
      * Holds the numeric getID of the player who's currently active in the game
@@ -311,13 +312,14 @@ public class GameEngine {
         }
 
         if(checkGameEnd() == true){
-            Integer score1 = players[1].calculateScore();
-            Integer score2 = players[2].calculateScore();
-            if(score1 > score2){
-                System.out.print("Player 1 Wins!");
+            if(getWinner() == true){
+                System.out.print("PLAYER 1 WIN");
+                gameScreen.showPlayerWin();
             }
             else{
-                System.out.print("Player 2 Wins!");
+                System.out.print("PLAYER 2 WIN");
+                gameScreen.showPlayerWin();
+
             }
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
@@ -604,6 +606,16 @@ public class GameEngine {
         return phase;
     }
 
+    public static boolean getWinner(){
+        Integer score1 = players[1].calculateScore();
+        Integer score2 = players[2].calculateScore();
+        if(score1 > score2){
+            return (true); // player 1 win
+        }
+        else{
+            return (false); // player 2 win
+        }
+    }
     /**
      * Encodes possible play-states
      * These are not to be confused with the game-state (which is directly linked to the renderer)
