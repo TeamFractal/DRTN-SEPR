@@ -535,6 +535,14 @@ public class Market extends Table {
         });
         
         confirmSale = new TextButton("confirm", tableButtonStyle);
+        confirmSale.addListener(new ChangeListener() {
+        	@Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            	engine.currentPlayer().setTrade(oreTradeAmount, energyTradeAmount, foodTradeAmount, 
+            			tradePrice, engine.currentPlayer());
+            	engine.updateCurrentPlayer(engine.currentPlayer());
+        	}
+        });
         refreshButtonAvailability();
         //Ensure that these buttons are disabled at the beginning of the game
         
