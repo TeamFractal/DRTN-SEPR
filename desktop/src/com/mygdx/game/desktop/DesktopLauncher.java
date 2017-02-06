@@ -13,7 +13,6 @@ import com.mygdx.game.Main;
  * @since Assessment 2
  */
 public class DesktopLauncher {
-
 	/**
 	 * Creates a new window with the specified title, size and behaviour parameters before assigning a fresh
 	 * game-state to it, which is managed by the Main() class and all classes recursively spawned by it

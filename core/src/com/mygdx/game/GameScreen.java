@@ -184,6 +184,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private int height;
     private int width;
     private Label currentPlayerLabel;
+    private boolean drawRoboticonIcon;
+    private Tile selectedTile;
+    private Table tableRight;
 
     /**
      * The game-screen's initial constructor
@@ -266,13 +269,27 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             gameStage.draw();
             //Draw the stage onto the screen
 
+            // Draw owned tile's border
             for (Tile tile : engine.tiles()) {
-                tile.drawBorder(); //Draw each tile's border too
+                tile.drawBorder();
+            }
 
-                if (!upgradeOverlayVisible) {
+            // Draw animation.
+            renderAnimation(delta, IAnimation.AnimationType.Tile);
+
+            // Draw
+            if (!upgradeOverlayVisible) {
+                for (Tile tile : engine.tiles()) {
                     tile.drawTooltip();
                     //If any of the tiles' tooltips are deemed "active", render them to the screen too
                 }
+            }
+
+            if (drawRoboticonIcon) {
+                drawer.drawRoboticon(selectedTile.getRoboticonStored(),
+                        tableRight.getX() + selectedTileRoboticonIcon.getX(),
+                        selectedTileRoboticonIcon.getY()
+                );
             }
 
             if (upgradeOverlayVisible) {
@@ -280,8 +297,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 upgradeOverlay.draw();
             }
             //Draw the roboticon upgrade overlay to the screen if the "upgrade" button has been selected
-
-            renderAnimation(delta);
         } else if (engine.state() == GameEngine.State.PAUSE) {
             drawer.filledRectangle(Color.WHITE, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             //If the game is paused, render a white background...
@@ -290,6 +305,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             pauseStage.draw();
             //...followed by the menu itself
         }
+
+        renderAnimation(delta, IAnimation.AnimationType.Overlay);
     }
 
     @Override
@@ -374,7 +391,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 engine.claimTile();
 
-                selectTile(engine.selectedTile());
+                selectTile(engine.selectedTile(), false);
                 //Refresh tile information and tile management UI
             }
         });
@@ -389,7 +406,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 if (!engine.selectedTile().hasRoboticon()) {
                     engine.deployRoboticon();
 
-                    selectTile(engine.selectedTile());
+                    selectTile(engine.selectedTile(), false);
                     //Re-select the current tile to update the UI
                 } else {
                     updateUpgradeOptions();
@@ -522,6 +539,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         roboticonCounter.setAlignment(Align.right);
         moneyCounter = new Label(engine.currentPlayer().getMoney().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         moneyCounter.setAlignment(Align.right);
+        
         drawer.addTableRow(resourceCounters, new LabelledElement("Food", gameFont, Color.WHITE, foodCounter, 100, 40));
         drawer.addTableRow(resourceCounters, new LabelledElement("Energy", gameFont, Color.WHITE, energyCounter, 100, 40));
         drawer.addTableRow(resourceCounters, new LabelledElement("Ore", gameFont, Color.WHITE, oreCounter, 100, 40));
@@ -552,7 +570,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         /**
          * Establishes the metadata for the interface's right-hand table
          */
-        Table tableRight = new Table();
+        tableRight = new Table();
 
         tableRight.setBounds((Gdx.graphics.getWidth() / 2) + (map.getWidth() / 2), 0, 256, Gdx.graphics.getHeight());
         //Set boundaries of right-hand table
@@ -694,11 +712,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         gameFont.setSize(24);
         upgradeOverlay.table().row();
-        upgradeOverlay.table().add(new LabelledElement("ORE", gameFont, Color.WHITE, oreUpgradeButton, 175, 0)).left();
-        upgradeOverlay.table().row();
         upgradeOverlay.table().add(new LabelledElement("FOOD", gameFont, Color.WHITE, foodUpgradeButton, 175, 0)).left();
         upgradeOverlay.table().row();
-        upgradeOverlay.table().add(new LabelledElement("ENERGY", gameFont, Color.WHITE, energyUpgradeButton, 175, 0)).left().padBottom(20);
+        upgradeOverlay.table().add(new LabelledElement("ENERGY", gameFont, Color.WHITE, energyUpgradeButton, 175, 0)).left();
+        upgradeOverlay.table().row();
+        upgradeOverlay.table().add(new LabelledElement("ORE", gameFont, Color.WHITE, oreUpgradeButton, 175, 0)).left().padBottom(20);
         //Add buttons for upgrading roboticons to the overlay
         //Like in the market, each button's label is the monetary price of the upgrade that it performs
 
@@ -882,18 +900,21 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      *
      * @param tile The tile being clicked on
      */
-    public void selectTile(Tile tile) {
+    public void selectTile(Tile tile, boolean showAnimation) {
+        selectedTile = tile;
         if (lastTileClickedFlash != null) {
             lastTileClickedFlash.cancelAnimation();
+            lastTileClickedFlash = null;
         }
 
-        lastTileClickedFlash = new AnimationTileFlash(tileXOffset + tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
-        addAnimation(lastTileClickedFlash);
-
-
+        if (showAnimation) {
+            lastTileClickedFlash = new AnimationTileFlash(tileXOffset + tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
+            addAnimation(lastTileClickedFlash);
+        }
 
         selectedTileLabel.setText("TILE " + tile.getID());
 
+        drawRoboticonIcon = false;
         if (tile.isOwned()) {
             selectedTileOwnerIcon.setVisible(true);
             selectedTileOwnerIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(tile.getOwner().getCollege().getLogoTexture())));
@@ -906,7 +927,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             if (tile.hasRoboticon()) {
                 deployRoboticonButton.setText("UPGRADE");
 
-                selectedTileRoboticonIcon.setVisible(true);
+                drawRoboticonIcon = true;
+                // selectedTileRoboticonIcon.setVisible(true);
                 selectedTileRoboticonIcon.setDrawable(new TextureRegionDrawable(new TextureRegion(tile.getRoboticonStored().getIconTexture())));
                 selectedTileOwnerIcon.setSize(64, 64);
 
