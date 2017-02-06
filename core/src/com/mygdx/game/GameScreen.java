@@ -175,11 +175,16 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      * Customised stage that shows up to offer roboticon upgrade choices
      */
     private Overlay upgradeOverlay;
+    
+    private Overlay tradeOverlay;
 
     /**
      * Determines whether the aforementioned roboticon upgrade overlay is to be drawn to the screen
      */
+    
     private boolean upgradeOverlayVisible;
+    
+    private boolean tradeOverlayVisible; 
     private Batch batch;
     private int height;
     private int width;
@@ -241,7 +246,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         constructUpgradeOverlay();
         //Construct roboticon upgrade overlay (and, again, hide it for the moment)
-
+        constructTradeOverlay();
         //drawer.debug(gameStage);
         //Call this to draw temporary debug lines around all of the actors on the stage
     }
@@ -285,6 +290,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             if (upgradeOverlayVisible) {
                 upgradeOverlay.act(delta);
                 upgradeOverlay.draw();
+            }
+            
+            if (tradeOverlayVisible) {
+                tradeOverlay.act(delta);
+                tradeOverlay.draw();
             }
             //Draw the roboticon upgrade overlay to the screen if the "upgrade" button has been selected
         } else if (engine.state() == GameEngine.State.PAUSE) {
@@ -713,7 +723,19 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         drawer.addTableRow(upgradeOverlay.table(), closeUpgradeOverlayButton);
         //Add a final button for closing the overlay
     }
-
+    private void constructTradeOverlay(){
+    	tradeOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 250, 200, 3);
+    	tradeOverlayVisible = false;
+    	gameFont.setSize(36);
+        tradeOverlay.table().add(new Label("INCOMING TRADE", new Label.LabelStyle(gameFont.font(), Color.WHITE))).padBottom(20);
+    	
+        gameFont.setSize(24);
+        tradeOverlay.table().row();
+        tradeOverlay.table().add(new Label("ORE", new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
+        tradeOverlay.table().row();
+        tradeOverlay.table().add(new Label("FOOD", new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
+        tradeOverlay.table().row();
+    }
     /**
      * Draw auxiliary rectangles to provide window-dressing for the interface
      */
