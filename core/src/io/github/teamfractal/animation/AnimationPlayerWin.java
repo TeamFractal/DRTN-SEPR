@@ -2,15 +2,18 @@ package io.github.teamfractal.animation;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.GameEngine;
 import io.github.teamfractal.screens.AbstractAnimationScreen;
 
 public class AnimationPlayerWin implements IAnimation {
+    private final int playerId;
     private IAnimationFinish callback;
     private static BitmapFont font = new BitmapFont();
 
-    public AnimationPlayerWin() {
-
+    public AnimationPlayerWin(int playerId) {
+        this.playerId = playerId;
     }
 
     /**
@@ -25,12 +28,9 @@ public class AnimationPlayerWin implements IAnimation {
         AbstractAnimationScreen.Size size = screen.getScreenSize();
         batch.begin();
         font.setColor(1,1,1, 1);
-        if (GameEngine.getWinner() == true){
-            font.draw(batch,  "PLAYER 1 WIN", 100, 50);
-        }
-        else{
-            font.draw(batch,  "PLAYER 1 WIN", 100, 50);
-        }
+        font.draw(batch,  "PLAYER " + playerId + " WIN",
+                size.Width/2, size.Height/2 + font.getLineHeight()/2,
+                0, Align.center, false);
         batch.end();
         return false;
     }
@@ -53,6 +53,6 @@ public class AnimationPlayerWin implements IAnimation {
 
     @Override
     public AnimationType getType() {
-        return AnimationType.Tile;
+        return AnimationType.Overlay;
     }
 }

@@ -615,7 +615,7 @@ public class GameEngine {
         return phase;
     }
 
-    public static boolean getWinner(){
+    public boolean getWinner(){
         Integer score1 = players[1].calculateScore();
         Integer score2 = players[2].calculateScore();
         if(score1 > score2){
