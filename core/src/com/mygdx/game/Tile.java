@@ -223,18 +223,26 @@ public class Tile extends Button {
      */
     public Player Produce(Player player) {
         if (roboticonStored != null) {
-            Integer[] modifiers = this.roboticonStored.productionModifier();
-            Integer OreProduce = modifiers[0] * this.OreCount;
-            player.varyResource("Ore", OreProduce);
-            //Add the tile's ore yields to the player's resource-counters
+            if ((player.getEnergyCount() >= 3) && (player.getFoodCount() >= 2)) {
+                player.varyResource("Energy", -3);
+                player.varyResource("Food", -2);
 
-            Integer EnergyProduce = modifiers[1] * this.EnergyCount;
-            player.varyResource("Energy", EnergyProduce);
-            //Add the tile's energy yields to the player's resource-counters
+                Integer[] modifiers = this.roboticonStored.productionModifier();
+                Integer OreProduce = modifiers[0] * this.OreCount;
+                System.out.println("Ore count: " + this.OreCount);
+                System.out.println("modifiers: " + modifiers[0]);
+                System.out.println("Ore produced: " + OreProduce);
+                player.varyResource("Ore", OreProduce);
+                //Add the tile's ore yields to the player's resource-counters
 
-            Integer FoodProduce = modifiers[2] * this.FoodCount;
-            player.varyResource("Food", FoodProduce);
-            //Add the tile's food yields to the player's resource-counters
+                Integer EnergyProduce = modifiers[1] * this.EnergyCount;
+                player.varyResource("Energy", EnergyProduce);
+                //Add the tile's energy yields to the player's resource-counters
+
+                Integer FoodProduce = modifiers[2] * this.FoodCount;
+                player.varyResource("Food", FoodProduce);
+                //Add the tile's food yields to the player's resource-counters
+            }
         }
         return player;
     }
