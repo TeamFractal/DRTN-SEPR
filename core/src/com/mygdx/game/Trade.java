@@ -34,14 +34,16 @@ public class Trade {
 		return this.sender;
 	}
 	public void execute(){
-		targetPlayer.varyResource("Ore", this.oreAmount);
-		targetPlayer.varyResource("Energy", this.energyAmount);
-		targetPlayer.varyResource("Food", this.foodAmount);
-		targetPlayer.varyResource("Money", -this.price);
-		sender.varyResource("Ore", -this.oreAmount);
-		sender.varyResource("Energy", -this.energyAmount);
-		sender.varyResource("Food", -this.foodAmount);
-		sender.varyResource("Money", this.price);
+		if (targetPlayer.getMoney() > getPrice()){
+			targetPlayer.varyResource("Ore", this.oreAmount);
+			targetPlayer.varyResource("Energy", this.energyAmount);
+			targetPlayer.varyResource("Food", this.foodAmount);
+			targetPlayer.varyResource("Money", -this.price);
+			sender.varyResource("Ore", -this.oreAmount);
+			sender.varyResource("Energy", -this.energyAmount);
+			sender.varyResource("Food", -this.foodAmount);
+			sender.varyResource("Money", this.price);
+		}
 	}
 	
 }

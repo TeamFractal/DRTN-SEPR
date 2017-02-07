@@ -328,7 +328,7 @@ public class GameEngine {
         //Each player should own 8 tiles when this block is executed
        
         gameScreen.updatePhaseLabel();
-        
+        market.refreshAuction();
 
         gameScreen.closeUpgradeOverlay();
         //If the upgrade overlay is open, close it when the next phase begins

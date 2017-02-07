@@ -278,6 +278,7 @@ public class Market extends Table {
             public void changed(ChangeEvent event, Actor actor) {
 	        	clearChildren();
 	        	constructAuctionInterface();
+	        	refreshAuction();
         	}
         });
         /**
@@ -413,7 +414,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                   oreTradeAmount += 1;
-                  oreTradeLabel.setText("Ore:        " + oreTradeAmount);
+                  refreshAuction();
                   
             }
         });
@@ -425,7 +426,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                   energyTradeAmount += 1;
-                  energyTradeLabel.setText("Energy:   " + energyTradeAmount);
+                  refreshAuction();
                   
             }
         });
@@ -437,7 +438,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                   foodTradeAmount += 1;
-                  foodTradeLabel.setText("Food:      " + foodTradeAmount);
+                  refreshAuction();
                   
             }
         });
@@ -447,7 +448,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                   oreTradeAmount -= 1;
-                  oreTradeLabel.setText("Ore:        " + oreTradeAmount);
+                  refreshAuction();
                   
             }
         });
@@ -457,7 +458,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                   energyTradeAmount -= 1;
-                  energyTradeLabel.setText("Energy:   " + energyTradeAmount);
+                  refreshAuction();
                   
             }
         });
@@ -467,7 +468,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                   foodTradeAmount -= 1;
-                  foodTradeLabel.setText("Food:      " + foodTradeAmount);
+                  refreshAuction();
                   
             }
         });
@@ -478,7 +479,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                   tradePrice += 1;
-                  tradePriceLabel.setText("" + tradePrice);
+                  refreshAuction();
                   
             }
         });
@@ -488,7 +489,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	tradePrice += 10;
-                tradePriceLabel.setText("" + tradePrice);
+            	refreshAuction();
                   
             }
         });
@@ -498,7 +499,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	tradePrice += 100;
-                tradePriceLabel.setText("" + tradePrice);
+            	refreshAuction();
                   
             }
         });
@@ -509,7 +510,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	tradePrice -= 1;
-                tradePriceLabel.setText("" + tradePrice);
+            	refreshAuction();
                   
             }
         });
@@ -519,7 +520,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	tradePrice -= 10;
-                tradePriceLabel.setText("" + tradePrice);
+            	refreshAuction();
                   
             }
         });
@@ -529,7 +530,7 @@ public class Market extends Table {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	tradePrice -= 100;
-                tradePriceLabel.setText("" + tradePrice);
+            	refreshAuction();
                   
             }
         });
@@ -542,7 +543,11 @@ public class Market extends Table {
             			tradePrice,engine.currentPlayer(), engine.players()[3-engine.currentPlayerID()]);
             	engine.currentPlayer().setTrade(trade);
             	engine.addTrade(trade);
-            	engine.updateCurrentPlayer(engine.currentPlayer());
+            	oreTradeAmount = 0;
+            	energyTradeAmount = 0;
+            	foodTradeAmount = 0;
+            	tradePrice = 0;
+            	refreshAuction();
             	
         	}
         });
@@ -1231,6 +1236,59 @@ public class Market extends Table {
             drawer.switchTextButton(sellEnergy, false, Color.GRAY);
             //Disable the entire market if the game is in one of phases 1, 3 and 4
         }
+    }
+    
+    public void refreshAuction(){
+    	drawer.switchTextButton(playerBuyOre, false, Color.GRAY);
+    	drawer.switchTextButton(playerSellOre, false, Color.GRAY);
+    	drawer.switchTextButton(playerBuyFood, false, Color.GRAY);
+    	drawer.switchTextButton(playerSellFood, false, Color.GRAY);
+    	drawer.switchTextButton(playerBuyEnergy, false, Color.GRAY);
+    	drawer.switchTextButton(playerSellEnergy, false, Color.GRAY);
+    	drawer.switchTextButton(pricePlus1, false, Color.GRAY);
+    	drawer.switchTextButton(pricePlus10, false, Color.GRAY);
+    	drawer.switchTextButton(pricePlus100, false, Color.GRAY);
+    	drawer.switchTextButton(priceMinus1, false, Color.GRAY);
+    	drawer.switchTextButton(priceMinus10, false, Color.GRAY);
+    	drawer.switchTextButton(priceMinus100, false, Color.GRAY);
+    	drawer.switchTextButton(confirmSale, false, Color.GRAY);
+    	tradePriceLabel.setText("" + tradePrice);
+    	oreTradeLabel.setText("Ore:        " + oreTradeAmount);
+    	foodTradeLabel.setText("Food:      " + foodTradeAmount);
+    	energyTradeLabel.setText("Energy:   " + energyTradeAmount);
+    	if (engine.phase() == 5){
+    		drawer.switchTextButton(pricePlus1, true, Color.WHITE);
+        	drawer.switchTextButton(pricePlus10, true, Color.WHITE);
+        	drawer.switchTextButton(pricePlus100, true, Color.WHITE);
+        	drawer.switchTextButton(confirmSale, true, Color.RED);
+        	if (tradePrice >= 100){
+        		drawer.switchTextButton(priceMinus1, true, Color.WHITE);
+        		drawer.switchTextButton(priceMinus10, true, Color.WHITE);
+        		drawer.switchTextButton(priceMinus100, true, Color.WHITE);
+        	}
+        	else if (tradePrice >= 10){
+        		drawer.switchTextButton(priceMinus1, true, Color.WHITE);
+        		drawer.switchTextButton(priceMinus10, true, Color.WHITE);
+        	}
+        	else if (tradePrice >= 1){
+        		drawer.switchTextButton(priceMinus1, true, Color.WHITE);
+        	}
+        	
+        	if (engine.currentPlayer().getOreCount() > oreTradeAmount){
+        		drawer.switchTextButton(playerBuyOre, true, Color.WHITE);
+        	}
+        	if (engine.currentPlayer().getEnergyCount() > energyTradeAmount){
+        		drawer.switchTextButton(playerBuyEnergy, true, Color.WHITE);
+        	}
+        	if (engine.currentPlayer().getFoodCount() > foodTradeAmount){
+        		drawer.switchTextButton(playerBuyFood, true, Color.WHITE);
+        	}
+        	if (oreTradeAmount > 0)  drawer.switchTextButton(playerSellOre, true, Color.WHITE);
+        	if (energyTradeAmount > 0)  drawer.switchTextButton(playerSellEnergy, true, Color.WHITE);
+        	if (foodTradeAmount > 0)  drawer.switchTextButton(playerSellFood, true, Color.WHITE);
+        	if (oreTradeAmount > 0 ||energyTradeAmount > 0 || foodTradeAmount > 0 || tradePrice > 0) 
+        		drawer.switchTextButton(confirmSale, true, Color.GREEN);
+    	}
     }
 }
 
