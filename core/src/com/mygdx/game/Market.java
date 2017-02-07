@@ -538,9 +538,12 @@ public class Market extends Table {
         confirmSale.addListener(new ChangeListener() {
         	@Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-            	engine.currentPlayer().setTrade(oreTradeAmount, energyTradeAmount, foodTradeAmount, 
-            			tradePrice, engine.currentPlayer());
+        		Trade trade = new Trade(oreTradeAmount, energyTradeAmount, foodTradeAmount, 
+            			tradePrice,engine.currentPlayer(), engine.players()[3-engine.currentPlayerID()]);
+            	engine.currentPlayer().setTrade(trade);
+            	engine.addTrade(trade);
             	engine.updateCurrentPlayer(engine.currentPlayer());
+            	
         	}
         });
         refreshButtonAvailability();

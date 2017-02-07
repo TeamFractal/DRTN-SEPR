@@ -251,8 +251,8 @@ public class Player {
         return this.College;
     }
     
-    public void setTrade(int oreAmount, int energyAmount, int foodAmount, int price, Player targetPlayer){
-    	this.currentTrade = new Trade(oreAmount, energyAmount, foodAmount, price, targetPlayer);
+    public void setTrade(Trade trade){
+    	this.currentTrade = trade;
     }
     
     public Trade getTrade() {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.List;
 
@@ -95,6 +96,8 @@ public class GameEngine {
      *
      */
     private Integer roboticonIDCounter = 0;
+    
+    private Array<Trade> trades;
 
     /**
      * Constructs the game's engine. Imports the game's state (for direct renderer access) and the data held by the
@@ -172,6 +175,7 @@ public class GameEngine {
         derwentPlayer.assignCollege(Derwent);
         Goodricke.assignPlayer(goodrickePlayer);
         Derwent.assignPlayer(derwentPlayer);
+        this.trades = new Array<Trade>();
         //Temporary assignment of player-data for testing purposes
     }
 
@@ -192,7 +196,7 @@ public class GameEngine {
         System.out.print("Player " + currentPlayerID + " | Phase " + phase + "\n");
 
         timer.stop();
-
+        
         if(phase == 1){
             if(tileAcquired == true) {
                 tileAcquired = false;
@@ -322,11 +326,13 @@ public class GameEngine {
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
         //Each player should own 8 tiles when this block is executed
-
+       
         gameScreen.updatePhaseLabel();
+        
 
         gameScreen.closeUpgradeOverlay();
         //If the upgrade overlay is open, close it when the next phase begins
+        testTrade();
     }
 
     /**
@@ -603,7 +609,21 @@ public class GameEngine {
     public int getPhase() {
         return phase;
     }
-
+    
+    
+    public void addTrade(Trade trade){
+    	trades.add(trade);
+    }
+    
+    public void testTrade(){
+    	for(int i = 0; i < trades.size; i++){
+        	if (trades.get(i).getTargetPlayer() == currentPlayer()){
+        		gameScreen.activeTrade(trades.get(i));
+        		trades.removeIndex(i);
+        		break;
+        	}
+        }
+    }
     /**
      * Encodes possible play-states
      * These are not to be confused with the game-state (which is directly linked to the renderer)
