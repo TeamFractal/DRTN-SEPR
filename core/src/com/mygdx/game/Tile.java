@@ -220,18 +220,21 @@ public class Tile extends Button {
      */
     public void produce() {
         if (roboticonStored != null && owner != null) {
-            Integer[] modifiers = this.roboticonStored.productionModifier();
-            Integer OreProduce = modifiers[0] * this.OreCount;
-            owner.varyResource("Ore", OreProduce);
-            //Add the tile's ore yields to the owner's resource-counters
+            if (owner.getEnergyCount() >= 3) {
+                owner.varyResource("Energy", -3);
+                Integer[] modifiers = this.roboticonStored.productionModifier();
+                Integer OreProduce = modifiers[0] * this.OreCount;
+                owner.varyResource("Ore", OreProduce);
+                //Add the tile's ore yields to the owner's resource-counters
 
-            Integer EnergyProduce = modifiers[1] * this.EnergyCount;
-            owner.varyResource("Energy", EnergyProduce);
-            //Add the tile's energy yields to the owner's resource-counters
+                Integer EnergyProduce = modifiers[1] * this.EnergyCount;
+                owner.varyResource("Energy", EnergyProduce);
+                //Add the tile's energy yields to the owner's resource-counters
 
-            Integer FoodProduce = modifiers[2] * this.FoodCount;
-            owner.varyResource("Food", FoodProduce);
-            //Add the tile's food yields to the owner's resource-counters
+                Integer FoodProduce = modifiers[2] * this.FoodCount;
+                owner.varyResource("Food", FoodProduce);
+                //Add the tile's food yields to the owner's resource-counters
+            }
         }
     }
 
