@@ -532,7 +532,7 @@ public class GameEngine {
 
     public int getWinner(){
         List<Player> playersList = Arrays.asList(players);
-        playersList.sort(new Comparator<Player>() {
+        Collections.sort(playersList, new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
                 return b.calculateScore() - a.calculateScore();
