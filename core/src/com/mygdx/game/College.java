@@ -86,7 +86,7 @@ public class College {
         break;
       case (3):
         this.Name = "Vanburgh";
-        this.logoTexture = new Texture("image/Vanburgh.png");
+        this.logoTexture = new Texture("image/Vanbrugh.png");
         break;
       case (4):
         this.Name = "James";

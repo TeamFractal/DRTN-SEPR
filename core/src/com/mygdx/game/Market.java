@@ -1337,12 +1337,12 @@ public class Market extends Table {
     
     public void refreshPlayers(){
     	otherPlayer = new Array<Player>();
-    	for (int i = 1; i < engine.players().length; i++){
-    		if (! (engine.players()[i] == engine.currentPlayer())){
-    			otherPlayer.add(engine.players()[i]);
-    			playerLabel.setText("Player " + otherPlayer.get(0).getPlayerID());
-    		}
-    	}
+        for (Player player : engine.players()) {
+            if (player != null && engine.currentPlayer() != player) {
+                otherPlayer.add(player);
+                playerLabel.setText("Player " + player.getPlayerID());
+            }
+        }
     }
 
 	public void setPlayerListPosition(int i) {
