@@ -17,13 +17,21 @@ public class Earthquake extends RandomEvent {
     public Earthquake() {
         super();
         this.tilesDamaged = chooseAffectedTiles(randomiser);
-        this.tileDamageValue = randomiser.nextInt(4);
+        this.tileDamageValue = randomiser.nextInt(5);
     }
 
     public void eventEffect() {
-        
+        // Divides production on each tile by damage value
+        for (int tile = 0; tile < this.tilesDamaged.size(); tile++) {
+            int tileOreCount = this.tilesDamaged.get(tile).getOreCount();
+            int tileEnergyCount = this.tilesDamaged.get(tile).getEnergyCount();
+
+            this.tilesDamaged.get(tile).changeOreCount(tileOreCount / this.tileDamageValue);
+            this.tilesDamaged.get(tile).changeEnergyCount(tileEnergyCount / this.tileDamageValue);
+        }
     }
 
+    // Message that appears when
     public String eventMessage() {
         return "An earthquake has damaged some of your tiles! Food production is now reduced by " +
                 tileDamageValue + " on these tiles.";

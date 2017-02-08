@@ -22,8 +22,8 @@ public abstract class RandomEvent {
     public abstract void eventAnimation();
 
     public void eventHappen() {
-        eventAnimation();
         eventEffect();
+        eventAnimation();
         String message = eventMessage();
         /*
             Code to display message goes here...

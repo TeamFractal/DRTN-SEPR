@@ -267,14 +267,16 @@ public class Tile extends Button {
         this.Owner = Owner;
     }
 
+    public int getOreCount() {return this.OreCount;}
+
     /**
      * Setter for the ore count of the tile.
      *
      * @param Count What the count is to be changed to.
      */
-    public void changeOreCount(int Count) {
-        this.OreCount = Count;
-    }
+    public void changeOreCount(int Count) {this.OreCount = Count;}
+
+    public int getEnergyCount() {return this.EnergyCount;}
 
     /**
      * Setter for the ore count of the tile.
@@ -408,6 +410,5 @@ public class Tile extends Button {
     public Roboticon getRoboticonStored(){
         return this.roboticonStored;
     }
-
 
 }
