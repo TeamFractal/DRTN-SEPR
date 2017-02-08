@@ -367,7 +367,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 engine.nextPhase();
             }
         });
-        drawer.switchTextButton(endTurnButton, false, Color.GRAY);
+        drawer.toggleButton(endTurnButton, false, Color.GRAY);
         //Turn off the "END TURN" button right away to force players into selecting tiles
 
         /**
@@ -436,8 +436,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 engine.upgradeRoboticon(2);
 
-                closeUpgradeOverlay();
                 updateInventoryLabels();
+                updateUpgradeOptions();
             }
         });
 
@@ -450,8 +450,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 engine.upgradeRoboticon(0);
 
-                closeUpgradeOverlay();
                 updateInventoryLabels();
+                updateUpgradeOptions();
             }
         });
 
@@ -464,8 +464,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 engine.upgradeRoboticon(1);
 
-                closeUpgradeOverlay();
                 updateInventoryLabels();
+                updateUpgradeOptions();
             }
         });
 
@@ -541,7 +541,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         oreCounter.setAlignment(Align.right);
         roboticonCounter = new Label(engine.currentPlayer().getRoboticonInventory().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         roboticonCounter.setAlignment(Align.right);
-        moneyCounter = new Label(engine.currentPlayer().getMoney().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        moneyCounter = new Label("" + engine.currentPlayer().getMoney(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         moneyCounter.setAlignment(Align.right);
         
         drawer.addTableRow(resourceCounters, new LabelledElement("Food", gameFont, Color.WHITE, foodCounter, 100, 40));
@@ -611,8 +611,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         tableRight.add(roboticonFootLabel).padBottom(10).width(120);
         //Even more window-dressing
 
-        drawer.switchTextButton(claimTileButton, false, Color.GRAY);
-        drawer.switchTextButton(deployRoboticonButton, false, Color.GRAY);
+        drawer.toggleButton(claimTileButton, false, Color.GRAY);
+        drawer.toggleButton(deployRoboticonButton, false, Color.GRAY);
         //Disable the claim and deploy button until a tile is selected under the appropriate conditions
 
         drawer.addTableRow(tableRight, claimTileButton, 0, 0, 15, 0);
@@ -925,7 +925,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             selectedTileOwnerIcon.setSize(64, 64);
             //Update tile owner college icon
 
-            drawer.switchTextButton(claimTileButton, false, Color.GRAY);
+            drawer.toggleButton(claimTileButton, false, Color.GRAY);
             //Disable the button for claiming the tile if it's already been claimed
 
             if (tile.hasRoboticon()) {
@@ -937,9 +937,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 selectedTileOwnerIcon.setSize(64, 64);
 
                 if (engine.phase() == 3 && tile.getOwner() == engine.currentPlayer()) {
-                    drawer.switchTextButton(deployRoboticonButton, true, Color.WHITE);
+                    drawer.toggleButton(deployRoboticonButton, true, Color.WHITE);
                 } else {
-                    drawer.switchTextButton(deployRoboticonButton, false, Color.GRAY);
+                    drawer.toggleButton(deployRoboticonButton, false, Color.GRAY);
                 }
                 //If the tile already has a Roboticon, offer an upgrade button if the Roboticon upgrade conditions are met
                 //Also show an icon representing the Roboticon inhabiting the tile
@@ -950,9 +950,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 selectedTileRoboticonIcon.setVisible(false);
 
                 if (engine.phase() == 3 && tile.getOwner() == engine.currentPlayer() && engine.currentPlayer().getRoboticonInventory() > 0) {
-                    drawer.switchTextButton(deployRoboticonButton, true, Color.WHITE);
+                    drawer.toggleButton(deployRoboticonButton, true, Color.WHITE);
                 } else {
-                    drawer.switchTextButton(deployRoboticonButton, false, Color.GRAY);
+                    drawer.toggleButton(deployRoboticonButton, false, Color.GRAY);
                 }
                 //If the tile doesn't have a Robotion, offer a deployment button if the current player owns at least 1 Roboticon
                 //This will only happen if the game is in phase 3
@@ -964,11 +964,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             selectedTileRoboticonIcon.setVisible(false);
 
             if (engine.phase() == 1) {
-                drawer.switchTextButton(claimTileButton, true, Color.WHITE);
+                drawer.toggleButton(claimTileButton, true, Color.WHITE);
             }
 
             deployRoboticonButton.setText("DEPLOY");
-            drawer.switchTextButton(deployRoboticonButton, false, Color.GRAY);
+            drawer.toggleButton(deployRoboticonButton, false, Color.GRAY);
         }
         //If the tile isn't yet owned by anyone, allow the current player to claim it if the game is in phase 1
     }
@@ -979,8 +979,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      * manipulating said tile (as no tile can be deemed as being "selected" after this is run)
      */
     public void deselectTile() {
-        drawer.switchTextButton(claimTileButton, false, Color.GRAY);
-        drawer.switchTextButton(deployRoboticonButton, false, Color.GRAY);
+        drawer.toggleButton(claimTileButton, false, Color.GRAY);
+        drawer.toggleButton(deployRoboticonButton, false, Color.GRAY);
 
         deployRoboticonButton.setText("DEPLOY");
 
@@ -1023,23 +1023,23 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         //Refresh prices shown on upgrade screen
 
         if (engine.currentPlayer().getMoney() >= engine.selectedTile().getRoboticonStored().getOreUpgradeCost()) {
-            drawer.switchTextButton(oreUpgradeButton, true, Color.GREEN);
+            drawer.toggleButton(oreUpgradeButton, true, Color.GREEN);
         } else {
-            drawer.switchTextButton(oreUpgradeButton, false, Color.RED);
+            drawer.toggleButton(oreUpgradeButton, false, Color.RED);
         }
         //Conditionally enable ore upgrade button
 
         if (engine.currentPlayer().getMoney() >= engine.selectedTile().getRoboticonStored().getEnergyUpgradeCost()) {
-            drawer.switchTextButton(energyUpgradeButton, true, Color.GREEN);
+            drawer.toggleButton(energyUpgradeButton, true, Color.GREEN);
         } else {
-            drawer.switchTextButton(energyUpgradeButton, false, Color.RED);
+            drawer.toggleButton(energyUpgradeButton, false, Color.RED);
         }
         //Conditionally enable energy upgrade button
 
         if (engine.currentPlayer().getMoney() >= engine.selectedTile().getRoboticonStored().getFoodUpgradeCost()) {
-            drawer.switchTextButton(foodUpgradeButton, true, Color.GREEN);
+            drawer.toggleButton(foodUpgradeButton, true, Color.GREEN);
         } else {
-            drawer.switchTextButton(foodUpgradeButton, false, Color.RED);
+            drawer.toggleButton(foodUpgradeButton, false, Color.RED);
         }
         //Conditionally enable food upgrade button
     }
@@ -1057,8 +1057,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         return s;
     }
 
-    public void showPlayerWin(){
-        playerWin = new AnimationPlayerWin(engine.currentPlayerID());
+    public void showPlayerWin(int playerId){
+        playerWin = new AnimationPlayerWin(playerId);
         addAnimation(playerWin);
     }
 

@@ -27,17 +27,17 @@ public class Player {
     /**
      * An integer storing the amount of food a player owns.
      */
-    private Integer FoodCount = 0;
+    private Integer FoodCount = 5;
 
     /**
      * An integer storing the amount of energy a player owns.
      */
-    private Integer EnergyCount = 0;
+    private Integer EnergyCount = 5;
 
     /**
      * An integer storing the amount of money a player owns.
      */
-    private Integer Money = 50;
+    private Integer money = 50;
 
     /**
      * A variable determining if the player is currently active. True means that they are active.
@@ -62,10 +62,10 @@ public class Player {
     /**
      * The constructor of the class
      *
-     * @param PlayerID The id of the player that is being created. Should be an integer greater than 0.
+     * @param playerID The id of the player that is being created. Should be an integer greater than 0.
      */
-    public Player(Integer PlayerID) {
-        this.playerID = PlayerID;
+    public Player(Integer playerID) {
+        this.playerID = playerID;
     }
 
 
@@ -85,19 +85,21 @@ public class Player {
     /**
      * Getter for the money attribute of the player
      *
-     * @return Money Integer value of the current money of the player
+     * @return Current player money amount.
      */
-    public Integer getMoney() {
-        return this.Money;
+    public int getMoney() {
+        return this.money;
     }
 
     /**
      * Setter for the money attribute
      *
-     * @param NewMoney Integer value corresponding to the new money value desired
+     * @param newMoney Integer value corresponding to the new money value desired
      */
-    public void setMoney(Integer NewMoney) {
-        this.Money = NewMoney;
+    public void setMoney(int newMoney) {
+        if (newMoney > 0) {
+            this.money = newMoney;
+        }
     }
 
     /**
@@ -194,8 +196,8 @@ public class Player {
             this.EnergyCount += amount;
         } else if (resource.equals("Food")) {
             this.FoodCount += amount;
-        } else if (resource.equals("Money")) {
-            this.Money += amount;
+        } else if (resource.equals("money")) {
+            this.money += amount;
         }
 
     }

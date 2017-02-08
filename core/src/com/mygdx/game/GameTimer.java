@@ -197,9 +197,12 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
      * @param seconds The number of seconds to which the timer should be clocked
      */
     public void setTime(int minutes, int seconds) {
+        if (seconds < 0) seconds = 0;
+        if (minutes < 0) minutes = 0;
+
         this.minutes = minutes + (seconds / 60);
         this.seconds = seconds % 60;
-        this.setText(String.format("%02d", this.minutes) + ":" + String.format("%02d", this.seconds));
+        this.setText(String.format("%02d:%02d", this.minutes, this.seconds));
         //Instantiate private time variables with new values and render it out
     }
 
@@ -270,6 +273,7 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
      */
     public void stop() {
         timer.stop();
+        setTime(0, 0);
 
         this.setColor(pauseColour);
     }

@@ -53,7 +53,7 @@ public class AiPlayer extends Player {
                 engine.nextPhase();
                 break;
 
-            // Produce resources.
+            // produce resources.
             case 4:
                 engine.nextPhase();
                 break;
