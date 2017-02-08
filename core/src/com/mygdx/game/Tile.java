@@ -77,7 +77,7 @@ public class Tile extends Button {
     /**
      * The player that owns the tile, if it has one.
      */
-    private Player Owner;
+    private Player owner;
     /**
      * The roboticon that has been placed on the tile.
      */
@@ -158,7 +158,7 @@ public class Tile extends Button {
         //Import and save the tile's landmark status
 
         this.runnable = runnable;
-        this.Owner = new Player(0);
+        this.owner = null;
         //Establish the function that the tile should execute when interacted with
         //Currently, "interacting" with the tile means clicking on it
 
@@ -217,34 +217,22 @@ public class Tile extends Button {
 
     /**
      * Calculates how many resources are produced based on the amount of roboticons present and adds them to the player.
-     *
-     * @param player The player that is producing the resources.
-     * @return Player The player object after it's resource values have been modified.
      */
-    public Player Produce(Player player) {
-        if (roboticonStored != null) {
-            if ((player.getEnergyCount() >= 3) && (player.getFoodCount() >= 2)) {
-                player.varyResource("Energy", -3);
-                player.varyResource("Food", -2);
+    public void produce() {
+        if (roboticonStored != null && owner != null) {
+            Integer[] modifiers = this.roboticonStored.productionModifier();
+            Integer OreProduce = modifiers[0] * this.OreCount;
+            owner.varyResource("Ore", OreProduce);
+            //Add the tile's ore yields to the owner's resource-counters
 
-                Integer[] modifiers = this.roboticonStored.productionModifier();
-                Integer OreProduce = modifiers[0] * this.OreCount;
-                System.out.println("Ore count: " + this.OreCount);
-                System.out.println("modifiers: " + modifiers[0]);
-                System.out.println("Ore produced: " + OreProduce);
-                player.varyResource("Ore", OreProduce);
-                //Add the tile's ore yields to the player's resource-counters
+            Integer EnergyProduce = modifiers[1] * this.EnergyCount;
+            owner.varyResource("Energy", EnergyProduce);
+            //Add the tile's energy yields to the owner's resource-counters
 
-                Integer EnergyProduce = modifiers[1] * this.EnergyCount;
-                player.varyResource("Energy", EnergyProduce);
-                //Add the tile's energy yields to the player's resource-counters
-
-                Integer FoodProduce = modifiers[2] * this.FoodCount;
-                player.varyResource("Food", FoodProduce);
-                //Add the tile's food yields to the player's resource-counters
-            }
+            Integer FoodProduce = modifiers[2] * this.FoodCount;
+            owner.varyResource("Food", FoodProduce);
+            //Add the tile's food yields to the owner's resource-counters
         }
-        return player;
     }
 
     /**
@@ -263,7 +251,7 @@ public class Tile extends Button {
      * @return Player The tile's owner
      */
     public Player getOwner() {
-        return this.Owner;
+        return this.owner;
     }
 
     /**
@@ -272,7 +260,7 @@ public class Tile extends Button {
      * @param Owner The new owner.
      */
     public void setOwner(Player Owner) {
-        this.Owner = Owner;
+        this.owner = Owner;
     }
 
     /**
@@ -400,7 +388,7 @@ public class Tile extends Button {
      * @return Boolean The ownership status of the tile
      */
     public boolean isOwned() {
-        return Owner.getPlayerID() != 0;
+        return owner != null;
     }
 
     /**

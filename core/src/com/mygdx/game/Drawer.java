@@ -44,35 +44,45 @@ public class Drawer {
         //Import current game-state
     }
 
-    private final static SpriteBatch batch = new SpriteBatch();
-    private final static SpriteBatch textDrawBatch = new SpriteBatch();
-    private final static ShapeRenderer renderer = new ShapeRenderer();
-    private final static Sprite roboticonSprite;
-    private final static TTFont defaultTTFont;
-    private final static BitmapFont defaultFont;
-    private final static BitmapFont font04b08;
-    private final static GlyphLayout glyphLayout = new GlyphLayout();
+    private static SpriteBatch batch;
+    private static SpriteBatch textDrawBatch;
+    private static ShapeRenderer renderer;
+    private static Sprite roboticonSprite;
+    private static TTFont defaultTTFont;
+    private static BitmapFont defaultFont;
+    private static BitmapFont font04b08;
+    private static GlyphLayout glyphLayout;
 
     static {
-        roboticonSprite = new Sprite(new Texture("roboticon/roboticon.png"));
-        defaultTTFont = new TTFont(Gdx.files.internal("font/earthorbiter.ttf"),
-                12, 1, Color.BLACK, false);
-        defaultFont = defaultTTFont.font();
+        try {
+            roboticonSprite = new Sprite(new Texture("roboticon/roboticon.png"));
+            defaultTTFont = new TTFont(Gdx.files.internal("font/earthorbiter.ttf"),
+                    12, 1, Color.BLACK, false);
+            defaultFont = defaultTTFont.font();
 
-        // Load 8px bitmap retro style (that is clear to see) font.
-        FreeTypeFontGenerator TTFGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/04B_08__.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter TTFStyle = new FreeTypeFontGenerator.FreeTypeFontParameter();
+            // Load 8px bitmap retro style (that is clear to see) font.
+            FreeTypeFontGenerator TTFGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/04B_08__.ttf"));
+            FreeTypeFontGenerator.FreeTypeFontParameter TTFStyle = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        TTFStyle.size = 8;
-        TTFStyle.color = Color.WHITE;
-        TTFStyle.borderWidth = 0;
-        TTFStyle.hinting = FreeTypeFontGenerator.Hinting.None;
+            TTFStyle.size = 8;
+            TTFStyle.color = Color.WHITE;
+            TTFStyle.borderWidth = 0;
+            TTFStyle.hinting = FreeTypeFontGenerator.Hinting.None;
 
-        font04b08 = TTFGenerator.generateFont(TTFStyle);
+            font04b08 = TTFGenerator.generateFont(TTFStyle);
 
-        // Setup camera and the projection matrix for text method.
-        Camera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        textDrawBatch.setProjectionMatrix(camera.combined);
+            batch = new SpriteBatch();
+            renderer = new ShapeRenderer();
+            glyphLayout = new GlyphLayout();
+
+            // Setup camera and the projection matrix for text method.
+            Camera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            textDrawBatch = new SpriteBatch();
+            textDrawBatch.setProjectionMatrix(camera.combined);
+        } catch (Exception ex) {
+            System.out.println("Failed to init. drawer resources.");
+            ex.printStackTrace();
+        }
     }
 
 
@@ -335,7 +345,7 @@ public class Drawer {
      * @param enabled The button's new status
      * @param buttonColor The new colour that the button should assume
      */
-    public void switchTextButton(TextButton button, boolean enabled, Color buttonColor) {
+    public void toggleButton(TextButton button, boolean enabled, Color buttonColor) {
         button.getLabel().setColor(buttonColor);
         //Assign a new colour to the specified label
 
