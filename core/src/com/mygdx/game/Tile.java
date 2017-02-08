@@ -220,8 +220,9 @@ public class Tile extends Button {
      */
     public void produce() {
         if (roboticonStored != null && owner != null) {
-            if (owner.getEnergyCount() >= 3) {
+            if ((owner.getEnergyCount() >= 3) && (owner.getFoodCount() >= 2)) {
                 owner.varyResource("Energy", -3);
+                owner.varyResource( "Food", -2);
                 Integer[] modifiers = this.roboticonStored.productionModifier();
                 Integer OreProduce = modifiers[0] * this.OreCount;
                 owner.varyResource("Ore", OreProduce);
