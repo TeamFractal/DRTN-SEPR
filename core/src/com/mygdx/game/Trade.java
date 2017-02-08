@@ -33,7 +33,7 @@ public class Trade {
 	public Player getSender(){
 		return this.sender;
 	}
-	public void execute(){
+	public boolean execute(){
 		if (targetPlayer.getMoney() > getPrice()){
 			targetPlayer.varyResource("Ore", this.oreAmount);
 			targetPlayer.varyResource("Energy", this.energyAmount);
@@ -43,7 +43,9 @@ public class Trade {
 			sender.varyResource("Energy", -this.energyAmount);
 			sender.varyResource("Food", -this.foodAmount);
 			sender.varyResource("Money", this.price);
+			return true;
 		}
+		else return false;
 	}
 	
 }

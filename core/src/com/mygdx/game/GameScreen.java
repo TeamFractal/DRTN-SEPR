@@ -195,6 +195,12 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
 	private TextButton cancelTradeButton;
 
+	private Overlay tooExpensiveOverlay;
+
+	private boolean tooExpensiveOverlayVisible;
+
+	private TextButton closePriceOverlayButton;
+
     /**
      * The game-screen's initial constructor
      *
@@ -250,6 +256,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         //Construct pause-menu (and hide it for the moment)
 
         constructUpgradeOverlay();
+        constructTooExpensiveOverlay();
         //Construct roboticon upgrade overlay (and, again, hide it for the moment
         //drawer.debug(gameStage);
         //Call this to draw temporary debug lines around all of the actors on the stage
@@ -299,6 +306,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             if (tradeOverlayVisible) {
                 tradeOverlay.act(delta);
                 tradeOverlay.draw();
+            }
+            
+            if (tooExpensiveOverlayVisible) {
+            	tooExpensiveOverlay.act(delta);
+            	tooExpensiveOverlay.draw();
             }
             //Draw the roboticon upgrade overlay to the screen if the "upgrade" button has been selected
         } else if (engine.state() == GameEngine.State.PAUSE) {
@@ -487,7 +499,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                closeTradeOverlay();
-               currentTrade.execute();
+               if (! currentTrade.execute()){
+            	   openTooExpensiveOverlay();
+               }
                updateInventoryLabels();
                engine.testTrade();
             }
@@ -501,6 +515,15 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                engine.testTrade();
             }
         });
+        
+        closePriceOverlayButton = new TextButton("close", gameButtonStyle);
+        closePriceOverlayButton.addListener(new ChangeListener(){
+        	@Override
+        	public void changed(ChangeEvent event, Actor actor) {
+        		closeTooExpensiveOverlay();
+        	}
+        });
+        	
     }
 
     /**
@@ -768,6 +791,19 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         tradeOverlay.table().add(confirmTradeButton);
         tradeOverlay.table().add(cancelTradeButton);
     }
+    
+    private void constructTooExpensiveOverlay(){
+    	tooExpensiveOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 250, 300, 3);
+    	tooExpensiveOverlayVisible = false;
+    	gameFont.setSize(36);
+    	tooExpensiveOverlay.table().add(new Label("NOT ENOUGH MONEY!", new Label.LabelStyle(gameFont.font(), Color.WHITE))).padBottom(20);
+    	tooExpensiveOverlay.table().row();
+    	gameFont.setSize(24);
+    	tooExpensiveOverlay.table().add(closePriceOverlayButton);
+    	
+    	
+    }
+    
     /**
      * Draw auxiliary rectangles to provide window-dressing for the interface
      */
@@ -1134,5 +1170,18 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 		openTradeOverlay();
 		
 	}
+    public void openTooExpensiveOverlay(){
+    	tooExpensiveOverlayVisible = true;
+    	Gdx.input.setInputProcessor(tooExpensiveOverlay);
+    }
+    
+    public void closeTooExpensiveOverlay(){
+    	tooExpensiveOverlayVisible = false;
+
+        Gdx.input.setInputProcessor(gameStage);
+        //Direct user inputs back towards the main stage
+
+    }
+	
     
 }
