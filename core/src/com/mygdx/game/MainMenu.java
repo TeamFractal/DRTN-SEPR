@@ -136,6 +136,12 @@ public class MainMenu implements Screen {
         });
         buttons[1] = new TextButton("How to Play", menuButtonStyle);
         buttons[2] = new TextButton("Leaderboard", menuButtonStyle);
+
+        //hideing the how to play and leaderboard button.
+        buttons[1].setVisible(false);
+        buttons[2].setVisible((false));
+
+
         //Initialise menu buttons using defined style
 
         //ADD TITLE BAR

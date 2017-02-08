@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.List;
@@ -17,6 +18,11 @@ import java.util.List;
  * Our website is: https://jm179796.github.io/SEPR/
  */
 public class GameEngine {
+    private static GameEngine _instance;
+    public static GameEngine getInstance() {
+        return _instance;
+    }
+
     /**
      * Stores current game-state, enabling transitions between screens and external QOL drawing functions
      */
@@ -34,7 +40,7 @@ public class GameEngine {
      * Stores data pertaining to the game's active players
      * For more information, check the "Player" class
      */
-    private Player[] players;
+    private static Player[] players;
 
     /**
      * Holds the numeric getID of the player who's currently active in the game
@@ -103,6 +109,8 @@ public class GameEngine {
      * @param gameScreen The object encoding the in-game interface which is to be controlled by this engine
      */
     public GameEngine(Game game, GameScreen gameScreen) {
+        _instance = this;
+
         this.game = game;
         //Import current game-state to access the game's renderer
 
@@ -141,7 +149,7 @@ public class GameEngine {
             tiles[i] = new Tile(this.game, i + 1, 5, 5, 5, false, new Runnable() {
                 @Override
                 public void run() {
-                    gs.selectTile(tiles[fi]);
+                    gs.selectTile(tiles[fi], true);
                     selectedTile = tiles[fi];
                 }
             });
@@ -155,17 +163,21 @@ public class GameEngine {
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
-        Player Player1 = new Player(1);
-        Player Player2 = new Player(2);
-        players[1] = Player1;
-        players[2] = Player2;
-        College Goodricke = new College(1, "The best college");
-        College Derwent = new College(2, "Play at your own risk");
-        players[1].assignCollege(Goodricke);
-        players[2].assignCollege(Derwent);
-        Goodricke.assignPlayer(players[1]);
-        Derwent.assignPlayer(players[2]);
+        Player goodrickePlayer = new Player(1);
+        Player derwentPlayer = new AiPlayer(2);
+        players[1] = goodrickePlayer;
+        players[2] = derwentPlayer;
+        College Goodricke = new College(1, "Goodricke");
+        College Derwent = new College(2, "Derwent");
+        goodrickePlayer.assignCollege(Goodricke);
+        derwentPlayer.assignCollege(Derwent);
+        Goodricke.assignPlayer(goodrickePlayer);
+        Derwent.assignPlayer(derwentPlayer);
         //Temporary assignment of player-data for testing purposes
+    }
+
+    public void selectTile(Tile tile) {
+        selectedTile = tile;
     }
 
     /**
@@ -194,7 +206,6 @@ public class GameEngine {
                     switchCurrentPlayer();
                 } else {
                     phase = 2;
-                    gameScreen.updatePhaseLabel("BUY ROBOTICONS");
 
                     timer.setTime(0, 30);
                     timer.start();
@@ -223,7 +234,6 @@ public class GameEngine {
             }
             else{
                 phase = 3;
-                gameScreen.updatePhaseLabel("PLACE ROBOTICONS");
 
                 market.refreshButtonAvailability();
                 //Disable the market's interface
@@ -231,7 +241,7 @@ public class GameEngine {
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 3){
@@ -244,15 +254,15 @@ public class GameEngine {
             }
             else {
                 phase = 4;
-                gameScreen.updatePhaseLabel("PRODUCTION");
 
-                timer.setTime(0, 0);
+                timer.setTime(0, 5);
+                timer.start();
                 //Stop the timer if the game is entering phase 4
 
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 4){
@@ -276,12 +286,11 @@ public class GameEngine {
             }
 
             phase = 5;
-            gameScreen.updatePhaseLabel("MARKET OPEN");
 
             market.refreshButtonAvailability();
             //Open the market again
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
         else if(phase == 5){
@@ -293,7 +302,6 @@ public class GameEngine {
             }
             else if (checkGameEnd() == false) {
                 phase = 1;
-                gameScreen.updatePhaseLabel("ACQUISITION");
 
                 market.refreshButtonAvailability();
                 //Close the market again
@@ -303,25 +311,33 @@ public class GameEngine {
                 switchCurrentPlayer();
             }
 
-            gameScreen.selectTile(selectedTile);
+            gameScreen.selectTile(selectedTile, false);
             //Re-select the current tile to prevent buttons from being enabled mistakenly
         }
 
         if(checkGameEnd() == true){
-            Integer score1 = players[1].calculateScore();
-            Integer score2 = players[2].calculateScore();
-            if(score1 > score2){
-                System.out.print("Player 1 Wins!");
+            if(getWinner() == true){
+                System.out.print("PLAYER 1 WIN");
+                gameScreen.showPlayerWin();
             }
             else{
-                System.out.print("Player 2 Wins!");
+                System.out.print("PLAYER 2 WIN");
+                gameScreen.showPlayerWin();
+
             }
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
         //Each player should own 8 tiles when this block is executed
 
+        gameScreen.updatePhaseLabel();
+
         gameScreen.closeUpgradeOverlay();
         //If the upgrade overlay is open, close it when the next phase begins
+
+        if (isCurrentlyAiPlayer()) {
+            AiPlayer aiPlayer = (AiPlayer)currentPlayer();
+            aiPlayer.performPhase(this, gameScreen);
+        }
     }
 
     /**
@@ -329,10 +345,10 @@ public class GameEngine {
      * Updates the in-game interface to reflect the statistics and the identity of the player now controlling it
      */
     private void switchCurrentPlayer() {
-        currentPlayerID = 3 - currentPlayerID;
-        //3 - 1 = 2
-        //3 - 2 = 1
-        //This naturally switches the getID of the currently-active player from 1 to 2 and vice-versa
+        currentPlayerID ++;
+        if (currentPlayerID == 3)
+            currentPlayerID = 1;
+        System.out.println("Change to player " + currentPlayerID);
 
         gameScreen.currentPlayerIcon().setDrawable(new TextureRegionDrawable(new TextureRegion(players[currentPlayerID].getCollege().getLogoTexture())));
         gameScreen.currentPlayerIcon().setSize(64, 64);
@@ -341,6 +357,7 @@ public class GameEngine {
         gameScreen.updateInventoryLabels();
         //Display the "new" player's inventory on-screen
 
+        gameScreen.updatePlayerName();
     }
 
     /**
@@ -547,8 +564,8 @@ public class GameEngine {
      */
     private boolean checkGameEnd(){
         boolean end = true;
-        for(Tile Tile : tiles){
-            if(Tile.getOwner().getPlayerID() == 0){
+        for(Tile tile : tiles){
+            if(tile.getOwner().getPlayerID() == 0){
                 end = false;
             }
         }
@@ -592,6 +609,24 @@ public class GameEngine {
         //0: ORE
         //1: ENERGY
         //2: FOOD
+    }
+
+    public int getPhase() {
+        return phase;
+    }
+
+    public boolean getWinner(){
+        Integer score1 = players[1].calculateScore();
+        Integer score2 = players[2].calculateScore();
+        if(score1 > score2){
+            return (true); // player 1 win
+        }
+        else{
+            return (false); // player 2 win
+        }
+    }
+    public boolean isCurrentlyAiPlayer() {
+        return currentPlayer().isAi();
     }
 
     /**

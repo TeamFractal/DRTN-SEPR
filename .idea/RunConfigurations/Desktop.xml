@@ -11,7 +11,9 @@
     <option name="ENV_VARIABLES" />
     <option name="PASS_PARENT_ENVS" value="true" />
     <module name="desktop_main" />
-    <envs />
+    <envs>
+      <env name="splash" value="false" />
+    </envs>
     <method />
   </configuration>
 </component>
