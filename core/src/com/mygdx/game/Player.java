@@ -27,12 +27,12 @@ public class Player {
     /**
      * An integer storing the amount of food a player owns.
      */
-    private Integer FoodCount = 0;
+    private Integer FoodCount = 5;
 
     /**
      * An integer storing the amount of energy a player owns.
      */
-    private Integer EnergyCount = 0;
+    private Integer EnergyCount = 5;
 
     /**
      * An integer storing the amount of money a player owns.
