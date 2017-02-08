@@ -78,7 +78,7 @@ public class AiPlayer extends Player {
                         e.printStackTrace();
                     }
                 }
-
+                engine.nextPhase();
                 break;
         }
     }

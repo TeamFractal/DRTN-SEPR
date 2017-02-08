@@ -44,11 +44,11 @@ public class PlayerTest extends TesterFile {
 
     @Test
     public void testVaryResource() {
-        Integer ore = TestPlayer.getOreCount();
-        Integer food = TestPlayer.getFoodCount();
-        Integer energy = TestPlayer.getEnergyCount();
+        int ore = TestPlayer.getOreCount();
+        int food = TestPlayer.getFoodCount();
+        int energy = TestPlayer.getEnergyCount();
         int money = TestPlayer.getMoney();
-        for (Integer i = 1; i < 200; i++){
+        for (int i = 1; i < 200; i++){
             ore += i;
             food += i;
             energy += i;
@@ -68,17 +68,17 @@ public class PlayerTest extends TesterFile {
 
     @Test
     public void testcalculateScore(){
-        Integer ore = TestPlayer.getOreCount();
-        Integer food = TestPlayer.getFoodCount();
-        Integer energy = TestPlayer.getEnergyCount();
-        Integer score = ore + food + energy;
+        int ore = TestPlayer.getOreCount();
+        int food = TestPlayer.getFoodCount();
+        int energy = TestPlayer.getEnergyCount();
+        int score = ore + food + energy;
         assertEquals(score, TestPlayer.calculateScore());
         //assertEquals((TestPlayer.getOreCount() + TestPlayer.getFoodCount() + TestPlayer.getEnergyCount()), TestPlayer.calculateScore());
     }
 
     @Test
     public void testIncreaseRoboticonInventory(){
-        Integer count = TestPlayer.getInventoryRoboticons();
+        int count = TestPlayer.getInventoryRoboticons();
         count += 1;
         TestPlayer.increaseRoboticonInventory();
         assertEquals(count,TestPlayer.getInventoryRoboticons());
@@ -86,7 +86,7 @@ public class PlayerTest extends TesterFile {
 
     @Test
     public void testDecreaseRoboticonInventory(){
-        Integer count = TestPlayer.getInventoryRoboticons();
+        int count = TestPlayer.getInventoryRoboticons();
         count -= 1;
         TestPlayer.decreaseRoboticonInventory();
         assertEquals(count,TestPlayer.getInventoryRoboticons());

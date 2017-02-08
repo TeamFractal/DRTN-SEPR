@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
+
 import io.github.teamfractal.animation.AnimationTileFlash;
 import io.github.teamfractal.animation.IAnimation;
 import io.github.teamfractal.screens.AbstractAnimationScreen;
@@ -177,11 +178,16 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      * Customised stage that shows up to offer roboticon upgrade choices
      */
     private Overlay upgradeOverlay;
+    
+    private Overlay tradeOverlay;
 
     /**
      * Determines whether the aforementioned roboticon upgrade overlay is to be drawn to the screen
      */
+    
     private boolean upgradeOverlayVisible;
+    
+    private boolean tradeOverlayVisible; 
     private Batch batch;
     private int height;
     private int width;
@@ -189,6 +195,17 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private boolean drawRoboticonIcon;
     private Tile selectedTile;
     private Table tableRight;
+
+	private TextButton confirmTradeButton;
+
+	private TextButton cancelTradeButton;
+
+	private Overlay tooExpensiveOverlay;
+
+	private boolean tooExpensiveOverlayVisible;
+
+	private TextButton closePriceOverlayButton;
+
 
     /**
      * The game-screen's initial constructor
@@ -245,10 +262,13 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         //Construct pause-menu (and hide it for the moment)
 
         constructUpgradeOverlay();
-        //Construct roboticon upgrade overlay (and, again, hide it for the moment)
-
+        constructTooExpensiveOverlay();
+        //Construct roboticon upgrade overlay (and, again, hide it for the moment
         //drawer.debug(gameStage);
         //Call this to draw temporary debug lines around all of the actors on the stage
+
+        System.out.println("GameScreen.show");
+        engine.nextPhase();
     }
 
     /**
@@ -297,6 +317,16 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             if (upgradeOverlayVisible) {
                 upgradeOverlay.act(delta);
                 upgradeOverlay.draw();
+            }
+            
+            if (tradeOverlayVisible) {
+                tradeOverlay.act(delta);
+                tradeOverlay.draw();
+            }
+            
+            if (tooExpensiveOverlayVisible) {
+            	tooExpensiveOverlay.act(delta);
+            	tooExpensiveOverlay.draw();
             }
             //Draw the roboticon upgrade overlay to the screen if the "upgrade" button has been selected
         } else if (engine.state() == GameEngine.State.PAUSE) {
@@ -479,6 +509,39 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 closeUpgradeOverlay();
             }
         });
+        
+        confirmTradeButton = new TextButton("Confirm", gameButtonStyle);
+        confirmTradeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+               closeTradeOverlay();
+               if (! currentTrade.execute()){
+            	   openTooExpensiveOverlay();
+               }
+               updateInventoryLabels();
+               engine.testTrade();
+            }
+        });
+        
+        cancelTradeButton = new TextButton("Cancel", gameButtonStyle);
+        cancelTradeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+               closeTradeOverlay();
+               engine.testTrade();
+            }
+        });
+        
+        closePriceOverlayButton = new TextButton("close", gameButtonStyle);
+        closePriceOverlayButton.addListener(new ChangeListener(){
+        	@Override
+        	public void changed(ChangeEvent event, Actor actor) {
+        		closeTooExpensiveOverlay();
+        	}
+        });
+        
+       
+        	
     }
 
     /**
@@ -533,13 +596,13 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
 
         Table resourceCounters = new Table();
-        foodCounter = new Label(engine.currentPlayer().getFoodCount().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        foodCounter = new Label("" + engine.currentPlayer().getFoodCount(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         foodCounter.setAlignment(Align.right);
-        energyCounter = new Label(engine.currentPlayer().getEnergyCount().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        energyCounter = new Label("" + engine.currentPlayer().getEnergyCount(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         energyCounter.setAlignment(Align.right);
-        oreCounter = new Label(engine.currentPlayer().getOreCount().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        oreCounter = new Label("" + engine.currentPlayer().getOreCount(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         oreCounter.setAlignment(Align.right);
-        roboticonCounter = new Label(engine.currentPlayer().getRoboticonInventory().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        roboticonCounter = new Label("" + engine.currentPlayer().getRoboticonInventory(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         roboticonCounter.setAlignment(Align.right);
         moneyCounter = new Label("" + engine.currentPlayer().getMoney(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         moneyCounter.setAlignment(Align.right);
@@ -727,7 +790,40 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         drawer.addTableRow(upgradeOverlay.table(), closeUpgradeOverlayButton);
         //Add a final button for closing the overlay
     }
-
+    private void constructTradeOverlay(Trade trade){
+    	tradeOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 250, 300, 3);
+    	tradeOverlayVisible = false;
+    	gameFont.setSize(36);
+        tradeOverlay.table().add(new Label("INCOMING TRADE", new Label.LabelStyle(gameFont.font(), Color.WHITE))).padBottom(20);
+    	
+        gameFont.setSize(24);
+        tradeOverlay.table().row();
+        tradeOverlay.table().add(new Label("From: Player " + trade.getSender().getPlayerID(), new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
+        tradeOverlay.table().row();
+        tradeOverlay.table().add(new Label("ORE: " + trade.oreAmount, new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
+        tradeOverlay.table().row();
+        tradeOverlay.table().add(new Label("ENERGY: " + trade.energyAmount, new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
+        tradeOverlay.table().row();
+        tradeOverlay.table().add(new Label("FOOD " + trade.foodAmount, new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
+        tradeOverlay.table().row();
+        tradeOverlay.table().add(new Label("PRICE: " + trade.getPrice(), new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
+        tradeOverlay.table().row();
+        tradeOverlay.table().add(confirmTradeButton);
+        tradeOverlay.table().add(cancelTradeButton);
+    }
+    
+    private void constructTooExpensiveOverlay(){
+    	tooExpensiveOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 250, 300, 3);
+    	tooExpensiveOverlayVisible = false;
+    	gameFont.setSize(36);
+    	tooExpensiveOverlay.table().add(new Label("NOT ENOUGH MONEY!", new Label.LabelStyle(gameFont.font(), Color.WHITE))).padBottom(20);
+    	tooExpensiveOverlay.table().row();
+    	gameFont.setSize(24);
+    	tooExpensiveOverlay.table().add(closePriceOverlayButton);
+    	
+    	
+    }
+    
     /**
      * Draw auxiliary rectangles to provide window-dressing for the interface
      */
@@ -896,6 +992,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
     IAnimation lastTileClickedFlash;
     IAnimation playerWin;
+
+	private boolean activeTrade;
+
+	private Trade currentTrade;
+
     /**
      * The code to be run whenever a particular tile is clicked on
      * Specifically updates the label identifying the selected tile, the college icon linked to the player who owns
@@ -1065,4 +1166,43 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     public void updatePlayerName() {
         currentPlayerLabel.setText("Player " + engine.currentPlayerID());
     }
+    
+    public void openTradeOverlay(){
+    	tradeOverlayVisible = true;
+    	Gdx.input.setInputProcessor(tradeOverlay);
+    }
+    
+    public void closeTradeOverlay(){
+    	tradeOverlayVisible = false;
+
+        Gdx.input.setInputProcessor(gameStage);
+        //Direct user inputs back towards the main stage
+
+    }
+
+	public boolean TradeOverlayVisible() {
+		return tradeOverlayVisible;
+		
+	}
+
+	public void activeTrade(Trade trade) {
+		constructTradeOverlay(trade);
+		currentTrade = trade;
+		openTradeOverlay();
+		
+	}
+    public void openTooExpensiveOverlay(){
+    	tooExpensiveOverlayVisible = true;
+    	Gdx.input.setInputProcessor(tooExpensiveOverlay);
+    }
+    
+    public void closeTooExpensiveOverlay(){
+    	tooExpensiveOverlayVisible = false;
+
+        Gdx.input.setInputProcessor(gameStage);
+        //Direct user inputs back towards the main stage
+
+    }
+	
+    
 }

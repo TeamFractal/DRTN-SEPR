@@ -34,7 +34,7 @@ public class TileTest extends TesterFile {
      */
     @Test
     public void testProduce() {
-        Integer TestValues[] = {TestPlayer.getEnergyCount(), TestPlayer.getFoodCount(), TestPlayer.getOreCount()};
+        int TestValues[] = {TestPlayer.getEnergyCount(), TestPlayer.getFoodCount(), TestPlayer.getOreCount()};
 
         TestTile.setOwner(TestPlayer);
         TestTile.produce();

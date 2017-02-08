@@ -244,7 +244,7 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
     /**
      * Returns the number of minutes currently clocked on the timer
      *
-     * @return Integer The number of minutes left on the clock
+     * @return int The number of minutes left on the clock
      */
     public int minutes() {
         return minutes;
@@ -253,7 +253,7 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
     /**
      * Returns the number of seconds currently clocked on the timer (within the current minute)
      *
-     * @return Integer The number of seconds left on the clock during the current minute
+     * @return int The number of seconds left on the clock during the current minute
      */
     public int seconds() {
         return seconds;
