@@ -4,10 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters
@@ -121,8 +120,8 @@ public class GameEngine {
         drawer = new Drawer(this.game);
         //Import QOL drawing function
 
-        players = new Player[3];
-        currentPlayerID = 1;
+        players = new Player[2];
+        currentPlayerID = 0;
         //Set up objects to hold player-data
         //Start the game such that player 1 makes the first move
 
@@ -132,7 +131,7 @@ public class GameEngine {
         timer = new GameTimer(0, new TTFont(Gdx.files.internal("font/testfontbignoodle.ttf"), 120), Color.WHITE, new Runnable() {
             @Override
             public void run() {
-                nextPhase();
+                nextPhase(); // Timeout event
             }
         });
         //Set up game timer
@@ -165,8 +164,8 @@ public class GameEngine {
 
         Player goodrickePlayer = new Player(1);
         Player derwentPlayer = new AiPlayer(2);
-        players[1] = goodrickePlayer;
-        players[2] = derwentPlayer;
+        players[0] = goodrickePlayer;
+        players[1] = derwentPlayer;
         College Goodricke = new College(1, "Goodricke");
         College Derwent = new College(2, "Derwent");
         goodrickePlayer.assignCollege(Goodricke);
@@ -194,137 +193,39 @@ public class GameEngine {
      * PHASE 5: Market Trading
      */
     public void nextPhase() {
-        System.out.print("Player " + currentPlayerID + " | Phase " + phase + "\n");
-
         timer.stop();
+        nextPlayer();
+        System.out.println("Player " + currentPlayerID + " | Phase " + phase);
 
-        if(phase == 1){
-            if(tileAcquired == true) {
+        market.refreshButtonAvailability();
+        switch (phase) {
+            case 1:
                 tileAcquired = false;
+                drawer.toggleButton(gameScreen.endTurnButton(), false, Color.GRAY);
+                break;
 
-                if (currentPlayerID == 1) {
-                    switchCurrentPlayer();
-                } else {
-                    phase = 2;
-
-                    timer.setTime(0, 30);
-                    timer.start();
-                    //Reset the timer to 30 seconds and start it if the game is proceeding into phase 2
-
-                    switchCurrentPlayer();
-                    drawer.switchTextButton(gameScreen.endTurnButton(), true, Color.WHITE);
-                    //Once the game moves out of phase 1, re-enable the "end turn" button
-                    //This button is disabled during phase 1 to force players into claiming tiles
-
-                    market.refreshButtonAvailability();
-                    //Update the market's interface to allow for roboticons to be purchased
-                }
-            }
-        }
-        else if(phase == 2){
-            timer.setTime(0, 30);
-            timer.start();
-            //Reset the timer to 30 seconds, regardless of whether the game is staying in phase 2 or proceeding into phase 3
-
-            if(currentPlayerID == 1){
-                switchCurrentPlayer();
-
-                market.refreshButtonAvailability();
-                //Update the market interface for the other player
-            }
-            else{
-                phase = 3;
-
-                market.refreshButtonAvailability();
-                //Disable the market's interface
-
-                switchCurrentPlayer();
-            }
-
-            gameScreen.selectTile(selectedTile, false);
-            //Re-select the current tile to prevent buttons from being enabled mistakenly
-        }
-        else if(phase == 3){
-            if(currentPlayerID == 1){
+            case 2:
                 timer.setTime(0, 30);
                 timer.start();
-                //Reset the timer to 30 seconds for the other player
 
-                switchCurrentPlayer();
-            }
-            else {
-                phase = 4;
+                drawer.toggleButton(gameScreen.endTurnButton(), true, Color.WHITE);
+                break;
 
+            case 3:
+                break;
+
+            case 4:
                 timer.setTime(0, 5);
                 timer.start();
-                //Stop the timer if the game is entering phase 4
+                produceResource();
+                break;
 
-                switchCurrentPlayer();
-            }
-
-            gameScreen.selectTile(selectedTile, false);
-            //Re-select the current tile to prevent buttons from being enabled mistakenly
-        }
-        else if(phase == 4){
-            List<Tile> tileList = players[1].getTileList();
-            for (Tile Tile : tileList){
-
-                if (tileList.size() > 0){
-                    System.out.print("yes");
-                    players[1] = Tile.Produce(players[1]);
-                    switchCurrentPlayer();
-                }
-
-            }
-            List<Tile> tileList2 = players[2].getTileList();
-            for (Tile Tile : tileList2){
-                if(tileList2.size() > 0){
-                    players[2] = Tile.Produce(players[2]);
-                    switchCurrentPlayer();
-                }
-
-            }
-
-            phase = 5;
-
-            market.refreshButtonAvailability();
-            //Open the market again
-
-            gameScreen.selectTile(selectedTile, false);
-            //Re-select the current tile to prevent buttons from being enabled mistakenly
-        }
-        else if(phase == 5){
-            if (currentPlayerID == 1) {
-                switchCurrentPlayer();
-
-                market.refreshButtonAvailability();
-                //Update the market's interface for the other player
-            }
-            else if (checkGameEnd() == false) {
-                phase = 1;
-
-                market.refreshButtonAvailability();
-                //Close the market again
-
-                drawer.switchTextButton(gameScreen.endTurnButton(), false, Color.GRAY);
-                //Disable the "end turn" button during phase 1 to force players into claiming tiles
-                switchCurrentPlayer();
-            }
-
-            gameScreen.selectTile(selectedTile, false);
-            //Re-select the current tile to prevent buttons from being enabled mistakenly
+            case 5:
+                break;
         }
 
-        if(checkGameEnd() == true){
-            if(getWinner() == true){
-                System.out.print("PLAYER 1 WIN");
-                gameScreen.showPlayerWin();
-            }
-            else{
-                System.out.print("PLAYER 2 WIN");
-                gameScreen.showPlayerWin();
-
-            }
+        if(checkGameEnd()){
+            gameScreen.showPlayerWin(getWinner());
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
         //Each player should own 8 tiles when this block is executed
@@ -340,22 +241,36 @@ public class GameEngine {
         }
     }
 
+    private void produceResource() {
+        Player player = currentPlayer();
+        for (Tile tile : player.getTileList()) {
+            tile.produce();
+        }
+    }
+
     /**
      * Sets the current player to be that which isn't active whenever this is called
      * Updates the in-game interface to reflect the statistics and the identity of the player now controlling it
      */
-    private void switchCurrentPlayer() {
+    private void nextPlayer() {
         currentPlayerID ++;
-        if (currentPlayerID == 3)
-            currentPlayerID = 1;
+        if (currentPlayerID >= players.length) {
+            currentPlayerID = 0;
+
+            phase ++;
+            if (phase == 6) {
+                phase = 1;
+            }
+            System.out.print("Move to phase " + phase + ", ");
+        }
         System.out.println("Change to player " + currentPlayerID);
 
+        // Find and draw the icon representing the "new" player's associated college
         gameScreen.currentPlayerIcon().setDrawable(new TextureRegionDrawable(new TextureRegion(players[currentPlayerID].getCollege().getLogoTexture())));
         gameScreen.currentPlayerIcon().setSize(64, 64);
-        //Find and draw the icon representing the "new" player's associated college
 
+        // Display the "new" player's inventory on-screen
         gameScreen.updateInventoryLabels();
-        //Display the "new" player's inventory on-screen
 
         gameScreen.updatePlayerName();
     }
@@ -455,7 +370,7 @@ public class GameEngine {
             }
             //Set the colour of the tile's new border based on the college of the player who claimed it
 
-            nextPhase();
+            nextPhase(); // at ClaimTile
             //Advance the game
         }
     }
@@ -466,7 +381,7 @@ public class GameEngine {
      */
     public void deployRoboticon() {
         if (phase == 3) {
-            if (selectedTile.hasRoboticon() == false) {
+            if (!selectedTile.hasRoboticon()) {
                 if (players[currentPlayerID].getRoboticonInventory() > 0) {
                     Roboticon Roboticon = new Roboticon(roboticonIDCounter, players[currentPlayerID], selectedTile);
                     selectedTile.assignRoboticon(Roboticon);
@@ -563,13 +478,13 @@ public class GameEngine {
      * @return Boolean Determines if the game has ended or not
      */
     private boolean checkGameEnd(){
-        boolean end = true;
         for(Tile tile : tiles){
-            if(tile.getOwner().getPlayerID() == 0){
-                end = false;
+            if (tile.getOwner() != null){
+                return false;
             }
         }
-        return end;
+
+        return true;
     }
 
     /**
@@ -615,15 +530,15 @@ public class GameEngine {
         return phase;
     }
 
-    public boolean getWinner(){
-        Integer score1 = players[1].calculateScore();
-        Integer score2 = players[2].calculateScore();
-        if(score1 > score2){
-            return (true); // player 1 win
-        }
-        else{
-            return (false); // player 2 win
-        }
+    public int getWinner(){
+        List<Player> playersList = Arrays.asList(players);
+        playersList.sort(new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                return b.calculateScore() - a.calculateScore();
+            }
+        });
+        return playersList.get(0).getPlayerID();
     }
     public boolean isCurrentlyAiPlayer() {
         return currentPlayer().isAi();

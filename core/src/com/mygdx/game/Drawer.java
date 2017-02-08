@@ -335,7 +335,7 @@ public class Drawer {
      * @param enabled The button's new status
      * @param buttonColor The new colour that the button should assume
      */
-    public void switchTextButton(TextButton button, boolean enabled, Color buttonColor) {
+    public void toggleButton(TextButton button, boolean enabled, Color buttonColor) {
         button.getLabel().setColor(buttonColor);
         //Assign a new colour to the specified label
 

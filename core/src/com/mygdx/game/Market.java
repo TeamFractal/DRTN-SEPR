@@ -222,8 +222,8 @@ public class Market extends Table {
         marketButton.addListener(new ChangeListener() {
         	@Override
             public void changed(ChangeEvent event, Actor actor) {
-        	drawer.switchTextButton(auctionButton, true, Color.WHITE);	
-        	drawer.switchTextButton(marketButton, false, Color.GRAY);
+        	drawer.toggleButton(auctionButton, true, Color.WHITE);
+        	drawer.toggleButton(marketButton, false, Color.GRAY);
         	for(int i = 0 ; i < marketButtonArray.size; i++){
         		marketButtonArray.get(i).setVisible(true);
         	}
@@ -234,8 +234,8 @@ public class Market extends Table {
         auctionButton.addListener(new ChangeListener() {
         	@Override
             public void changed(ChangeEvent event, Actor actor) {
-        	drawer.switchTextButton(marketButton, true, Color.WHITE);	
-        	drawer.switchTextButton(auctionButton, false, Color.GRAY);
+        	drawer.toggleButton(marketButton, true, Color.WHITE);
+        	drawer.toggleButton(auctionButton, false, Color.GRAY);
         	for(int i = 0 ; i < marketButtonArray.size; i++){
         		marketButtonArray.get(i).setVisible(false);
         	}
@@ -384,8 +384,8 @@ public class Market extends Table {
      */
     private void constructInterface() {
         tableFont.setSize(36);
-        drawer.switchTextButton(marketButton, false, Color.GRAY);
-        drawer.switchTextButton(auctionButton, true, Color.WHITE);
+        drawer.toggleButton(marketButton, false, Color.GRAY);
+        drawer.toggleButton(auctionButton, true, Color.WHITE);
         drawer.addTableRow(this, marketButton);
         this.add(auctionButton).left();
         //Add a heading to the market interface
@@ -925,72 +925,72 @@ public class Market extends Table {
     public void refreshButtonAvailability() {
         if (engine.phase() == 2) {
             if (engine.currentPlayer().getMoney() >= RoboticonBuyPrice && RoboticonStock > 0) {
-                drawer.switchTextButton(buyRoboticon, true, Color.GREEN);
+                drawer.toggleButton(buyRoboticon, true, Color.GREEN);
             } else {
-                drawer.switchTextButton(buyRoboticon, false, Color.RED);
+                drawer.toggleButton(buyRoboticon, false, Color.RED);
             }
             //If the game is in phase 2, enable the roboticon purchase button ONLY (and only if the current player can
             //afford one while one is in stock)
 
-            drawer.switchTextButton(buyOre, false, Color.GRAY);
-            drawer.switchTextButton(buyFood, false, Color.GRAY);
-            drawer.switchTextButton(buyEnergy, false, Color.GRAY);
+            drawer.toggleButton(buyOre, false, Color.GRAY);
+            drawer.toggleButton(buyFood, false, Color.GRAY);
+            drawer.toggleButton(buyEnergy, false, Color.GRAY);
             //Disable all of the market's other functions in phase 2
         } else if (engine.phase() == 5) {
             if (engine.currentPlayer().getMoney() >= OreBuyPrice && OreStock > 0) {
-                drawer.switchTextButton(buyOre, true, Color.GREEN);
+                drawer.toggleButton(buyOre, true, Color.GREEN);
             } else {
-                drawer.switchTextButton(buyOre, false, Color.RED);
+                drawer.toggleButton(buyOre, false, Color.RED);
             }
             //Conditionally enable the ore purchase button
 
             if (engine.currentPlayer().getMoney() >= EnergyBuyPrice && EnergyStock > 0) {
-                drawer.switchTextButton(buyEnergy, true, Color.GREEN);
+                drawer.toggleButton(buyEnergy, true, Color.GREEN);
             } else {
-                drawer.switchTextButton(buyEnergy, false, Color.RED);
+                drawer.toggleButton(buyEnergy, false, Color.RED);
             }
             //Conditionally enable the energy purchase button
 
             if (engine.currentPlayer().getMoney() >= FoodBuyPrice && FoodStock > 0) {
-                drawer.switchTextButton(buyFood, true, Color.GREEN);
+                drawer.toggleButton(buyFood, true, Color.GREEN);
             } else {
-                drawer.switchTextButton(buyFood, false, Color.RED);
+                drawer.toggleButton(buyFood, false, Color.RED);
             }
             //Conditionally enable the food purchase button
 
-            drawer.switchTextButton(buyRoboticon, false, Color.GRAY);
+            drawer.toggleButton(buyRoboticon, false, Color.GRAY);
             //Disable the roboticon purchase button in round 5
 
             if (engine.currentPlayer().getOreCount() > 0) {
-                drawer.switchTextButton(sellOre, true, Color.GREEN);
+                drawer.toggleButton(sellOre, true, Color.GREEN);
             } else {
-                drawer.switchTextButton(sellOre, false, Color.RED);
+                drawer.toggleButton(sellOre, false, Color.RED);
             }
             //Conditionally enable the ore sale button
 
             if (engine.currentPlayer().getEnergyCount() > 0) {
-                drawer.switchTextButton(sellEnergy, true, Color.GREEN);
+                drawer.toggleButton(sellEnergy, true, Color.GREEN);
             } else {
-                drawer.switchTextButton(sellEnergy, false, Color.RED);
+                drawer.toggleButton(sellEnergy, false, Color.RED);
             }
             //Conditionally enable the energy sale button
 
             if (engine.currentPlayer().getFoodCount() > 0) {
-                drawer.switchTextButton(sellFood, true, Color.GREEN);
+                drawer.toggleButton(sellFood, true, Color.GREEN);
             } else {
-                drawer.switchTextButton(sellFood, false, Color.RED);
+                drawer.toggleButton(sellFood, false, Color.RED);
             }
             //Conditionally enable the food sale button
         } else {
-            drawer.switchTextButton(buyOre, false, Color.GRAY);
-            drawer.switchTextButton(buyFood, false, Color.GRAY);
-            drawer.switchTextButton(buyEnergy, false, Color.GRAY);
+            drawer.toggleButton(buyOre, false, Color.GRAY);
+            drawer.toggleButton(buyFood, false, Color.GRAY);
+            drawer.toggleButton(buyEnergy, false, Color.GRAY);
 
-            drawer.switchTextButton(buyRoboticon, false, Color.GRAY);
+            drawer.toggleButton(buyRoboticon, false, Color.GRAY);
 
-            drawer.switchTextButton(sellOre, false, Color.GRAY);
-            drawer.switchTextButton(sellFood, false, Color.GRAY);
-            drawer.switchTextButton(sellEnergy, false, Color.GRAY);
+            drawer.toggleButton(sellOre, false, Color.GRAY);
+            drawer.toggleButton(sellFood, false, Color.GRAY);
+            drawer.toggleButton(sellEnergy, false, Color.GRAY);
             //Disable the entire market if the game is in one of phases 1, 3 and 4
         }
     }

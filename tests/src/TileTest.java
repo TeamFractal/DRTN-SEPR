@@ -36,7 +36,8 @@ public class TileTest extends TesterFile {
     public void testProduce() {
         Integer TestValues[] = {TestPlayer.getEnergyCount(), TestPlayer.getFoodCount(), TestPlayer.getOreCount()};
 
-        TestPlayer = TestTile.Produce(TestPlayer);
+        TestTile.setOwner(TestPlayer);
+        TestTile.produce();
 
         assertTrue(TestPlayer.getEnergyCount() > TestValues[0]);
         assertTrue(TestPlayer.getFoodCount() > TestValues[1]);
