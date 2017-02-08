@@ -123,7 +123,7 @@ public class GameEngine {
         drawer = new Drawer(this.game);
         //Import QOL drawing function
 
-        players = new Player[4];
+        players = new Player[3];
         //Set up objects to hold player-data
         //Start the game such that player 1 makes the first move
 
@@ -168,10 +168,10 @@ public class GameEngine {
         Player langwithPlayer = new Player(3);
         players[0] = goodrickePlayer;
         players[1] = derwentPlayer;
-        players[3] = langwithPlayer;
+        players[2] = langwithPlayer;
         College Goodricke = new College(1, "Goodricke");
         College Derwent = new College(2, "Derwent");
-        College Langwith = new College(2, "Langwith");
+        College Langwith = new College(3, "Langwith");
         goodrickePlayer.assignCollege(Goodricke);
         derwentPlayer.assignCollege(Derwent);
         langwithPlayer.assignCollege(Langwith);
