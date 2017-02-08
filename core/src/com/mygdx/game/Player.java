@@ -58,6 +58,8 @@ public class Player {
      * The number of Roboticons that the player owns
      */
     private int inventoryRoboticons = 0;
+    
+    private Trade currentTrade;
 
     /**
      * The constructor of the class
@@ -250,5 +252,13 @@ public class Player {
      */
     public College getCollege() {
         return this.College;
+    }
+    
+    public void setTrade(Trade trade){
+    	this.currentTrade = trade;
+    }
+    
+    public Trade getTrade() {
+    	return this.currentTrade;
     }
 }
