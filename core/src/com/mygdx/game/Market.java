@@ -294,7 +294,7 @@ public class Market extends Table {
         /**
          * Button that attempts to buy a Roboticon for the current player when clicked on
          */
-        buyRoboticon = new TextButton("-" + getRoboticonBuyPrice().toString(), tableButtonStyle);
+        buyRoboticon = new TextButton("-" + getRoboticonBuyPrice(), tableButtonStyle);
        
         buyRoboticon.addListener(new ChangeListener() {
             @Override
@@ -313,7 +313,7 @@ public class Market extends Table {
         /**
          * Button that attempts to buy a unit of ore for the current player when clicked on
          */
-        buyOre = new TextButton("-" + getOreBuyPrice().toString(), tableButtonStyle);
+        buyOre = new TextButton("-" + getOreBuyPrice(), tableButtonStyle);
      
         buyOre.addListener(new ChangeListener() {
             @Override
@@ -331,7 +331,7 @@ public class Market extends Table {
         /**
          * Button that attempts to buy a unit of food for the current player when clicked on
          */
-        buyFood = new TextButton("-" + getFoodBuyPrice().toString(), tableButtonStyle);
+        buyFood = new TextButton("-" + getFoodBuyPrice(), tableButtonStyle);
         buyFood.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -348,7 +348,7 @@ public class Market extends Table {
         /**
          * Button that attempts to buy a unit of energy for the current player when clicked on
          */
-        buyEnergy = new TextButton("-" + getEnergyBuyPrice().toString(), tableButtonStyle);
+        buyEnergy = new TextButton("-" + getEnergyBuyPrice(), tableButtonStyle);
         buyEnergy.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -366,7 +366,7 @@ public class Market extends Table {
          * Button that attempts to take a unit of energy from the player's inventory and sell it back to the market
          * when clicked on
          */
-        sellEnergy = new TextButton("+" + getEnergySellPrice().toString(), tableButtonStyle);
+        sellEnergy = new TextButton("+" + getEnergySellPrice(), tableButtonStyle);
         sellEnergy.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -385,7 +385,7 @@ public class Market extends Table {
          * Button that attempts to take a unit of ore from the player's inventory and sell it back to the market
          * when clicked on
          */
-        sellOre = new TextButton("+" + getOreSellPrice().toString(), tableButtonStyle);
+        sellOre = new TextButton("+" + getOreSellPrice(), tableButtonStyle);
         sellOre.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -403,7 +403,7 @@ public class Market extends Table {
          * Button that attempts to take a unit of food from the player's inventory and sell it back to the market
          * when clicked on
          */
-        sellFood = new TextButton("+" + getFoodSellPrice().toString(), tableButtonStyle);
+        sellFood = new TextButton("+" + getFoodSellPrice(), tableButtonStyle);
         sellFood.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
@@ -673,8 +673,8 @@ public class Market extends Table {
     
     private void constructAuctionInterface(){
     	tableFont.setSize(36);
-        drawer.switchTextButton(auctionButton, false, Color.GRAY);
-        drawer.switchTextButton(marketButton, true, Color.WHITE);
+        drawer.toggleButton(auctionButton, false, Color.GRAY);
+        drawer.toggleButton(marketButton, true, Color.WHITE);
         drawer.addTableRow(this, marketButton);
         this.add(auctionButton).left();
         //Add a heading to the market interface
@@ -1274,63 +1274,63 @@ public class Market extends Table {
     }
     
     public void refreshAuction(){
-    	drawer.switchTextButton(playerBuyOre, false, Color.GRAY);
-    	drawer.switchTextButton(playerSellOre, false, Color.GRAY);
-    	drawer.switchTextButton(playerBuyFood, false, Color.GRAY);
-    	drawer.switchTextButton(playerSellFood, false, Color.GRAY);
-    	drawer.switchTextButton(playerBuyEnergy, false, Color.GRAY);
-    	drawer.switchTextButton(playerSellEnergy, false, Color.GRAY);
-    	drawer.switchTextButton(pricePlus1, false, Color.GRAY);
-    	drawer.switchTextButton(pricePlus10, false, Color.GRAY);
-    	drawer.switchTextButton(pricePlus100, false, Color.GRAY);
-    	drawer.switchTextButton(priceMinus1, false, Color.GRAY);
-    	drawer.switchTextButton(priceMinus10, false, Color.GRAY);
-    	drawer.switchTextButton(priceMinus100, false, Color.GRAY);
-    	drawer.switchTextButton(confirmSale, false, Color.GRAY);
-    	drawer.switchTextButton(nextPlayerButton, false, Color.GRAY);
-    	drawer.switchTextButton(prevPlayerButton, false, Color.GRAY);
+    	drawer.toggleButton(playerBuyOre, false, Color.GRAY);
+    	drawer.toggleButton(playerSellOre, false, Color.GRAY);
+    	drawer.toggleButton(playerBuyFood, false, Color.GRAY);
+    	drawer.toggleButton(playerSellFood, false, Color.GRAY);
+    	drawer.toggleButton(playerBuyEnergy, false, Color.GRAY);
+    	drawer.toggleButton(playerSellEnergy, false, Color.GRAY);
+    	drawer.toggleButton(pricePlus1, false, Color.GRAY);
+    	drawer.toggleButton(pricePlus10, false, Color.GRAY);
+    	drawer.toggleButton(pricePlus100, false, Color.GRAY);
+    	drawer.toggleButton(priceMinus1, false, Color.GRAY);
+    	drawer.toggleButton(priceMinus10, false, Color.GRAY);
+    	drawer.toggleButton(priceMinus100, false, Color.GRAY);
+    	drawer.toggleButton(confirmSale, false, Color.GRAY);
+    	drawer.toggleButton(nextPlayerButton, false, Color.GRAY);
+    	drawer.toggleButton(prevPlayerButton, false, Color.GRAY);
     	tradePriceLabel.setText("" + tradePrice);
     	oreTradeLabel.setText("Ore:        " + oreTradeAmount);
     	foodTradeLabel.setText("Food:      " + foodTradeAmount);
     	energyTradeLabel.setText("Energy:   " + energyTradeAmount);
     	if (engine.phase() == 5){
-    		drawer.switchTextButton(pricePlus1, true, Color.WHITE);
-        	drawer.switchTextButton(pricePlus10, true, Color.WHITE);
-        	drawer.switchTextButton(pricePlus100, true, Color.WHITE);
-        	drawer.switchTextButton(confirmSale, true, Color.RED);
+    		drawer.toggleButton(pricePlus1, true, Color.WHITE);
+        	drawer.toggleButton(pricePlus10, true, Color.WHITE);
+        	drawer.toggleButton(pricePlus100, true, Color.WHITE);
+        	drawer.toggleButton(confirmSale, true, Color.RED);
         	if (tradePrice >= 100){
-        		drawer.switchTextButton(priceMinus1, true, Color.WHITE);
-        		drawer.switchTextButton(priceMinus10, true, Color.WHITE);
-        		drawer.switchTextButton(priceMinus100, true, Color.WHITE);
+        		drawer.toggleButton(priceMinus1, true, Color.WHITE);
+        		drawer.toggleButton(priceMinus10, true, Color.WHITE);
+        		drawer.toggleButton(priceMinus100, true, Color.WHITE);
         	}
         	else if (tradePrice >= 10){
-        		drawer.switchTextButton(priceMinus1, true, Color.WHITE);
-        		drawer.switchTextButton(priceMinus10, true, Color.WHITE);
+        		drawer.toggleButton(priceMinus1, true, Color.WHITE);
+        		drawer.toggleButton(priceMinus10, true, Color.WHITE);
         	}
         	else if (tradePrice >= 1){
-        		drawer.switchTextButton(priceMinus1, true, Color.WHITE);
+        		drawer.toggleButton(priceMinus1, true, Color.WHITE);
         	}
         	
         	if (engine.currentPlayer().getOreCount() > oreTradeAmount){
-        		drawer.switchTextButton(playerBuyOre, true, Color.WHITE);
+        		drawer.toggleButton(playerBuyOre, true, Color.WHITE);
         	}
         	if (engine.currentPlayer().getEnergyCount() > energyTradeAmount){
-        		drawer.switchTextButton(playerBuyEnergy, true, Color.WHITE);
+        		drawer.toggleButton(playerBuyEnergy, true, Color.WHITE);
         	}
         	if (engine.currentPlayer().getFoodCount() > foodTradeAmount){
-        		drawer.switchTextButton(playerBuyFood, true, Color.WHITE);
+        		drawer.toggleButton(playerBuyFood, true, Color.WHITE);
         	}
         	if(otherPlayer.size - 1 > playerListPosition){
-        		drawer.switchTextButton(nextPlayerButton, true, Color.WHITE);
+        		drawer.toggleButton(nextPlayerButton, true, Color.WHITE);
         	}
         	if(playerListPosition > 0){
-        		drawer.switchTextButton(prevPlayerButton, true, Color.WHITE);
+        		drawer.toggleButton(prevPlayerButton, true, Color.WHITE);
         	}
-        	if (oreTradeAmount > 0)  drawer.switchTextButton(playerSellOre, true, Color.WHITE);
-        	if (energyTradeAmount > 0)  drawer.switchTextButton(playerSellEnergy, true, Color.WHITE);
-        	if (foodTradeAmount > 0)  drawer.switchTextButton(playerSellFood, true, Color.WHITE);
+        	if (oreTradeAmount > 0)  drawer.toggleButton(playerSellOre, true, Color.WHITE);
+        	if (energyTradeAmount > 0)  drawer.toggleButton(playerSellEnergy, true, Color.WHITE);
+        	if (foodTradeAmount > 0)  drawer.toggleButton(playerSellFood, true, Color.WHITE);
         	if (oreTradeAmount > 0 ||energyTradeAmount > 0 || foodTradeAmount > 0 || tradePrice > 0) 
-        		drawer.switchTextButton(confirmSale, true, Color.GREEN);
+        		drawer.toggleButton(confirmSale, true, Color.GREEN);
         	
     	}
     }
