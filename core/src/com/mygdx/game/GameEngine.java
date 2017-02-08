@@ -160,7 +160,7 @@ public class GameEngine {
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
-        Player goodrickePlayer = new AiPlayer(1);
+        Player goodrickePlayer = new Player(1);
         Player derwentPlayer = new AiPlayer(2);
         players[0] = goodrickePlayer;
         players[1] = derwentPlayer;
