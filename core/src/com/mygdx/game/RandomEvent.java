@@ -9,13 +9,17 @@ import java.util.Random;
  */
 public abstract class RandomEvent {
 
+    // Fields shared by all random events
     protected Random randomiser;
+    protected int duration;
 
     public RandomEvent() {
         this.randomiser = new Random();
     }
 
     public abstract void eventEffect();
+
+    public abstract void reverseEffect();
 
     public abstract String eventMessage();
 

@@ -18,6 +18,7 @@ public class Earthquake extends RandomEvent {
         super();
         this.tilesDamaged = chooseAffectedTiles(randomiser);
         this.tileDamageValue = randomiser.nextInt(5);
+        this.duration = 3;
     }
 
     public void eventEffect() {
@@ -28,6 +29,16 @@ public class Earthquake extends RandomEvent {
 
             this.tilesDamaged.get(tile).changeOreCount(tileOreCount / this.tileDamageValue);
             this.tilesDamaged.get(tile).changeEnergyCount(tileEnergyCount / this.tileDamageValue);
+        }
+    }
+
+    public void reverseEffect() {
+        for (int tile = 0; tile < this.tilesDamaged.size(); tile++) {
+            int tileOreCount = this.tilesDamaged.get(tile).getOreCount();
+            int tileEnergyCount = this.tilesDamaged.get(tile).getEnergyCount();
+
+            this.tilesDamaged.get(tile).changeOreCount(tileOreCount * this.tileDamageValue);
+            this.tilesDamaged.get(tile).changeEnergyCount(tileEnergyCount * this.tileDamageValue);
         }
     }
 
@@ -56,7 +67,6 @@ public class Earthquake extends RandomEvent {
         }
 
         return tilesAffected;
-
     }
 
 

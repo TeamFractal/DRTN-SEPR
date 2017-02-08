@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,6 +91,8 @@ public class GameEngine {
      *
      */
     private Integer roboticonIDCounter = 0;
+
+    private ArrayList<RandomEvent> randomEvents = new ArrayList<RandomEvent>();
 
     /**
      * Constructs the game's engine. Imports the game's state (for direct renderer access) and the data held by the
