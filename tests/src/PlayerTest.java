@@ -47,7 +47,7 @@ public class PlayerTest extends TesterFile {
         Integer ore = TestPlayer.getOreCount();
         Integer food = TestPlayer.getFoodCount();
         Integer energy = TestPlayer.getEnergyCount();
-        Integer money = TestPlayer.getMoney();
+        int money = TestPlayer.getMoney();
         for (Integer i = 1; i < 200; i++){
             ore += i;
             food += i;
