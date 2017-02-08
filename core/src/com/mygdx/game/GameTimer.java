@@ -197,6 +197,9 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
      * @param seconds The number of seconds to which the timer should be clocked
      */
     public void setTime(int minutes, int seconds) {
+        if (seconds < 0) seconds = 0;
+        if (minutes < 0) minutes = 0;
+
         this.minutes = minutes + (seconds / 60);
         this.seconds = seconds % 60;
         this.setText(String.format("%02d:%02d", this.minutes, this.seconds));

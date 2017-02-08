@@ -541,7 +541,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         oreCounter.setAlignment(Align.right);
         roboticonCounter = new Label(engine.currentPlayer().getRoboticonInventory().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         roboticonCounter.setAlignment(Align.right);
-        moneyCounter = new Label(engine.currentPlayer().getMoney().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        moneyCounter = new Label("" + engine.currentPlayer().getMoney(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         moneyCounter.setAlignment(Align.right);
         
         drawer.addTableRow(resourceCounters, new LabelledElement("Food", gameFont, Color.WHITE, foodCounter, 100, 40));
