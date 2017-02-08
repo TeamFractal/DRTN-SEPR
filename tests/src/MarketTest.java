@@ -50,7 +50,7 @@ public class MarketTest extends TesterFile{
 
         Integer TestEnergyCount = 20;
         assertEquals(TestEnergyCount, TestPlayer.getEnergyCount());
-        Integer TestMoney = 0;
+        int TestMoney = 0;
         assertEquals(TestMoney, TestPlayer.getMoney());
         Integer TestSellPrice = 200;
         assertEquals(TestSellPrice, TestMarket.getEnergySellPrice());
@@ -151,7 +151,7 @@ public class MarketTest extends TesterFile{
 
         Integer TestEnergyCount = 10;
         assertEquals(TestEnergyCount, TestPlayer.getEnergyCount());
-        Integer TestMoney = 100;
+        int TestMoney = 100;
         assertEquals(TestMoney, TestPlayer.getMoney());
         Integer TestSellPrice = 10;
         assertEquals(TestSellPrice, TestMarket.getEnergySellPrice());
