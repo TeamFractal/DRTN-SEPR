@@ -43,59 +43,59 @@ public class Market extends Table {
     private TTFont tableFont;
 
     /**
-     * Variable holding current Ore resource amount as an Integer, initialises at 0 as stated in the brief.
+     * Variable holding current Ore resource amount as an int, initialises at 0 as stated in the brief.
      */
-    private Integer OreStock = 0;
+    private int OreStock = 0;
     
     /**
-     * Variable holding current Food resource amount as an Integer, initialises at 16 as stated in the brief.
+     * Variable holding current Food resource amount as an int, initialises at 16 as stated in the brief.
      */
-    private Integer FoodStock = 16;
+    private int FoodStock = 16;
 
     /**
-     * Variable holding current Energy resource amount as an Integer, initialises at 16 as stated in the brief.
+     * Variable holding current Energy resource amount as an int, initialises at 16 as stated in the brief.
      */
-    private Integer EnergyStock = 16;
+    private int EnergyStock = 16;
 
     /**
-     * Variable holding current amount of Roboticons as an Integer, initialises at 12 as stated in the brief.
+     * Variable holding current amount of Roboticons as an int, initialises at 12 as stated in the brief.
      */
-    private Integer RoboticonStock = 12;
+    private int RoboticonStock = 12;
 
     /**
      * Variable holding ore resource selling price.
      */
-    private Integer OreSellPrice = 14;
+    private int OreSellPrice = 14;
 
     /**
      * Variable holding food resource selling price.
      */
-    private Integer FoodSellPrice = 14;
+    private int FoodSellPrice = 14;
 
     /**
      * Variable holding energy resource selling price.
      */
-    private Integer EnergySellPrice = 14;
+    private int EnergySellPrice = 14;
 
     /**
      * Variable holding ore resource buying price.
      */
-    private Integer OreBuyPrice = 15;
+    private int OreBuyPrice = 15;
 
     /**
      * Variable holding food resource buying price.
      */
-    private Integer FoodBuyPrice = 15;
+    private int FoodBuyPrice = 15;
 
     /**
      * Variable holding energy resource buying price.
      */
-    private Integer EnergyBuyPrice = 15;
+    private int EnergyBuyPrice = 15;
 
     /**
      * Variable holding roboticon buying price.
      */
-    private Integer RoboticonBuyPrice = 20;
+    private int RoboticonBuyPrice = 20;
 
     /**
      * Button in the market's interface that buys ore
@@ -244,7 +244,7 @@ public class Market extends Table {
         /**
          * Button that attempts to buy a Roboticon for the current player when clicked on
          */
-        buyRoboticon = new TextButton("-" + getRoboticonBuyPrice().toString(), tableButtonStyle);
+        buyRoboticon = new TextButton("-" + getRoboticonBuyPrice(), tableButtonStyle);
         marketButtonArray.add(buyRoboticon);
         buyRoboticon.addListener(new ChangeListener() {
             @Override
@@ -263,7 +263,7 @@ public class Market extends Table {
         /**
          * Button that attempts to buy a unit of ore for the current player when clicked on
          */
-        buyOre = new TextButton("-" + getOreBuyPrice().toString(), tableButtonStyle);
+        buyOre = new TextButton("-" + getOreBuyPrice(), tableButtonStyle);
         marketButtonArray.add(buyOre);
         buyOre.addListener(new ChangeListener() {
             @Override
@@ -281,7 +281,7 @@ public class Market extends Table {
         /**
          * Button that attempts to buy a unit of food for the current player when clicked on
          */
-        buyFood = new TextButton("-" + getFoodBuyPrice().toString(), tableButtonStyle);
+        buyFood = new TextButton("-" + getFoodBuyPrice(), tableButtonStyle);
         marketButtonArray.add(buyFood);
         buyFood.addListener(new ChangeListener() {
             @Override
@@ -299,7 +299,7 @@ public class Market extends Table {
         /**
          * Button that attempts to buy a unit of energy for the current player when clicked on
          */
-        buyEnergy = new TextButton("-" + getEnergyBuyPrice().toString(), tableButtonStyle);
+        buyEnergy = new TextButton("-" + getEnergyBuyPrice(), tableButtonStyle);
         marketButtonArray.add(buyEnergy);
         buyEnergy.addListener(new ChangeListener() {
             @Override
@@ -318,7 +318,7 @@ public class Market extends Table {
          * Button that attempts to take a unit of energy from the player's inventory and sell it back to the market
          * when clicked on
          */
-        sellEnergy = new TextButton("+" + getEnergySellPrice().toString(), tableButtonStyle);
+        sellEnergy = new TextButton("+" + getEnergySellPrice(), tableButtonStyle);
         marketButtonArray.add(sellEnergy);
         sellEnergy.addListener(new ChangeListener() {
             @Override
@@ -338,7 +338,7 @@ public class Market extends Table {
          * Button that attempts to take a unit of ore from the player's inventory and sell it back to the market
          * when clicked on
          */
-        sellOre = new TextButton("+" + getOreSellPrice().toString(), tableButtonStyle);
+        sellOre = new TextButton("+" + getOreSellPrice(), tableButtonStyle);
         marketButtonArray.add(sellOre);
         sellOre.addListener(new ChangeListener() {
             @Override
@@ -357,7 +357,7 @@ public class Market extends Table {
          * Button that attempts to take a unit of food from the player's inventory and sell it back to the market
          * when clicked on
          */
-        sellFood = new TextButton("+" + getFoodSellPrice().toString(), tableButtonStyle);
+        sellFood = new TextButton("+" + getFoodSellPrice(), tableButtonStyle);
         marketButtonArray.add(sellFood);
         sellFood.addListener(new ChangeListener() {
             @Override
@@ -425,10 +425,10 @@ public class Market extends Table {
         //Add button for buying Roboticons to the market's visual framework
         //Note that the string encoded by this TextButton represents the market's current buying price for Roboticons
 
-        oreStockLabel = new Label(getOreStock().toString(), new Label.LabelStyle(tableFont.font(), Color.WHITE));
-        foodStockLabel = new Label(getFoodStock().toString(), new Label.LabelStyle(tableFont.font(), Color.WHITE));
-        energyStockLabel = new Label(getEnergyStock().toString(), new Label.LabelStyle(tableFont.font(), Color.WHITE));
-        roboticonStockLabel = new Label(getRoboticonStock().toString(), new Label.LabelStyle(tableFont.font(), Color.WHITE));
+        oreStockLabel = new Label("" + getOreStock(), new Label.LabelStyle(tableFont.font(), Color.WHITE));
+        foodStockLabel = new Label("" + getFoodStock(), new Label.LabelStyle(tableFont.font(), Color.WHITE));
+        energyStockLabel = new Label("" + getEnergyStock(), new Label.LabelStyle(tableFont.font(), Color.WHITE));
+        roboticonStockLabel = new Label("" + getRoboticonStock(), new Label.LabelStyle(tableFont.font(), Color.WHITE));
         //Prepare new labels to encode resources' stock levels within the market
         //These will NOT be interactive, unlike the buttons declared earlier on
 
@@ -462,9 +462,9 @@ public class Market extends Table {
      * Returns the number of Roboticons currently held in the market
      *
      *
-     * @return Integer The number of Roboticons currently held in the market
+     * @return int The number of Roboticons currently held in the market
      */
-    public Integer getRoboticonStock() {
+    public int getRoboticonStock() {
         return this.RoboticonStock;
     }
 
@@ -474,9 +474,9 @@ public class Market extends Table {
      *
      * @param NewRoboticonStock The new number of Roboticons to be held in the market
      */
-    public void setRoboticonStock (Integer NewRoboticonStock) {
+    public void setRoboticonStock (int NewRoboticonStock) {
         this.RoboticonStock = NewRoboticonStock;
-        roboticonStockLabel.setText(getRoboticonStock().toString());
+        roboticonStockLabel.setText("" + getRoboticonStock());
     }
 
     /**
@@ -484,7 +484,7 @@ public class Market extends Table {
      *
      * @return this.RoboticonBuyPrice is integer roboticon buy price value
      */
-    public Integer getRoboticonBuyPrice(){
+    public int getRoboticonBuyPrice(){
         return this.RoboticonBuyPrice;
     }
 
@@ -493,9 +493,9 @@ public class Market extends Table {
      *
      * @param NewRoboticonBuyPrice integer value that RoboticonBuyPrice is assigned to.
      */
-    public void setRoboticonBuyPrice(Integer NewRoboticonBuyPrice){
+    public void setRoboticonBuyPrice(int NewRoboticonBuyPrice){
         this.RoboticonBuyPrice = NewRoboticonBuyPrice;
-        buyRoboticon.setText(getRoboticonBuyPrice().toString());
+        buyRoboticon.setText("" + getRoboticonBuyPrice());
     }
 
     /**
@@ -503,7 +503,7 @@ public class Market extends Table {
      *
      * @return this.OresStock is  integer ore stock value of a Market.
      */
-    public Integer getOreStock() {
+    public int getOreStock() {
         return this.OreStock;
     }
 
@@ -512,7 +512,7 @@ public class Market extends Table {
      *
      * @param NewOreStock integer value that OreStock is assigned to.
      */
-    public void setOreStock(Integer NewOreStock) {
+    public void setOreStock(int NewOreStock) {
         this.OreStock = NewOreStock;
     }
 
@@ -521,7 +521,7 @@ public class Market extends Table {
      *
      * @return this.OreSellPrice returns ore selling price value as an integer.
      */
-    public Integer getOreSellPrice() {
+    public int getOreSellPrice() {
         return this.OreSellPrice;
     }
 
@@ -530,9 +530,9 @@ public class Market extends Table {
      *
      * @param NewOreSellPrice integer value that OreSellPrice is set to.
      */
-    public void setOreSellPrice(Integer NewOreSellPrice) {
+    public void setOreSellPrice(int NewOreSellPrice) {
         this.OreSellPrice = NewOreSellPrice;
-        sellOre.setText(getOreSellPrice().toString());
+        sellOre.setText("" + getOreSellPrice());
     }
 
     /**
@@ -540,7 +540,7 @@ public class Market extends Table {
      *
      * @return this.OreBuyPrice returns ore buying price as an integer.
      */
-    public Integer getOreBuyPrice() {
+    public int getOreBuyPrice() {
         return this.OreBuyPrice;
     }
 
@@ -549,9 +549,9 @@ public class Market extends Table {
      *
      * @param NewOreBuyPrice integer value that OreBuyPrice is set to.
      */
-    public void setOreBuyPrice(Integer NewOreBuyPrice) {
+    public void setOreBuyPrice(int NewOreBuyPrice) {
         this.OreBuyPrice = NewOreBuyPrice;
-        buyOre.setText(getOreBuyPrice().toString());
+        buyOre.setText("" + getOreBuyPrice());
     }
 
     /**
@@ -559,7 +559,7 @@ public class Market extends Table {
      *
      * @return this.FoodStock is  integer food stock value of a Market.
      */
-    public Integer getFoodStock() {
+    public int getFoodStock() {
         return this.FoodStock;
     }
 
@@ -568,7 +568,7 @@ public class Market extends Table {
      *
      * @param NewFoodStock integer value that FoodStock is assigned to.
      */
-    public void setFoodStock(Integer NewFoodStock) {
+    public void setFoodStock(int NewFoodStock) {
         this.FoodStock = NewFoodStock;
     }
 
@@ -577,7 +577,7 @@ public class Market extends Table {
      *
      * @return this.FoodSellPrice returns food selling price value as an integer.
      */
-    public Integer getFoodSellPrice() {
+    public int getFoodSellPrice() {
         return this.FoodSellPrice;
     }
 
@@ -586,9 +586,9 @@ public class Market extends Table {
      *
      * @param NewFoodSellPrice integer value that FoodSellPrice is set to.
      */
-    public void setFoodSellPrice(Integer NewFoodSellPrice) {
+    public void setFoodSellPrice(int NewFoodSellPrice) {
         this.FoodSellPrice = NewFoodSellPrice;
-        sellFood.setText(getFoodSellPrice().toString());
+        sellFood.setText("" + getFoodSellPrice());
     }
 
     /**
@@ -596,7 +596,7 @@ public class Market extends Table {
      *
      * @return this.FoodBuyPrice returns food buying price as an integer.
      */
-    public Integer getFoodBuyPrice() {
+    public int getFoodBuyPrice() {
         return this.FoodBuyPrice;
     }
 
@@ -605,9 +605,9 @@ public class Market extends Table {
      *
      * @param NewFoodBuyPrice integer value that FoodBuyPrice is set to.
      */
-    public void setFoodBuyPrice(Integer NewFoodBuyPrice) {
+    public void setFoodBuyPrice(int NewFoodBuyPrice) {
         this.FoodBuyPrice = NewFoodBuyPrice;
-        buyFood.setText(getFoodBuyPrice().toString());
+        buyFood.setText("" + getFoodBuyPrice());
     }
 
     /**
@@ -615,7 +615,7 @@ public class Market extends Table {
      *
      * @return this.EnergyStock is  integer energy stock value of a Market.
      */
-    public Integer getEnergyStock() {
+    public int getEnergyStock() {
         return this.EnergyStock;
     }
 
@@ -624,7 +624,7 @@ public class Market extends Table {
      *
      * @param NewEnergyStock integer value that EnergyStock is assigned to.
      */
-    public void setEnergyStock(Integer NewEnergyStock) {
+    public void setEnergyStock(int NewEnergyStock) {
         this.EnergyStock = NewEnergyStock;
     }
 
@@ -633,7 +633,7 @@ public class Market extends Table {
      *
      * @return this.EnergySellPrice returns energy selling price value as an integer.
      */
-    public Integer getEnergySellPrice() {
+    public int getEnergySellPrice() {
         return this.EnergySellPrice;
     }
 
@@ -642,9 +642,9 @@ public class Market extends Table {
      *
      * @param NewEnergySellPrice integer value that EnergySellPrice is set to.
      */
-    public void setEnergySellPrice(Integer NewEnergySellPrice) {
+    public void setEnergySellPrice(int NewEnergySellPrice) {
         this.EnergySellPrice = NewEnergySellPrice;
-        sellEnergy.setText(getEnergySellPrice().toString());
+        sellEnergy.setText("" + getEnergySellPrice());
     }
 
     /**
@@ -652,7 +652,7 @@ public class Market extends Table {
      *
      * @return this.EnergyBuyPrice returns energy buying price as an integer.
      */
-    public Integer getEnergyBuyPrice() {
+    public int getEnergyBuyPrice() {
         return this.EnergyBuyPrice;
     }
 
@@ -661,9 +661,9 @@ public class Market extends Table {
      *
      * @param NewEnergyBuyPrice integer value that EnergyBuyPrice is set to.
      */
-    public void setEnergyBuyPrice(Integer NewEnergyBuyPrice) {
+    public void setEnergyBuyPrice(int NewEnergyBuyPrice) {
         this.EnergyBuyPrice = NewEnergyBuyPrice;
-        buyEnergy.setText(getEnergyBuyPrice().toString());
+        buyEnergy.setText("" + getEnergyBuyPrice());
     }
 
 
@@ -681,7 +681,7 @@ public class Market extends Table {
      * @param Quantity   The amount of resources that Player wants to buy.
      * @param Player     A Player object.
      */
-    public Player buy(String Stock_Type, Integer Quantity, Player Player) throws Exception {
+    public Player buy(String Stock_Type, int Quantity, Player Player) throws Exception {
         if ("ore".equals(Stock_Type)) {
             if (Quantity <= OreStock) {
                 int OrePrice = OreBuyPrice * Quantity;
@@ -693,8 +693,8 @@ public class Market extends Table {
                     Player.setOreCount(playersOre);
                     OreBuyPrice = calculateNewCost(OreStock, "buy");
                     OreSellPrice = calculateNewCost(OreStock, "sell");
-                    oreStockLabel.setText(getOreStock().toString());
-                    buyOre.setText("-" + getOreBuyPrice().toString());
+                    oreStockLabel.setText("" + getOreStock());
+                    buyOre.setText("-" + getOreBuyPrice());
                 } else {
                     throw new Exception("Insufficient money");
                 }
@@ -712,8 +712,8 @@ public class Market extends Table {
                     Player.setFoodCount(playersFood);
                     FoodBuyPrice = calculateNewCost(FoodStock, "buy");
                     FoodSellPrice = calculateNewCost(FoodStock, "sell");
-                    foodStockLabel.setText(getFoodStock().toString());
-                    buyFood.setText("-" + getFoodBuyPrice().toString());
+                    foodStockLabel.setText("" + getFoodStock());
+                    buyFood.setText("-" + getFoodBuyPrice());
                 } else {
                     throw new Exception("Insufficient money");
                 }
@@ -732,8 +732,8 @@ public class Market extends Table {
                     Player.setEnergyCount(playersEnergy);
                     EnergyBuyPrice = calculateNewCost(EnergyStock, "buy");
                     EnergySellPrice = calculateNewCost(EnergyStock, "sell");
-                    energyStockLabel.setText(getEnergyStock().toString());
-                    buyEnergy.setText("-" + getEnergyBuyPrice().toString());
+                    energyStockLabel.setText("" + getEnergyStock());
+                    buyEnergy.setText("-" + getEnergyBuyPrice());
                 } else {
                     throw new Exception("Insufficient money");
                 }
@@ -748,8 +748,8 @@ public class Market extends Table {
                     RoboticonBuyPrice += 5;
                     Player.increaseRoboticonInventory();
 
-                    roboticonStockLabel.setText(this.getRoboticonStock().toString());
-                    buyRoboticon.setText("-" + getRoboticonBuyPrice().toString());
+                    roboticonStockLabel.setText("" + this.getRoboticonStock());
+                    buyRoboticon.setText("-" + getRoboticonBuyPrice());
                 } else {
                     throw new Exception("Insufficient money");
                 }
@@ -793,8 +793,8 @@ public class Market extends Table {
 
                 OreBuyPrice = calculateNewCost(OreStock, "buy");
                 OreSellPrice = calculateNewCost(OreStock, "sell");
-                oreStockLabel.setText(getOreStock().toString());
-                sellOre.setText("+" + getOreSellPrice().toString());
+                oreStockLabel.setText("" + getOreStock());
+                sellOre.setText("+" + getOreSellPrice());
             } else {
                 throw new Exception("Insufficient resources");
 
@@ -810,8 +810,8 @@ public class Market extends Table {
                 Player.setFoodCount(playersFood);
                 FoodBuyPrice = calculateNewCost(FoodStock, "buy");
                 FoodSellPrice = calculateNewCost(FoodStock, "sell");
-                foodStockLabel.setText(getFoodStock().toString());
-                sellFood.setText("+" + getFoodSellPrice().toString());
+                foodStockLabel.setText("" + getFoodStock());
+                sellFood.setText("+" + getFoodSellPrice());
             } else {
                 throw new Exception("Insufficient resources");
             }
@@ -825,8 +825,8 @@ public class Market extends Table {
                 Player.setEnergyCount(playersEnergy);
                 EnergyBuyPrice = calculateNewCost(EnergyStock, "buy");
                 EnergySellPrice = calculateNewCost(EnergyStock, "sell");
-                energyStockLabel.setText(getEnergyStock().toString());
-                sellEnergy.setText("+" + getEnergySellPrice().toString());
+                energyStockLabel.setText("" + getEnergyStock());
+                sellEnergy.setText("+" + getEnergySellPrice());
             } else {
                 throw new Exception("Insufficient resources");
             }
@@ -850,7 +850,7 @@ public class Market extends Table {
      * @return Returns True if Player has won, False if he lost and null if Player has less money than
      * chosen amount of money to gamble with.
      */
-    public Boolean gamble(Integer amountToGamble, Player Player) {
+    public Boolean gamble(int amountToGamble, Player Player) {
         int playersMoney = Player.getMoney();
         if (amountToGamble <= playersMoney) {
             Random rand = new Random();
@@ -881,15 +881,15 @@ public class Market extends Table {
      * price is calculated.
      * </p>
      *
-     * @param Stock Integer values of market resources.
+     * @param Stock int values of market resources.
      * @param oper  String value representing operations "buy" and "sell".
      *
-     * @return costofresources Integer value of the resource's new cost
+     * @return costofresources int value of the resource's new cost
      * @throws Exception Thrown if there's a wrong operator used with the function
      */
     private int calculateNewCost(int Stock, String oper) throws Exception {
         double cost;
-        Integer costOfResources;
+        int costOfResources;
         if (Stock == 0 && oper.equals("buy")) {
             costOfResources = 0;
         } else if (Stock == 0 && oper.equals("sell")) {

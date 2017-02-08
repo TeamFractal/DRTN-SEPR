@@ -249,6 +249,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         //drawer.debug(gameStage);
         //Call this to draw temporary debug lines around all of the actors on the stage
+
+        System.out.println("GameScreen.show");
+        engine.nextPhase();
     }
 
     /**
@@ -533,13 +536,13 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
 
         Table resourceCounters = new Table();
-        foodCounter = new Label(engine.currentPlayer().getFoodCount().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        foodCounter = new Label("" + engine.currentPlayer().getFoodCount(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         foodCounter.setAlignment(Align.right);
-        energyCounter = new Label(engine.currentPlayer().getEnergyCount().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        energyCounter = new Label("" + engine.currentPlayer().getEnergyCount(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         energyCounter.setAlignment(Align.right);
-        oreCounter = new Label(engine.currentPlayer().getOreCount().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        oreCounter = new Label("" + engine.currentPlayer().getOreCount(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         oreCounter.setAlignment(Align.right);
-        roboticonCounter = new Label(engine.currentPlayer().getRoboticonInventory().toString(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
+        roboticonCounter = new Label("" + engine.currentPlayer().getRoboticonInventory(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         roboticonCounter.setAlignment(Align.right);
         moneyCounter = new Label("" + engine.currentPlayer().getMoney(), new Label.LabelStyle(gameFont.font(), Color.WHITE));
         moneyCounter.setAlignment(Align.right);

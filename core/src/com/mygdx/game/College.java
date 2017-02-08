@@ -151,7 +151,7 @@ public class College {
   /**
    * Returns the college's associated ID
    *
-   * @return Integer The college's associated ID
+   * @return int The college's associated ID
    */
   public int getID() {
     return this.ID;

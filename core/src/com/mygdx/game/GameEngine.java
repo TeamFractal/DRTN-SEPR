@@ -94,7 +94,7 @@ public class GameEngine {
      * An integer signifying the ID of the next roboticon to be created
      *
      */
-    private Integer roboticonIDCounter = 0;
+    private int roboticonIDCounter = 0;
 
     /**
      * Constructs the game's engine. Imports the game's state (for direct renderer access) and the data held by the
@@ -121,11 +121,9 @@ public class GameEngine {
         //Import QOL drawing function
 
         players = new Player[2];
-        currentPlayerID = 0;
         //Set up objects to hold player-data
         //Start the game such that player 1 makes the first move
 
-        phase = 1;
         //Start the game in the first phase (of 5, which recur until all tiles are claimed)
 
         timer = new GameTimer(0, new TTFont(Gdx.files.internal("font/testfontbignoodle.ttf"), 120), Color.WHITE, new Runnable() {
@@ -162,7 +160,7 @@ public class GameEngine {
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
-        Player goodrickePlayer = new Player(1);
+        Player goodrickePlayer = new AiPlayer(1);
         Player derwentPlayer = new AiPlayer(2);
         players[0] = goodrickePlayer;
         players[1] = derwentPlayer;
@@ -173,6 +171,9 @@ public class GameEngine {
         Goodricke.assignPlayer(goodrickePlayer);
         Derwent.assignPlayer(derwentPlayer);
         //Temporary assignment of player-data for testing purposes
+
+        phase = 0;
+        currentPlayerID = players.length - 1;
     }
 
     public void selectTile(Tile tile) {
@@ -225,6 +226,7 @@ public class GameEngine {
         }
 
         if(checkGameEnd()){
+            System.out.println("Someone win");
             gameScreen.showPlayerWin(getWinner());
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
@@ -406,7 +408,7 @@ public class GameEngine {
     /**
      * Return's the game's phase as a number between (or possibly one of) 1 and 5
      *
-     * @return Integer The game's current phase
+     * @return int The game's current phase
      */
     public int phase() {
         return phase;
@@ -430,7 +432,7 @@ public class GameEngine {
     /**
      * Returns the ID of the player who is active at the time when this is called
      *
-     * @return Integer The current player's ID
+     * @return int The current player's ID
      */
     public int currentPlayerID() {
         return currentPlayerID;
@@ -479,7 +481,7 @@ public class GameEngine {
      */
     private boolean checkGameEnd(){
         for(Tile tile : tiles){
-            if (tile.getOwner() != null){
+            if (tile.getOwner() == null){
                 return false;
             }
         }

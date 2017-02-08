@@ -62,7 +62,7 @@ public class RoboticonTest extends TesterFile {
      */
     @Test
     public void testproductionModifier() {
-        Integer[] Modifiers;
+        int[] Modifiers;
         for (int j = 0; j < 100; j++) {
             Modifiers = TestRobot.productionModifier();
             for (int i = 0; i < 3; i++) {

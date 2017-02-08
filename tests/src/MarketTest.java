@@ -48,15 +48,15 @@ public class MarketTest extends TesterFile{
             fail("Expected to pass");
         }
 
-        Integer TestEnergyCount = 20;
+        int TestEnergyCount = 20;
         assertEquals(TestEnergyCount, TestPlayer.getEnergyCount());
         int TestMoney = 0;
         assertEquals(TestMoney, TestPlayer.getMoney());
-        Integer TestSellPrice = 200;
+        int TestSellPrice = 200;
         assertEquals(TestSellPrice, TestMarket.getEnergySellPrice());
-        Integer TestBuyPrice = 0;
+        int TestBuyPrice = 0;
         assertEquals(TestBuyPrice, TestMarket.getEnergyBuyPrice());
-        Integer TestFoodStock = 0;
+        int TestFoodStock = 0;
         assertEquals(TestFoodStock, TestMarket.getEnergyStock());
 
         //Ore
@@ -72,7 +72,7 @@ public class MarketTest extends TesterFile{
             fail("Expected to pass");
         }
 
-        Integer TestOreCount = 20;
+        int TestOreCount = 20;
         assertEquals(TestOreCount, TestPlayer.getOreCount());
         TestMoney = 0;
         assertEquals(TestMoney, TestPlayer.getMoney());
@@ -80,7 +80,7 @@ public class MarketTest extends TesterFile{
         assertEquals(TestSellPrice, TestMarket.getOreSellPrice());
         TestBuyPrice = 0;
         assertEquals(TestBuyPrice, TestMarket.getOreBuyPrice());
-        Integer TestOreStock = 0;
+        int TestOreStock = 0;
         assertEquals(TestOreStock, TestMarket.getOreStock());
 
         //Food
@@ -96,7 +96,7 @@ public class MarketTest extends TesterFile{
             fail("Expected to pass");
         }
 
-        Integer TestFoodCount = 20;
+        int TestFoodCount = 20;
         assertEquals(TestFoodCount, TestPlayer.getFoodCount());
         TestMoney = 0;
         assertEquals(TestMoney, TestPlayer.getMoney());
@@ -149,15 +149,15 @@ public class MarketTest extends TesterFile{
             assertEquals(e.getMessage(), "Insufficient money");
         }
 
-        Integer TestEnergyCount = 10;
+        int TestEnergyCount = 10;
         assertEquals(TestEnergyCount, TestPlayer.getEnergyCount());
         int TestMoney = 100;
         assertEquals(TestMoney, TestPlayer.getMoney());
-        Integer TestSellPrice = 10;
+        int TestSellPrice = 10;
         assertEquals(TestSellPrice, TestMarket.getEnergySellPrice());
-        Integer TestBuyPrice = 10;
+        int TestBuyPrice = 10;
         assertEquals(TestBuyPrice, TestMarket.getEnergyBuyPrice());
-        Integer TestEnergyStock = 100;
+        int TestEnergyStock = 100;
         assertEquals(TestEnergyStock, TestMarket.getEnergyStock());
 
         //Ore
@@ -174,7 +174,7 @@ public class MarketTest extends TesterFile{
             assertEquals(e.getMessage(), "Insufficient money");
         }
 
-        Integer TestOreCount = 10;
+        int TestOreCount = 10;
         assertEquals(TestOreCount, TestPlayer.getOreCount());
         TestMoney = 100;
         assertEquals(TestMoney, TestPlayer.getMoney());
@@ -182,7 +182,7 @@ public class MarketTest extends TesterFile{
         assertEquals(TestSellPrice, TestMarket.getOreSellPrice());
         TestBuyPrice = 10;
         assertEquals(TestBuyPrice, TestMarket.getOreBuyPrice());
-        Integer TestOreStock = 100;
+        int TestOreStock = 100;
         assertEquals(TestOreStock, TestMarket.getOreStock());
 
         //Food
@@ -199,7 +199,7 @@ public class MarketTest extends TesterFile{
             assertEquals(e.getMessage(), "Insufficient money");
         }
 
-        Integer TestFoodCount = 10;
+        int TestFoodCount = 10;
         assertEquals(TestFoodCount, TestPlayer.getFoodCount());
         TestMoney = 100;
         assertEquals(TestMoney, TestPlayer.getMoney());
@@ -207,7 +207,7 @@ public class MarketTest extends TesterFile{
         assertEquals(TestSellPrice, TestMarket.getFoodSellPrice());
         TestBuyPrice = 10;
         assertEquals(TestBuyPrice, TestMarket.getFoodBuyPrice());
-        Integer TestFoodStock = 100;
+        int TestFoodStock = 100;
         assertEquals(TestFoodStock, TestMarket.getFoodStock());
 
         //Roboticon
@@ -365,8 +365,8 @@ public class MarketTest extends TesterFile{
         TestMarket.setEnergySellPrice(2);
         TestMarket.setEnergyBuyPrice(2);
         TestMarket.setEnergyStock(100);
-        Integer initialbuyprice = TestMarket.getEnergyBuyPrice();
-        Integer initialsellprice = TestMarket.getEnergySellPrice();
+        int initialbuyprice = TestMarket.getEnergyBuyPrice();
+        int initialsellprice = TestMarket.getEnergySellPrice();
 
         try {
             TestMarket.buy("energy", 10, TestPlayer);
