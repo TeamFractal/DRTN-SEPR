@@ -198,6 +198,16 @@ public class Market extends Table {
 	private int tradePrice;
 
 	private Label tradePriceLabel;
+
+	private TextButton nextPlayerButton;
+
+	private TextButton prevPlayerButton;
+
+	private Label playerLabel;
+
+	private Array<Player> otherPlayer;
+
+	private int playerListPosition;
 	
 	
 
@@ -540,7 +550,7 @@ public class Market extends Table {
         	@Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
         		Trade trade = new Trade(oreTradeAmount, energyTradeAmount, foodTradeAmount, 
-            			tradePrice,engine.currentPlayer(), engine.players()[3-engine.currentPlayerID()]);
+            			tradePrice,engine.currentPlayer(), otherPlayer.get(playerListPosition));
             	engine.currentPlayer().setTrade(trade);
             	engine.addTrade(trade);
             	oreTradeAmount = 0;
@@ -551,7 +561,29 @@ public class Market extends Table {
             	
         	}
         });
+
+        playerListPosition = 0; 
+        playerLabel = new Label("", new Label.LabelStyle(tableFont.font(), Color.WHITE));
+        nextPlayerButton = new TextButton(">", tableButtonStyle);
+        nextPlayerButton.addListener(new ChangeListener() {
+        	@Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            	playerListPosition += 1;
+            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerID());
+            	refreshAuction();
+        	}
+        });
+        prevPlayerButton = new TextButton("<", tableButtonStyle);
+        prevPlayerButton.addListener(new ChangeListener() {
+        	@Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            	playerListPosition -= 1;
+            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerID());
+            	refreshAuction();
+        	}
+        });
         refreshButtonAvailability();
+        refreshPlayers();
         //Ensure that these buttons are disabled at the beginning of the game
         
     }
@@ -696,7 +728,10 @@ public class Market extends Table {
         this.add(pricePlus100).left();
         this.add(priceMinus100).left();
         
-        
+        this.row();
+        this.add(prevPlayerButton);
+        this.add(playerLabel);
+        this.add(nextPlayerButton);
         this.row();
         this.add(confirmSale).left();
     }
@@ -1252,6 +1287,8 @@ public class Market extends Table {
     	drawer.switchTextButton(priceMinus10, false, Color.GRAY);
     	drawer.switchTextButton(priceMinus100, false, Color.GRAY);
     	drawer.switchTextButton(confirmSale, false, Color.GRAY);
+    	drawer.switchTextButton(nextPlayerButton, false, Color.GRAY);
+    	drawer.switchTextButton(prevPlayerButton, false, Color.GRAY);
     	tradePriceLabel.setText("" + tradePrice);
     	oreTradeLabel.setText("Ore:        " + oreTradeAmount);
     	foodTradeLabel.setText("Food:      " + foodTradeAmount);
@@ -1283,13 +1320,35 @@ public class Market extends Table {
         	if (engine.currentPlayer().getFoodCount() > foodTradeAmount){
         		drawer.switchTextButton(playerBuyFood, true, Color.WHITE);
         	}
+        	if(otherPlayer.size - 1 > playerListPosition){
+        		drawer.switchTextButton(nextPlayerButton, true, Color.WHITE);
+        	}
+        	if(playerListPosition > 0){
+        		drawer.switchTextButton(prevPlayerButton, true, Color.WHITE);
+        	}
         	if (oreTradeAmount > 0)  drawer.switchTextButton(playerSellOre, true, Color.WHITE);
         	if (energyTradeAmount > 0)  drawer.switchTextButton(playerSellEnergy, true, Color.WHITE);
         	if (foodTradeAmount > 0)  drawer.switchTextButton(playerSellFood, true, Color.WHITE);
         	if (oreTradeAmount > 0 ||energyTradeAmount > 0 || foodTradeAmount > 0 || tradePrice > 0) 
         		drawer.switchTextButton(confirmSale, true, Color.GREEN);
+        	
     	}
     }
+    
+    public void refreshPlayers(){
+    	otherPlayer = new Array<Player>();
+    	for (int i = 1; i < engine.players().length; i++){
+    		if (! (engine.players()[i] == engine.currentPlayer())){
+    			otherPlayer.add(engine.players()[i]);
+    			playerLabel.setText("Player " + otherPlayer.get(0).getPlayerID());
+    		}
+    	}
+    }
+
+	public void setPlayerListPosition(int i) {
+		playerListPosition = i;
+		
+	}
 }
 
 

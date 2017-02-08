@@ -201,6 +201,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
 	private TextButton closePriceOverlayButton;
 
+
     /**
      * The game-screen's initial constructor
      *
@@ -523,6 +524,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         		closeTooExpensiveOverlay();
         	}
         });
+        
+       
         	
     }
 

@@ -123,7 +123,7 @@ public class GameEngine {
         drawer = new Drawer(this.game);
         //Import QOL drawing function
 
-        players = new Player[3];
+        players = new Player[4];
         currentPlayerID = 1;
         //Set up objects to hold player-data
         //Start the game such that player 1 makes the first move
@@ -159,7 +159,7 @@ public class GameEngine {
         //Configure all 16 tiles with independent yields and landmark data
         //Also assign listeners to them so that they can detect mouse clicks
 
-        market = new Market(game, this);
+        
         //Instantiates the game's market and hands it direct renderer access
 
         state = State.RUN;
@@ -167,15 +167,21 @@ public class GameEngine {
 
         Player goodrickePlayer = new Player(1);
         Player derwentPlayer = new Player(2);
+        Player langwithPlayer = new Player(3);
         players[1] = goodrickePlayer;
         players[2] = derwentPlayer;
+        players[3] = langwithPlayer;
         College Goodricke = new College(1, "Goodricke");
         College Derwent = new College(2, "Derwent");
+        College Langwith = new College(2, "Langwith");
         goodrickePlayer.assignCollege(Goodricke);
         derwentPlayer.assignCollege(Derwent);
+        langwithPlayer.assignCollege(Langwith);
         Goodricke.assignPlayer(goodrickePlayer);
         Derwent.assignPlayer(derwentPlayer);
+        Langwith.assignPlayer(langwithPlayer);
         this.trades = new Array<Trade>();
+        market = new Market(game, this);
         //Temporary assignment of player-data for testing purposes
     }
 
@@ -328,6 +334,8 @@ public class GameEngine {
         //Each player should own 8 tiles when this block is executed
        
         gameScreen.updatePhaseLabel();
+        market.refreshPlayers();
+        market.setPlayerListPosition(0);
         market.refreshAuction();
 
         gameScreen.closeUpgradeOverlay();
