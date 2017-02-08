@@ -43,7 +43,7 @@ public class MainMenu implements Screen {
     /**
      * Array of all menu buttons
      */
-    private TextButton[] buttons = new TextButton[3];
+    private TextButton[] buttons = new TextButton[5];
 
     /**
      * Establishes the font which is used to encode the menu's options
@@ -75,6 +75,7 @@ public class MainMenu implements Screen {
      * The object which will encode the menu's background
      */
     private Sprite background;
+
 
     /**
      * The menu-screen's initial constructor
@@ -134,10 +135,25 @@ public class MainMenu implements Screen {
                 game.setScreen(new GameScreen(game));
             }
         });
+        buttons[3] = new TextButton("Player vs Player", menuButtonStyle);
+        buttons[3].addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new GameScreen(game, true));
+            }
+        });
+        buttons[4] = new TextButton("Player vs AI", menuButtonStyle);
+        buttons[4].addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new GameScreen(game, false));
+            }
+        });
+
+
         buttons[1] = new TextButton("How to Play", menuButtonStyle);
         buttons[2] = new TextButton("Leaderboard", menuButtonStyle);
 
         //hideing the how to play and leaderboard button.
+        buttons[0].setVisible(false);
         buttons[1].setVisible(false);
         buttons[2].setVisible((false));
 
