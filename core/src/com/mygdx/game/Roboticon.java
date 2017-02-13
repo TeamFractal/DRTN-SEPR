@@ -17,7 +17,7 @@ public class Roboticon {
     /**
      * Unique numerical identifier of the roboticon.
      */
-    private Integer RoboticonID;
+    private int RoboticonID;
 
     /**
      * Variable holding which player the roboticon belongs to.
@@ -30,9 +30,9 @@ public class Roboticon {
     private Tile CurrentTile;
 
     /**
-     * Integer variable determining the maximum level of roboticons allowed in the game.
+     * int variable determining the maximum level of roboticons allowed in the game.
      */
-    private Integer MaxLevel = 10;
+    private int MaxLevel = 10;
 
     /**
      * Holds the current ore-mining level of the Roboticon
@@ -84,7 +84,7 @@ public class Roboticon {
 
     /**
      * Function to get the current roboticon Level
-     * @return Integer array of the resource
+     * @return int array of the resource
      */
     public int[] getLevel() {
         int[] levels = new int[3];
@@ -125,7 +125,7 @@ public class Roboticon {
     /**
      * A method to return an array of all possible upgrades available to the roboticon at its current state
      *
-     * @return Upgrades Returns an Integer Array in the form [Ore, Energy, Food]
+     * @return Upgrades Returns an int Array in the form [Ore, Energy, Food]
      */
     public int[] possibleUpgrades() {
         if (oreLevel <= MaxLevel) {
@@ -150,10 +150,10 @@ public class Roboticon {
      *
      * @return Modifiers Array to return the modifier for resource production, stored [Ore, Energy, Food]
      */
-    public Integer[] productionModifier() {
-        Integer[] Modifiers = {1, 1, 1};
-        Integer Max = 5;
-        Integer Min = 1;
+    public int[] productionModifier() {
+        int[] Modifiers = {1, 1, 1};
+        int Max = 5;
+        int Min = 1;
         Random rand = new Random();
 
         int n = rand.nextInt(Max) + Min;
@@ -190,7 +190,7 @@ public class Roboticon {
 
     /**
      * Provides the roboticon's current ore-mining upgrade cost
-     * @return Integer The roboticon's ore-mining upgrade cost
+     * @return int The roboticon's ore-mining upgrade cost
      */
     public int getOreUpgradeCost() {
         return (oreLevel * 6);
@@ -198,7 +198,7 @@ public class Roboticon {
 
     /**
      * Provides the roboticon's current food-growing upgrade cost
-     * @return Integer The roboticon's food-growing upgrade cost
+     * @return int The roboticon's food-growing upgrade cost
      */
     public int getFoodUpgradeCost() {
         return (foodLevel * 6);
@@ -206,7 +206,7 @@ public class Roboticon {
 
     /**
      * Provides the roboticon's current energy-generating upgrade cost
-     * @return Integer The roboticon's energy-generating upgrade cost
+     * @return int The roboticon's energy-generating upgrade cost
      */
     public int getEnergyUpgradeCost() {
         return (energyLevel * 6);
@@ -214,7 +214,7 @@ public class Roboticon {
 
     /**
      * Provides the maximum level to which this roboticon can be upgraded to (across all three individual upgrade types)
-     * @return Integer The roboticon's consistent level cap
+     * @return int The roboticon's consistent level cap
      */
     public int getMaxLevel() {
         return MaxLevel;

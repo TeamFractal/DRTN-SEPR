@@ -65,7 +65,7 @@ public class Tile extends Button {
     /**
      * A modifier influencing how much food is produced.
      */
-    private Integer FoodCount;
+    private int FoodCount;
     /**
      * A modifier influencing how much ore is produced.
      */
@@ -220,18 +220,22 @@ public class Tile extends Button {
      */
     public void produce() {
         if (roboticonStored != null && owner != null) {
-            Integer[] modifiers = this.roboticonStored.productionModifier();
-            Integer OreProduce = modifiers[0] * this.OreCount;
+            if ((owner.getEnergyCount() >= 3) && (owner.getFoodCount() >= 2)) {
+                owner.varyResource("Energy", -3);
+                owner.varyResource( "Food", -2);
+            int[] modifiers = this.roboticonStored.productionModifier();
+            int OreProduce = modifiers[0] * this.OreCount;
             owner.varyResource("Ore", OreProduce);
             //Add the tile's ore yields to the owner's resource-counters
 
-            Integer EnergyProduce = modifiers[1] * this.EnergyCount;
+            int EnergyProduce = modifiers[1] * this.EnergyCount;
             owner.varyResource("Energy", EnergyProduce);
             //Add the tile's energy yields to the owner's resource-counters
 
-            Integer FoodProduce = modifiers[2] * this.FoodCount;
+            int FoodProduce = modifiers[2] * this.FoodCount;
             owner.varyResource("Food", FoodProduce);
             //Add the tile's food yields to the owner's resource-counters
+            }
         }
     }
 
@@ -376,7 +380,7 @@ public class Tile extends Button {
     /**
      * Returns the tile's associated getID value
      *
-     * @return Integer The tile's associated getID value
+     * @return int The tile's associated getID value
      */
     public int getID() {
         return this.ID;

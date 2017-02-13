@@ -208,7 +208,7 @@ public class TTFont {
      * Returns the (consistent) size of the internal BitmapFont's characters
      *
      *
-     * @return Integer The size of the font's characters
+     * @return int The size of the font's characters
      */
     public int size() {
         return TTFStyle.size;

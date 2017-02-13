@@ -86,7 +86,7 @@ public class College {
         break;
       case (3):
         this.Name = "Vanburgh";
-        this.logoTexture = new Texture("image/Vanburgh.png");
+        this.logoTexture = new Texture("image/Vanbrugh.png");
         break;
       case (4):
         this.Name = "James";
@@ -151,7 +151,7 @@ public class College {
   /**
    * Returns the college's associated ID
    *
-   * @return Integer The college's associated ID
+   * @return int The college's associated ID
    */
   public int getID() {
     return this.ID;

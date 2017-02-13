@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.*;
 
@@ -94,7 +95,9 @@ public class GameEngine {
      * An integer signifying the ID of the next roboticon to be created
      *
      */
-    private Integer roboticonIDCounter = 0;
+    private int roboticonIDCounter = 0;
+    
+    private Array<Trade> trades;
 
     /**
      * Constructs the game's engine. Imports the game's state (for direct renderer access) and the data held by the
@@ -120,12 +123,10 @@ public class GameEngine {
         drawer = new Drawer(this.game);
         //Import QOL drawing function
 
-        players = new Player[2];
-        currentPlayerID = 0;
+        players = new Player[3];
         //Set up objects to hold player-data
         //Start the game such that player 1 makes the first move
 
-        phase = 1;
         //Start the game in the first phase (of 5, which recur until all tiles are claimed)
 
         timer = new GameTimer(0, new TTFont(Gdx.files.internal("font/testfontbignoodle.ttf"), 120), Color.WHITE, new Runnable() {
@@ -156,7 +157,7 @@ public class GameEngine {
         //Configure all 16 tiles with independent yields and landmark data
         //Also assign listeners to them so that they can detect mouse clicks
 
-        market = new Market(game, this);
+        
         //Instantiates the game's market and hands it direct renderer access
 
         state = State.RUN;
@@ -164,15 +165,25 @@ public class GameEngine {
 
         Player goodrickePlayer = new Player(1);
         Player derwentPlayer = vsPlayer ? new Player(2) : new AiPlayer(2) ;
+        Player langwithPlayer = new Player(3);
         players[0] = goodrickePlayer;
         players[1] = derwentPlayer;
+        players[2] = langwithPlayer;
         College Goodricke = new College(1, "Goodricke");
         College Derwent = new College(2, "Derwent");
+        College Langwith = new College(3, "Langwith");
         goodrickePlayer.assignCollege(Goodricke);
         derwentPlayer.assignCollege(Derwent);
+        langwithPlayer.assignCollege(Langwith);
         Goodricke.assignPlayer(goodrickePlayer);
         Derwent.assignPlayer(derwentPlayer);
+        Langwith.assignPlayer(langwithPlayer);
+        this.trades = new Array<Trade>();
+        market = new Market(game, this);
         //Temporary assignment of player-data for testing purposes
+
+        phase = 0;
+        currentPlayerID = players.length - 1;
     }
 
     public void selectTile(Tile tile) {
@@ -225,15 +236,20 @@ public class GameEngine {
         }
 
         if(checkGameEnd()){
+            System.out.println("Someone win");
             gameScreen.showPlayerWin(getWinner());
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
         //Each player should own 8 tiles when this block is executed
-
+       
         gameScreen.updatePhaseLabel();
+        market.refreshPlayers();
+        market.setPlayerListPosition(0);
+        market.refreshAuction();
 
         gameScreen.closeUpgradeOverlay();
         //If the upgrade overlay is open, close it when the next phase begins
+        testTrade();
 
         if (isCurrentlyAiPlayer()) {
             AiPlayer aiPlayer = (AiPlayer)currentPlayer();
@@ -406,7 +422,7 @@ public class GameEngine {
     /**
      * Return's the game's phase as a number between (or possibly one of) 1 and 5
      *
-     * @return Integer The game's current phase
+     * @return int The game's current phase
      */
     public int phase() {
         return phase;
@@ -430,7 +446,7 @@ public class GameEngine {
     /**
      * Returns the ID of the player who is active at the time when this is called
      *
-     * @return Integer The current player's ID
+     * @return int The current player's ID
      */
     public int currentPlayerID() {
         return currentPlayerID;
@@ -479,7 +495,7 @@ public class GameEngine {
      */
     private boolean checkGameEnd(){
         for(Tile tile : tiles){
-            if (tile.getOwner() != null){
+            if (tile.getOwner() == null){
                 return false;
             }
         }
@@ -544,6 +560,21 @@ public class GameEngine {
         return currentPlayer().isAi();
     }
 
+    
+    
+    public void addTrade(Trade trade){
+    	trades.add(trade);
+    }
+    
+    public void testTrade(){
+    	for(int i = 0; i < trades.size; i++){
+        	if (trades.get(i).getTargetPlayer() == currentPlayer()){
+        		gameScreen.activeTrade(trades.get(i));
+        		trades.removeIndex(i);
+        		break;
+        	}
+        }
+    }
     /**
      * Encodes possible play-states
      * These are not to be confused with the game-state (which is directly linked to the renderer)

@@ -54,23 +54,23 @@ public class Drawer {
     private static GlyphLayout glyphLayout;
 
     static {
+        roboticonSprite = new Sprite(new Texture("roboticon/roboticon.png"));
+        defaultTTFont = new TTFont(Gdx.files.internal("font/earthorbiter.ttf"),
+                12, 1, Color.BLACK, false);
+        defaultFont = defaultTTFont.font();
+
+        // Load 8px bitmap retro style (that is clear to see) font.
+        FreeTypeFontGenerator TTFGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/04B_08__.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter TTFStyle = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        TTFStyle.size = 8;
+        TTFStyle.color = Color.WHITE;
+        TTFStyle.borderWidth = 0;
+        TTFStyle.hinting = FreeTypeFontGenerator.Hinting.None;
+
+        font04b08 = TTFGenerator.generateFont(TTFStyle);
+
         try {
-            roboticonSprite = new Sprite(new Texture("roboticon/roboticon.png"));
-            defaultTTFont = new TTFont(Gdx.files.internal("font/earthorbiter.ttf"),
-                    12, 1, Color.BLACK, false);
-            defaultFont = defaultTTFont.font();
-
-            // Load 8px bitmap retro style (that is clear to see) font.
-            FreeTypeFontGenerator TTFGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/04B_08__.ttf"));
-            FreeTypeFontGenerator.FreeTypeFontParameter TTFStyle = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-            TTFStyle.size = 8;
-            TTFStyle.color = Color.WHITE;
-            TTFStyle.borderWidth = 0;
-            TTFStyle.hinting = FreeTypeFontGenerator.Hinting.None;
-
-            font04b08 = TTFGenerator.generateFont(TTFStyle);
-
             batch = new SpriteBatch();
             renderer = new ShapeRenderer();
             glyphLayout = new GlyphLayout();
@@ -80,7 +80,7 @@ public class Drawer {
             textDrawBatch = new SpriteBatch();
             textDrawBatch.setProjectionMatrix(camera.combined);
         } catch (Exception ex) {
-            System.out.println("Failed to init. drawer resources.");
+            System.out.println("Failed to init. drawer resources (ignore this error in test)");
             ex.printStackTrace();
         }
     }
