@@ -110,7 +110,7 @@ public class GameEngine {
      * @param game Variable storing the game's state
      * @param gameScreen The object encoding the in-game interface which is to be controlled by this engine
      */
-    public GameEngine(Game game, GameScreen gameScreen) {
+    public GameEngine(Game game, GameScreen gameScreen, boolean vsPlayer) {
         _instance = this;
 
         this.game = game;
@@ -164,7 +164,7 @@ public class GameEngine {
         //Mark the game's current play-state as "running" (IE: not paused)
 
         Player goodrickePlayer = new Player(1);
-        Player derwentPlayer = new AiPlayer(2);
+        Player derwentPlayer = vsPlayer ? new Player(2) : new AiPlayer(2) ;
         Player langwithPlayer = new Player(3);
         players[0] = goodrickePlayer;
         players[1] = derwentPlayer;

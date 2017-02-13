@@ -212,16 +212,20 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      *
      * @param game Variable storing the game's state for rendering purposes
      */
-    public GameScreen(Game game) {
+    public GameScreen(Game game, boolean vsPlayer) {
         this.game = game;
         //Import current game-state to access the game's renderer
 
-        engine = new GameEngine(game, this);
+        engine = new GameEngine(game, this, vsPlayer);
         //Start game engine up
 
         batch = new SpriteBatch();
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
+    }
+
+    public GameScreen(Game game) {
+        this(game, true);
     }
 
     /**
