@@ -179,11 +179,12 @@ public class GameEngine {
         Derwent.assignPlayer(derwentPlayer);
         Langwith.assignPlayer(langwithPlayer);
         this.trades = new Array<Trade>();
-        market = new Market(game, this);
+        
         //Temporary assignment of player-data for testing purposes
 
         phase = 0;
         currentPlayerID = players.length - 1;
+        market = new Market(game, this);
     }
 
     public void selectTile(Tile tile) {
@@ -241,13 +242,13 @@ public class GameEngine {
         }
         //Temporary code for determining the game's winner once all tiles have been acquired
         //Each player should own 8 tiles when this block is executed
-       
+        gameScreen.closeUpgradeOverlay();
         gameScreen.updatePhaseLabel();
         market.refreshPlayers();
         market.setPlayerListPosition(0);
         market.refreshAuction();
 
-        gameScreen.closeUpgradeOverlay();
+        
         //If the upgrade overlay is open, close it when the next phase begins
         testTrade();
 
