@@ -112,7 +112,7 @@ public class GameEngine {
      * @param game Variable storing the game's state
      * @param gameScreen The object encoding the in-game interface which is to be controlled by this engine
      */
-    public GameEngine(Game game, GameScreen gameScreen, boolean vsPlayer) {
+    public GameEngine(Game game, GameScreen gameScreen) {
         _instance = this;
 
         this.game = game;

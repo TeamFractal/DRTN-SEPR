@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -43,7 +44,7 @@ public class MainMenu implements Screen {
     /**
      * Array of all menu buttons
      */
-    private TextButton[] buttons = new TextButton[5];
+    private TextButton[] buttons = new TextButton[3];
 
     /**
      * Establishes the font which is used to encode the menu's options
@@ -136,27 +137,15 @@ public class MainMenu implements Screen {
                 game.setScreen(new PlayerSelectScreen(game));
             }
         });
-        buttons[3] = new TextButton("Player vs Player", menuButtonStyle);
-        buttons[3].addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, true));
-            }
-        });
-        buttons[4] = new TextButton("Player vs AI", menuButtonStyle);
-        buttons[4].addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, false));
-            }
-        });
 
 
         buttons[1] = new TextButton("How to Play", menuButtonStyle);
         buttons[2] = new TextButton("Leaderboard", menuButtonStyle);
 
         //hideing the how to play and leaderboard button.
-        buttons[0].setVisible(false);
+        // buttons[0].setVisible(false);
         buttons[1].setVisible(false);
-        buttons[2].setVisible((false));
+        buttons[2].setVisible(false);
 
 
         //Initialise menu buttons using defined style
@@ -166,8 +155,8 @@ public class MainMenu implements Screen {
         drawer.addTableRow(table, new Label("(Title TBC)", new Label.LabelStyle(tempFont.font(), Color.WHITE)), 0, 0, 50, 0);
 
         //ADD BUTTONS
-        for (int i = 0; i < buttons.length; i++) {
-            drawer.addTableRow(table, buttons[i]);
+        for (Button button : buttons) {
+            drawer.addTableRow(table, button);
         }
 
         //FINALISE TABLE

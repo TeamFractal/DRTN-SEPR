@@ -19,7 +19,7 @@ public class MarketTest extends TesterFile{
     private Player TestPlayer = new Player(0);
     private Game testGame;
     private GameScreen testScreen;
-    private GameEngine testGameEngine = new GameEngine(testGame,testScreen,false);
+    private GameEngine testGameEngine = new GameEngine(testGame,testScreen);
     private Market TestMarket = new Market(testGame,testGameEngine);
 
     /**
