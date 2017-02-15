@@ -216,7 +216,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         this.game = game;
         //Import current game-state to access the game's renderer
 
-        engine = new GameEngine(game, this, vsPlayer);
+        
         //Start game engine up
 
         batch = new SpriteBatch();
@@ -977,7 +977,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      * @return Image The image object visualising the current player's associated college
      */
     public Image currentPlayerIcon() {
-        return currentPlayerIcon;
+        return engine.currentPlayer().getCollege().getLogo();
     }
 
     /**
@@ -1206,6 +1206,10 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         Gdx.input.setInputProcessor(gameStage);
         //Direct user inputs back towards the main stage
 
+    }
+    
+    public void assignEngine(GameEngine engine){
+    	this.engine = engine;
     }
 	
     

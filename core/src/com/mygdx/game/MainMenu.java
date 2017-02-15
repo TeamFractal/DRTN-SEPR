@@ -77,6 +77,7 @@ public class MainMenu implements Screen {
     private Sprite background;
 
 
+
     /**
      * The menu-screen's initial constructor
      *
@@ -132,7 +133,7 @@ public class MainMenu implements Screen {
         buttons[0] = new TextButton("Start Game", menuButtonStyle);
         buttons[0].addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new PlayerSelectScreen(game));
             }
         });
         buttons[3] = new TextButton("Player vs Player", menuButtonStyle);
