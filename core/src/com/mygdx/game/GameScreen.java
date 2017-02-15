@@ -125,6 +125,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private TextButton pauseButton;
 
     /**
+     * Button which can be clicked on to go to the mini game
+     */
+
+    private TextButton miniGameButton;
+    /**
      * Button which allows players to claim selected tiles
      */
     private TextButton claimTileButton;
@@ -415,6 +420,14 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             }
         });
 
+        miniGameButton = new TextButton("Mini Game", gameButtonStyle);
+        miniGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                engine.miniGame();
+            }
+        });
+
         gameFont.setSize(30);
         gameButtonStyle.font = gameFont.font();
 
@@ -620,7 +633,10 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         //Add resource-counters to the table
         //These will show the current resource stocks for the current player
 
-        drawer.addTableRow(tableLeft, pauseButton, 105, 0, 0, 0, 2);
+        drawer.addTableRow(tableLeft, miniGameButton, 105-40, 0, 0, 0, 2);
+
+
+        drawer.addTableRow(tableLeft, pauseButton, 0, 0, 0, 0, 2);
         //Prepare and add the pause button to the bottom of the table
 
         gameStage.addActor(tableLeft);

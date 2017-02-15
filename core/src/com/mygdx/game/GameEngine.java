@@ -575,6 +575,11 @@ public class GameEngine {
         	}
         }
     }
+
+    public void miniGame() {
+        game.setScreen(new MiniGameScreen());
+    }
+
     /**
      * Encodes possible play-states
      * These are not to be confused with the game-state (which is directly linked to the renderer)
