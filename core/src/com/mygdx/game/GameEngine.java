@@ -347,39 +347,39 @@ public class GameEngine {
             //Mark that a tile has been acquired on this turn
 
             switch (players[currentPlayerID].getCollege().getID()) {
-                case (1):
+                case 0:
                     //DERWENT
                     selectedTile.setTileBorderColor(Color.BLUE);
                     break;
-                case (2):
+                case 1:
                     //LANGWITH
                     selectedTile.setTileBorderColor(Color.CHARTREUSE);
                     break;
-                case (3):
+                case 2:
                     //VANBURGH
                     selectedTile.setTileBorderColor(Color.TEAL);
                     break;
-                case (4):
+                case 3:
                     //JAMES
                     selectedTile.setTileBorderColor(Color.CYAN);
                     break;
-                case (5):
+                case 4:
                     //WENTWORTH
                     selectedTile.setTileBorderColor(Color.MAROON);
                     break;
-                case (6):
+                case 5:
                     //HALIFAX
                     selectedTile.setTileBorderColor(Color.YELLOW);
                     break;
-                case (7):
+                case 6:
                     //ALCUIN
                     selectedTile.setTileBorderColor(Color.RED);
                     break;
-                case (8):
+                case 7:
                     //GOODRICKE
                     selectedTile.setTileBorderColor(Color.GREEN);
                     break;
-                case (9):
+                case 8:
                     //CONSTANTINE
                     selectedTile.setTileBorderColor(Color.PINK);
                     break;
