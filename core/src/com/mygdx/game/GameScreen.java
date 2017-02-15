@@ -1168,7 +1168,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     }
 
     public void updatePlayerName() {
-        currentPlayerLabel.setText("Player " + engine.currentPlayerID());
+        currentPlayerLabel.setText("Player " + engine.currentPlayer().getPlayerNumber());
     }
     
     public void openTradeOverlay(){

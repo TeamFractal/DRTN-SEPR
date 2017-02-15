@@ -569,7 +569,7 @@ public class Market extends Table {
         	@Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	playerListPosition += 1;
-            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerID());
+            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerNumber());
             	refreshAuction();
         	}
         });
@@ -578,7 +578,7 @@ public class Market extends Table {
         	@Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	playerListPosition -= 1;
-            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerID());
+            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerNumber());
             	refreshAuction();
         	}
         });
