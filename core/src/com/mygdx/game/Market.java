@@ -1340,7 +1340,6 @@ public class Market extends Table {
         for (Player player : engine.players()) {
             if (player != null && engine.currentPlayer() != player) {
                 otherPlayer.add(player); 
-                System.out.println("hello");
             } 
         }
         playerLabel.setText("Player " + otherPlayer.get(0).getPlayerID());

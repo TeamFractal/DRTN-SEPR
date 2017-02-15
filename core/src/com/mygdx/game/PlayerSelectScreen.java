@@ -8,10 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 public class PlayerSelectScreen implements Screen {
 	
@@ -77,6 +80,20 @@ public class PlayerSelectScreen implements Screen {
 
 	private Label AIPlayerLabel;
 
+	private Label playerAmountLabel;
+
+	private Label AIPlayerAmountLabel;
+
+	private TextButton confirmButton;
+
+	private int playerAmount;
+
+	private int AIPlayerAmount;
+
+	private GameEngine engine;
+
+	private GameScreen gameScreen;
+
     /**
      * The menu-screen's initial constructor
      *
@@ -84,6 +101,9 @@ public class PlayerSelectScreen implements Screen {
      */
     public PlayerSelectScreen(Game game) {
         this.game = game;
+        this.gameScreen =  new GameScreen(this.game);
+        this.engine = new GameEngine(this.game, this.gameScreen);
+        gameScreen.assignEngine(engine);
     }
     //Import current game-state
 
@@ -126,20 +146,62 @@ public class PlayerSelectScreen implements Screen {
         //Set up the format for the buttons on the menu
         //STILL NEED TO SORT OUT BUTTON ANIMATIONS
         
-        playerLabel = new Label("0", new Label.LabelStyle(menuFont.font(), Color.WHITE));
-        AIPlayerLabel = new Label("0", new Label.LabelStyle(menuFont.font(), Color.WHITE));
-        addPlayerButton = new TextButton(" more", menuButtonStyle);
-        addPlayerButton.setVisible(true);
-        addAIPlayerButton = new TextButton(" more", menuButtonStyle);
-        removePlayerButton = new TextButton("less ", menuButtonStyle);
-        removeAIPlayerButton = new TextButton("less ", menuButtonStyle);
+        playerAmount = 0;
+        AIPlayerAmount = 0;
         
+        playerLabel = new Label("Players", new Label.LabelStyle(menuFont.font(), Color.WHITE));
+        playerAmountLabel = new Label("0", new Label.LabelStyle(menuFont.font(), Color.WHITE));
+        AIPlayerLabel = new Label("AI Players", new Label.LabelStyle(menuFont.font(), Color.WHITE));
+        AIPlayerAmountLabel = new Label("0", new Label.LabelStyle(menuFont.font(), Color.WHITE));
+        addPlayerButton = new TextButton("more", menuButtonStyle);
+        addPlayerButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                playerAmount += 1;
+                refreshLabels();
+            }
+        });
+        
+        addAIPlayerButton = new TextButton("more", menuButtonStyle);
+        addAIPlayerButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                AIPlayerAmount += 1;
+                refreshLabels();
+            }
+        });
+        
+        removePlayerButton = new TextButton("less", menuButtonStyle);
+        removePlayerButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                playerAmount -= 1;
+                refreshLabels();
+            }
+        });
+        
+        removeAIPlayerButton = new TextButton("less", menuButtonStyle);
+        removeAIPlayerButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                AIPlayerAmount -= 1;
+                refreshLabels();
+            }
+        });
+        
+        confirmButton = new TextButton("Confirm", menuButtonStyle);
+        confirmButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+               engine.initialisePlayers(AIPlayerAmount, playerAmount);
+               game.setScreen(gameScreen);
+            }
+        });
+        
+        drawer.addTableRow(table, playerLabel);
         drawer.addTableRow(table, removePlayerButton);
-        table.add(playerLabel);
+        table.add(playerAmountLabel);
         table.add(addPlayerButton);
+        drawer.addTableRow(table, AIPlayerLabel);
         drawer.addTableRow(table, removeAIPlayerButton);
-        table.add(AIPlayerLabel);
+        table.add(AIPlayerAmountLabel);
         table.add(addAIPlayerButton);
+        table.add(confirmButton);
         stage.addActor(table);
 
 	}
@@ -193,5 +255,11 @@ public class PlayerSelectScreen implements Screen {
         stage.dispose();
 
 	}
+	
+	public void refreshLabels(){
+		playerAmountLabel.setText("" + playerAmount);
+		AIPlayerAmountLabel.setText("" + AIPlayerAmount);
+	}
+	
 
 }

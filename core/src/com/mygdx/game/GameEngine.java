@@ -99,6 +99,8 @@ public class GameEngine {
     
     private Array<Trade> trades;
 
+	private College[] colleges;
+
     /**
      * Constructs the game's engine. Imports the game's state (for direct renderer access) and the data held by the
      * GameScreen which this engine directly controls; then goes on to set up player-data for the game's players,
@@ -123,7 +125,7 @@ public class GameEngine {
         drawer = new Drawer(this.game);
         //Import QOL drawing function
 
-        players = new Player[3];
+        
         //Set up objects to hold player-data
         //Start the game such that player 1 makes the first move
 
@@ -163,28 +165,23 @@ public class GameEngine {
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
-        Player goodrickePlayer = new Player(1);
-        Player derwentPlayer = new AiPlayer(2);
-        Player langwithPlayer = new Player(3);
-        players[0] = goodrickePlayer;
-        players[1] = derwentPlayer;
-        players[2] = langwithPlayer;
-        College Goodricke = new College(1, "Goodricke");
-        College Derwent = new College(2, "Derwent");
-        College Langwith = new College(3, "Langwith");
-        goodrickePlayer.assignCollege(Goodricke);
-        derwentPlayer.assignCollege(Derwent);
-        langwithPlayer.assignCollege(Langwith);
-        Goodricke.assignPlayer(goodrickePlayer);
-        Derwent.assignPlayer(derwentPlayer);
-        Langwith.assignPlayer(langwithPlayer);
-        this.trades = new Array<Trade>();
+        colleges = new College[9];
+        colleges[0] = new College(1, "Goodricke");
+        colleges[1] = new College(2, "Derwent");
+        colleges[2] = new College(3, "Langwith");
+        colleges[3] = new College(4, "Alcuin");
+        colleges[4] = new College(5, "Constantine");
+        colleges[5] = new College(6, "Halifax");
+        colleges[6] = new College(7, "James");
+        colleges[7] = new College(8, "Vanbrugh");
+        colleges[8] = new College(9, "Wentworth");
         
         //Temporary assignment of player-data for testing purposes
 
         phase = 0;
-        currentPlayerID = players.length - 1;
-        market = new Market(game, this);
+        currentPlayerID = 0;
+        trades = new Array<Trade>();
+
     }
 
     public void selectTile(Tile tile) {
@@ -208,7 +205,7 @@ public class GameEngine {
         timer.stop();
         nextPlayer();
         System.out.println("Player " + currentPlayerID + " | Phase " + phase);
-
+        
         market.refreshButtonAvailability();
         switch (phase) {
             case 1:
@@ -283,13 +280,15 @@ public class GameEngine {
         System.out.println("Change to player " + currentPlayerID);
 
         // Find and draw the icon representing the "new" player's associated college
-        gameScreen.currentPlayerIcon().setDrawable(new TextureRegionDrawable(new TextureRegion(players[currentPlayerID].getCollege().getLogoTexture())));
-        gameScreen.currentPlayerIcon().setSize(64, 64);
-
-        // Display the "new" player's inventory on-screen
-        gameScreen.updateInventoryLabels();
-
-        gameScreen.updatePlayerName();
+        if (! isCurrentlyAiPlayer()){
+	        gameScreen.currentPlayerIcon().setDrawable(new TextureRegionDrawable(new TextureRegion(players[currentPlayerID].getCollege().getLogoTexture())));
+	        gameScreen.currentPlayerIcon().setSize(64, 64);
+	
+	        // Display the "new" player's inventory on-screen
+	        gameScreen.updateInventoryLabels();
+	
+	        gameScreen.updatePlayerName();
+        }
     }
 
     /**
@@ -575,6 +574,28 @@ public class GameEngine {
         		break;
         	}
         }
+    }
+    
+    public void initialisePlayers(int AIAmount, int playerAmount){
+    	int length = AIAmount + playerAmount;
+    	
+    	players = new Player[length];
+    	for(int i = 0; i < playerAmount; i++){
+    		Player player = new Player(i+1);
+    		players[i] = player;
+    		College college = colleges[i];
+    		college.assignPlayer(player);
+    		player.assignCollege(college);
+    	}
+    	for(int i = playerAmount; i < AIAmount; i++){
+    		Player player = new AiPlayer(i+1);
+    		players[i] = player;
+    		College college = colleges[i];
+    		college.assignPlayer(player);
+    		player.assignCollege(college);
+    	}
+    	currentPlayerID = players.length - 1;
+        market = new Market(game, this);
     }
     /**
      * Encodes possible play-states

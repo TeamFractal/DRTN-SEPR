@@ -216,7 +216,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         this.game = game;
         //Import current game-state to access the game's renderer
 
-        engine = new GameEngine(game, this);
+        
         //Start game engine up
 
         batch = new SpriteBatch();
@@ -248,25 +248,25 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         map.setPosition((Gdx.graphics.getWidth() / 2) - (map.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (map.getHeight() / 2));
         gameStage.addActor(map);
         //Initialise and deploy map texture
-
-        constructTileGrid();
-
-        constructButtons();
-        //Set up the buttons to be placed down onto the interface
-
-        constructLeftTable();
-        constructRightTable();
-        //Construct and deploy side-hand tables
-
-        constructPauseMenu();
-        //Construct pause-menu (and hide it for the moment)
-
-        constructUpgradeOverlay();
-        constructTooExpensiveOverlay();
-        //Construct roboticon upgrade overlay (and, again, hide it for the moment
-        //drawer.debug(gameStage);
-        //Call this to draw temporary debug lines around all of the actors on the stage
-
+        if (! engine.currentPlayer().isAi()){
+	        constructTileGrid();
+	
+	        constructButtons();
+	        //Set up the buttons to be placed down onto the interface
+	
+	        constructLeftTable();
+	        constructRightTable();
+	        //Construct and deploy side-hand tables
+	
+	        constructPauseMenu();
+	        //Construct pause-menu (and hide it for the moment)
+	
+	        constructUpgradeOverlay();
+	        constructTooExpensiveOverlay();
+	        //Construct roboticon upgrade overlay (and, again, hide it for the moment
+	        //drawer.debug(gameStage);
+	        //Call this to draw temporary debug lines around all of the actors on the stage
+        }
         System.out.println("GameScreen.show");
         engine.nextPhase();
     }
@@ -1202,6 +1202,10 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         Gdx.input.setInputProcessor(gameStage);
         //Direct user inputs back towards the main stage
 
+    }
+    
+    public void assignEngine(GameEngine engine){
+    	this.engine = engine;
     }
 	
     
