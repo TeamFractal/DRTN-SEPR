@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.*;
 
+
 /**
  * @author Duck Related Team Name in Big Massive Letters
  * @since Assessment 2
@@ -100,6 +101,8 @@ public class GameEngine {
     private Array<Trade> trades;
 
 	private College[] colleges;
+
+    private ArrayList<RandomEvent> randomEvents = new ArrayList<RandomEvent>();
 
     /**
      * Constructs the game's engine. Imports the game's state (for direct renderer access) and the data held by the
@@ -253,6 +256,26 @@ public class GameEngine {
         }
     }
 
+    public void checkEventDurations() {
+        for (int event = 0; event < this.randomEvents.size(); event++) {
+            if (randomEvents.get(event).getDuration() == 0) {
+                this.randomEvents.get(event).eventHappen(false);
+                this.randomEvents.remove(event);
+            }
+        }
+    }
+
+    public void selectRandomEvent() {
+        Random random = new Random();
+        int eventValue = random.nextInt(2);
+        switch(eventValue) {
+            case 0:
+                randomEvents.add(new Earthquake(this));
+                randomEvents.get(randomEvents.size() - 1).eventHappen(true);
+                break;
+        }
+    }
+
     private void produceResource() {
         Player player = currentPlayer();
         for (Tile tile : player.getTileList()) {
@@ -268,6 +291,11 @@ public class GameEngine {
         currentPlayerID ++;
         if (currentPlayerID >= players.length) {
             currentPlayerID = 0;
+
+            if (phase == 4) {
+                checkEventDurations();
+                selectRandomEvent();
+            }
 
             phase ++;
             if (phase >= 6) {
