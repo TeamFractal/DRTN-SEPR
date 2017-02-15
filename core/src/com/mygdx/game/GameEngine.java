@@ -163,9 +163,9 @@ public class GameEngine {
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
-        Player goodrickePlayer = new Player(1);
-        Player derwentPlayer = vsPlayer ? new Player(2) : new AiPlayer(2) ;
-        Player langwithPlayer = new Player(3);
+        Player goodrickePlayer = new Player(0);
+        Player derwentPlayer = vsPlayer ? new Player(1) : new AiPlayer(1) ;
+        Player langwithPlayer = new Player(2);
         players[0] = goodrickePlayer;
         players[1] = derwentPlayer;
         players[2] = langwithPlayer;
@@ -239,16 +239,14 @@ public class GameEngine {
             System.out.println("Someone win");
             gameScreen.showPlayerWin(getWinner());
         }
-        //Temporary code for determining the game's winner once all tiles have been acquired
-        //Each player should own 8 tiles when this block is executed
-       
+
         gameScreen.updatePhaseLabel();
         market.refreshPlayers();
         market.setPlayerListPosition(0);
         market.refreshAuction();
 
-        gameScreen.closeUpgradeOverlay();
         //If the upgrade overlay is open, close it when the next phase begins
+        gameScreen.closeUpgradeOverlay();
         testTrade();
 
         if (isCurrentlyAiPlayer()) {
@@ -565,16 +563,31 @@ public class GameEngine {
     public void addTrade(Trade trade){
     	trades.add(trade);
     }
-    
-    public void testTrade(){
-    	for(int i = 0; i < trades.size; i++){
-        	if (trades.get(i).getTargetPlayer() == currentPlayer()){
-        		gameScreen.activeTrade(trades.get(i));
-        		trades.removeIndex(i);
-        		break;
-        	}
+
+    public Trade getCurrentPendingTrade() {
+        Iterator<Trade> it = trades.iterator();
+
+        while (it.hasNext()) {
+            Trade trade = it.next();
+            if (trade.getTargetPlayer() == currentPlayer()) {
+                it.remove();
+                return trade;
+            }
         }
+
+        return null;
     }
+
+    public void testTrade(){
+        Trade trade = getCurrentPendingTrade();
+        if (trade == null) return ;
+        gameScreen.activeTrade(trade);
+    }
+
+    public void closeTrade(){
+        gameScreen.closeTradeOverlay();
+    }
+
     /**
      * Encodes possible play-states
      * These are not to be confused with the game-state (which is directly linked to the renderer)
