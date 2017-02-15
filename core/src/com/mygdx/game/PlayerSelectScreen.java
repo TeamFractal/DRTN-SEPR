@@ -203,7 +203,6 @@ public class PlayerSelectScreen implements Screen {
         table.add(addAIPlayerButton);
         table.add(confirmButton);
         stage.addActor(table);
-
 	}
 
 	@Override
@@ -221,7 +220,6 @@ public class PlayerSelectScreen implements Screen {
         stage.act(delta);
         stage.draw();
         //Draw the stage onto the screen
-
 	}
 
 	@Override

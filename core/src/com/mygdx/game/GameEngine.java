@@ -166,15 +166,15 @@ public class GameEngine {
         //Mark the game's current play-state as "running" (IE: not paused)
 
         colleges = new College[9];
-        colleges[0] = new College(1, "Goodricke");
-        colleges[1] = new College(2, "Derwent");
-        colleges[2] = new College(3, "Langwith");
-        colleges[3] = new College(4, "Alcuin");
-        colleges[4] = new College(5, "Constantine");
-        colleges[5] = new College(6, "Halifax");
-        colleges[6] = new College(7, "James");
-        colleges[7] = new College(8, "Vanbrugh");
-        colleges[8] = new College(9, "Wentworth");
+        colleges[0] = new College(0, "Goodricke");
+        colleges[1] = new College(1, "Derwent");
+        colleges[2] = new College(2, "Langwith");
+        colleges[3] = new College(3, "Alcuin");
+        colleges[4] = new College(4, "Constantine");
+        colleges[5] = new College(5, "Halifax");
+        colleges[6] = new College(6, "James");
+        colleges[7] = new College(7, "Vanbrugh");
+        colleges[8] = new College(8, "Wentworth");
         
         //Temporary assignment of player-data for testing purposes
 
@@ -272,7 +272,7 @@ public class GameEngine {
             currentPlayerID = 0;
 
             phase ++;
-            if (phase == 6) {
+            if (phase >= 6) {
                 phase = 1;
             }
             System.out.print("Move to phase " + phase + ", ");
@@ -280,7 +280,7 @@ public class GameEngine {
         System.out.println("Change to player " + currentPlayerID);
 
         // Find and draw the icon representing the "new" player's associated college
-        if (! isCurrentlyAiPlayer()){
+        if (!isCurrentlyAiPlayer()){
 	        gameScreen.currentPlayerIcon().setDrawable(new TextureRegionDrawable(new TextureRegion(players[currentPlayerID].getCollege().getLogoTexture())));
 	        gameScreen.currentPlayerIcon().setSize(64, 64);
 	
@@ -336,7 +336,7 @@ public class GameEngine {
      * border for owner identification purposes and moves the game on to the next player/phase
      */
     public void claimTile() {
-        if (phase == 1 && selectedTile.isOwned() == false) {
+        if (phase == 1 && !selectedTile.isOwned()) {
             players[currentPlayerID].assignTile(selectedTile);
             //Assign selected tile to current player
 
@@ -581,20 +581,20 @@ public class GameEngine {
     	
     	players = new Player[length];
     	for(int i = 0; i < playerAmount; i++){
-    		Player player = new Player(i+1);
+    		Player player = new Player(i);
     		players[i] = player;
     		College college = colleges[i];
     		college.assignPlayer(player);
     		player.assignCollege(college);
     	}
-    	for(int i = playerAmount; i < AIAmount; i++){
-    		Player player = new AiPlayer(i+1);
+    	for(int i = playerAmount; i < length; i++){
+    		Player player = new AiPlayer(i);
     		players[i] = player;
     		College college = colleges[i];
     		college.assignPlayer(player);
     		player.assignCollege(college);
     	}
-    	currentPlayerID = players.length - 1;
+    	currentPlayerID = length - 1;
         market = new Market(game, this);
     }
     /**
