@@ -1,69 +1,79 @@
 package com.mygdx.game;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by jack_holt on 06/02/17.
  */
 public class Earthquake extends RandomEvent {
 
-    private GameEngine engine;
+    private int playerAffected;
+    private GameEngine gameEngine;
     private ArrayList<Tile> tilesDamaged;
     private int tileDamageValue;
+    private int duration;
 
-    public Earthquake() {
+    public Earthquake(GameEngine engine) {
         super();
-        this.tilesDamaged = chooseAffectedTiles(randomiser);
-        this.tileDamageValue = randomiser.nextInt(5);
-        this.duration = 3;
+        this.gameEngine = engine;
+        this.tilesDamaged = chooseAffectedTiles();
+        this.tileDamageValue = getNumberGreaterThanX(5, 2);
+        this.duration = 2;
     }
 
-    public void eventEffect() {
+    public int getDuration() {
+        this.duration -= 1;
+        return this.duration;
+    }
+
+    public void eventEffect(boolean doOrUndo) {
         // Divides production on each tile by damage value
-        for (int tile = 0; tile < this.tilesDamaged.size(); tile++) {
-            int tileOreCount = this.tilesDamaged.get(tile).getOreCount();
-            int tileEnergyCount = this.tilesDamaged.get(tile).getEnergyCount();
-
-            this.tilesDamaged.get(tile).changeOreCount(tileOreCount / this.tileDamageValue);
-            this.tilesDamaged.get(tile).changeEnergyCount(tileEnergyCount / this.tileDamageValue);
-        }
-    }
-
-    public void reverseEffect() {
-        for (int tile = 0; tile < this.tilesDamaged.size(); tile++) {
-            int tileOreCount = this.tilesDamaged.get(tile).getOreCount();
-            int tileEnergyCount = this.tilesDamaged.get(tile).getEnergyCount();
-
-            this.tilesDamaged.get(tile).changeOreCount(tileOreCount * this.tileDamageValue);
-            this.tilesDamaged.get(tile).changeEnergyCount(tileEnergyCount * this.tileDamageValue);
+        for (Tile tile : this.tilesDamaged) {
+            if (doOrUndo) {
+                tile.changeOreCount(tile.getOreCount() / this.tileDamageValue);
+                tile.changeEnergyCount(tile.getEnergyCount() / this.tileDamageValue);
+                tile.changeFoodCount(tile.getFoodCount() / this.tileDamageValue);
+            } else {
+                tile.changeOreCount(tile.getOreCount() * this.tileDamageValue);
+                tile.changeEnergyCount(tile.getEnergyCount() * this.tileDamageValue);
+                tile.changeFoodCount(tile.getFoodCount() * this.tileDamageValue);
+            }
         }
     }
 
     // Message that appears when
-    public String eventMessage() {
-        return "An earthquake has damaged some of your tiles! Food production is now reduced by " +
-                tileDamageValue + " on these tiles.";
+    public String eventMessage(boolean doOrUndo) {
+        String messageToReturn;
+        if (doOrUndo) {
+            messageToReturn = "An earthquake has damaged Player " + this.playerAffected +  "'s tiles! " +
+                    "Production is now divided by " + tileDamageValue + " on their tiles for "
+                    + this.duration + " turns.";
+        }
+        else {
+            messageToReturn = "The damage from the earthquake 2 turns ago has been repaired! The effects" +
+                    " of this have been reversed.";
+        }
+        
+        return messageToReturn;
     }
 
     public void eventAnimation() {}
 
-    public ArrayList<Tile> chooseAffectedTiles(Random randomiser) {
-        // Initialise tilesAffected ArrayList
-        ArrayList<Tile> tilesAffected = new ArrayList<Tile>();
-        // Shuffles list of tiles on the map
-        Tile tiles[] = engine.tiles();
-        // Shuffles the list of tiles so a random selection can be made by
-        // simply choosing tiles starting from the front
-        Collections.shuffle(Arrays.asList(tiles));
-        // Randomly generates the number of tiles affected and chooses that
-        // number of tiles
-        int numberOfTilesAffected = randomiser.nextInt(16);
+    private ArrayList<Tile> chooseAffectedTiles() {
 
-        for (int tile = 0; tile < numberOfTilesAffected; tile++) {
-            tilesAffected.set(tile, tiles[tile]);
+        ArrayList<Tile> tilesAffected = new ArrayList<Tile>();
+
+        Player players[] = this.gameEngine.players();
+
+        this.playerAffected = randomiser.nextInt(players.length);
+        System.out.println("Earthquake affecting Player " + this.playerAffected);
+
+        List<Tile> playerTiles = players[this.playerAffected].getTileList();
+
+        Collections.shuffle(playerTiles);
+
+        for (Tile playerTile : playerTiles) {
+            tilesAffected.add(playerTile);
         }
 
         return tilesAffected;

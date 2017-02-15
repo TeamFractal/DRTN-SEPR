@@ -225,14 +225,17 @@ public class Tile extends Button {
                 owner.varyResource( "Food", -2);
                 Integer[] modifiers = this.roboticonStored.productionModifier();
                 Integer OreProduce = modifiers[0] * this.OreCount;
+                System.out.println("Ore produced: " + OreProduce);
                 owner.varyResource("Ore", OreProduce);
                 //Add the tile's ore yields to the owner's resource-counters
 
                 Integer EnergyProduce = modifiers[1] * this.EnergyCount;
+                System.out.println("Energy produced: " + EnergyProduce);
                 owner.varyResource("Energy", EnergyProduce);
                 //Add the tile's energy yields to the owner's resource-counters
 
                 Integer FoodProduce = modifiers[2] * this.FoodCount;
+                System.out.println("Food produced: " + FoodProduce);
                 owner.varyResource("Food", FoodProduce);
                 //Add the tile's food yields to the owner's resource-counters
             }
@@ -286,6 +289,9 @@ public class Tile extends Button {
     public void changeEnergyCount(int Count) {
         this.EnergyCount = Count;
     }
+
+    public int getFoodCount() {return this.FoodCount;}
+    public void changeFoodCount(int count) {this.FoodCount = count;}
 
     /**
      * Adds a Roboticon to the roboticon list.

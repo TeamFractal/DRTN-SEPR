@@ -1,7 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.utils.Array;
-
 import java.util.Random;
 
 /**
@@ -10,27 +8,35 @@ import java.util.Random;
 public abstract class RandomEvent {
 
     // Fields shared by all random events
-    protected Random randomiser;
-    protected int duration;
+    Random randomiser;
 
-    public RandomEvent() {
+    RandomEvent() {
         this.randomiser = new Random();
     }
 
-    public abstract void eventEffect();
+    public abstract void eventEffect(boolean doOrUndo);
 
-    public abstract void reverseEffect();
+    public abstract int getDuration();
 
-    public abstract String eventMessage();
+    public abstract String eventMessage(boolean doOrUndo);
 
     public abstract void eventAnimation();
 
-    public void eventHappen() {
-        eventEffect();
-        eventAnimation();
-        String message = eventMessage();
+    public void eventHappen(boolean doOrUndo) {
+        this.eventEffect(doOrUndo);
+        this.eventAnimation();
+        String message = this.eventMessage(doOrUndo);
+        System.out.println(message);
         /*
             Code to display message goes here...
          */
+    }
+
+    public int getNumberGreaterThanX(int limit, int x) {
+        int numberGenerated = randomiser.nextInt(limit);
+        if (numberGenerated == x) {
+            numberGenerated++;
+        }
+        return numberGenerated;
     }
 }
