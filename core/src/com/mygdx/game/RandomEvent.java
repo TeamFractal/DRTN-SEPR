@@ -34,8 +34,8 @@ public abstract class RandomEvent {
 
     public int getNumberGreaterThanX(int limit, int x) {
         int numberGenerated = randomiser.nextInt(limit);
-        if (numberGenerated == x) {
-            numberGenerated++;
+        if (numberGenerated == 0) {
+            numberGenerated += 1;
         }
         return numberGenerated;
     }
