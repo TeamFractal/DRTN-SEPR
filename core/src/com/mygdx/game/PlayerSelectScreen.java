@@ -104,6 +104,7 @@ public class PlayerSelectScreen implements Screen {
         this.gameScreen =  new GameScreen(this.game);
         this.engine = new GameEngine(this.game, this.gameScreen);
         gameScreen.assignEngine(engine);
+        
     }
     //Import current game-state
 
@@ -195,14 +196,19 @@ public class PlayerSelectScreen implements Screen {
         
         drawer.addTableRow(table, playerLabel);
         drawer.addTableRow(table, removePlayerButton);
-        table.add(playerAmountLabel);
-        table.add(addPlayerButton);
+        table.add(playerAmountLabel).width(30);
+        table.add(addPlayerButton).padLeft(20);
         drawer.addTableRow(table, AIPlayerLabel);
         drawer.addTableRow(table, removeAIPlayerButton);
         table.add(AIPlayerAmountLabel);
         table.add(addAIPlayerButton);
+        table.row();
+        table.add();
+        table.add();
+        table.add();
         table.add(confirmButton);
         stage.addActor(table);
+        refreshLabels();
 	}
 
 	@Override
@@ -255,6 +261,28 @@ public class PlayerSelectScreen implements Screen {
 	}
 	
 	public void refreshLabels(){
+		drawer.toggleButton(addPlayerButton, false, Color.GRAY);
+		drawer.toggleButton(addAIPlayerButton, false, Color.GRAY);
+		drawer.toggleButton(removePlayerButton, false, Color.GRAY);
+		drawer.toggleButton(removeAIPlayerButton, false, Color.GRAY);
+		drawer.toggleButton(confirmButton, false, Color.GRAY);
+		
+		if (playerAmount > 0){
+			drawer.toggleButton(removePlayerButton, true, Color.WHITE);
+		}
+		
+		if (AIPlayerAmount > 0){
+			drawer.toggleButton(removeAIPlayerButton, true, Color.WHITE);
+		}
+		
+		if(AIPlayerAmount + playerAmount < 9){
+			drawer.toggleButton(addPlayerButton, true, Color.WHITE);
+			drawer.toggleButton(addAIPlayerButton, true, Color.WHITE);
+		}
+		
+		if (AIPlayerAmount + playerAmount > 1 && playerAmount > 0){
+			drawer.toggleButton(confirmButton, true, Color.WHITE);
+		}
 		playerAmountLabel.setText("" + playerAmount);
 		AIPlayerAmountLabel.setText("" + AIPlayerAmount);
 	}

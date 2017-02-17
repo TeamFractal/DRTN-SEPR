@@ -522,8 +522,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                if (! currentTrade.execute()){
             	   openTooExpensiveOverlay();
                }
-               updateInventoryLabels();
-               engine.testTrade();
+               else{
+            	   updateInventoryLabels();
+            	   engine.testTrade();
+               }
+               
             }
         });
         
@@ -1100,10 +1103,13 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      */
     public void closeUpgradeOverlay() {
         upgradeOverlayVisible = false;
+        
         //Hide the upgrade overlay again
 
         Gdx.input.setInputProcessor(gameStage);
         //Direct user inputs back towards the main stage
+        
+        engine.testTrade();
     }
 
     /**
