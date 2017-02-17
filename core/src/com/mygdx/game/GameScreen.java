@@ -424,11 +424,21 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             }
         });
 
-        miniGameButton = new TextButton("Mini Game", gameButtonStyle);
+
+        /**
+         * Button which can be clicked on to go to the mini game
+         */
+        miniGameButton = new TextButton("Mini Game ($20)", gameButtonStyle);
         miniGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                engine.miniGame();
+                if (engine.currentPlayer().getMoney() >= 20){
+                    engine.currentPlayer().setMoney(engine.currentPlayer().getMoney() - 20);
+                    engine.miniGame();
+                }
+                else{
+                    System.out.println("not enough money");
+                }
             }
         });
 

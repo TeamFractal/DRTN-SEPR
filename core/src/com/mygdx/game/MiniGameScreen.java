@@ -86,6 +86,7 @@ public class MiniGameScreen extends AbstractAnimationScreen implements Screen {
         table.add(button3);
         stage.addActor(table);
 
+
         buttonBack.setPosition(Gdx.graphics.getWidth() - buttonBack.getWidth(), 0);
         stage.addActor(buttonBack);
 
