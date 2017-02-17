@@ -235,7 +235,10 @@ public class GameEngine {
 
         gameScreen.updatePhaseLabel();
 
-        gameScreen.closeUpgradeOverlay();
+        if (gameScreen.getUpgradeOverlayVisible()) {
+            gameScreen.closeUpgradeOverlay();
+        }
+
         //If the upgrade overlay is open, close it when the next phase begins
 
         if (isCurrentlyAiPlayer()) {
@@ -245,21 +248,47 @@ public class GameEngine {
     }
 
     public void checkEventDurations() {
-        for (int event = 0; event < this.randomEvents.size(); event++) {
-            if (randomEvents.get(event).getDuration() == 0) {
-                this.randomEvents.get(event).eventHappen(false);
-                this.randomEvents.remove(event);
+
+        Iterator<RandomEvent> randomEventIterator = randomEvents.iterator();
+
+        while (randomEventIterator.hasNext()) {
+
+            RandomEvent event = randomEventIterator.next();
+
+            if (event.getDuration() == 0) {
+                event.decDuration();
+                event.eventHappen(false);
             }
+
+            else if (event.getDuration() == event.getEventCooldown()) {
+                randomEventIterator.remove();
+            }
+
+            else {
+                event.decDuration();
+            }
+
+            System.out.println(randomEvents.toString());
         }
     }
 
     public void selectRandomEvent() {
         Random random = new Random();
+        boolean eventHappened = false;
         int eventValue = random.nextInt(2);
         switch(eventValue) {
             case 0:
-                randomEvents.add(new Earthquake(this));
-                randomEvents.get(randomEvents.size() - 1).eventHappen(true);
+                // Checks if any earthquakes have happened in the last x turns
+                for (RandomEvent event: randomEvents) {
+                    if ((event instanceof Earthquake)) {
+                        eventHappened = true;
+                    }
+                }
+
+                if (!eventHappened) {
+                    randomEvents.add(new Earthquake(this, gameScreen));
+                    randomEvents.get(randomEvents.size() - 1).eventHappen(true);
+                }
                 break;
         }
     }

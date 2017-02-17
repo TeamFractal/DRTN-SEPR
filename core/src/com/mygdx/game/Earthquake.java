@@ -13,17 +13,20 @@ public class Earthquake extends RandomEvent {
     private int tileDamageValue;
     private int duration;
 
-    public Earthquake(GameEngine engine) {
-        super();
+    public Earthquake(GameEngine engine, GameScreen gameScreen) {
+        super(gameScreen);
         this.gameEngine = engine;
         this.tilesDamaged = chooseAffectedTiles();
-        this.tileDamageValue = getNumberGreaterThanX(5, 2);
+        this.tileDamageValue = getNumberGreaterThanX(5, 3);
         this.duration = 2;
     }
 
     public int getDuration() {
-        this.duration -= 1;
         return this.duration;
+    }
+
+    public void decDuration () {
+        this.duration -= 1;
     }
 
     public void eventEffect(boolean doOrUndo) {
@@ -50,8 +53,8 @@ public class Earthquake extends RandomEvent {
                     + this.duration + " turns.";
         }
         else {
-            messageToReturn = "The damage from the earthquake 2 turns ago has been repaired! The effects" +
-                    " of this have been reversed.";
+            messageToReturn = "The damage to Player " + this.playerAffected +" from the earthquake 2 turns ago " +
+                    "has been repaired! The effects of this have been reversed.";
         }
         
         return messageToReturn;
@@ -77,6 +80,10 @@ public class Earthquake extends RandomEvent {
         }
 
         return tilesAffected;
+    }
+
+    public String toString() {
+        return "<Earthquake: Duration = " + this.duration + ">";
     }
 
 

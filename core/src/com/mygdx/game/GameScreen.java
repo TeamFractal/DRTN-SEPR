@@ -178,6 +178,12 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      */
     private Overlay upgradeOverlay;
 
+    private Overlay eventMessageOverlay;
+
+    private Label eventMessage;
+
+    private TextButton closeEventMessageButton;
+
     /**
      * Determines whether the aforementioned roboticon upgrade overlay is to be drawn to the screen
      */
@@ -189,6 +195,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private boolean drawRoboticonIcon;
     private Tile selectedTile;
     private Table tableRight;
+    private boolean eventMessageOverlayVisible;
 
     /**
      * The game-screen's initial constructor
@@ -246,6 +253,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         constructUpgradeOverlay();
         //Construct roboticon upgrade overlay (and, again, hide it for the moment)
+        constructEventMessageOverlay();
 
         //drawer.debug(gameStage);
         //Call this to draw temporary debug lines around all of the actors on the stage
@@ -286,6 +294,10 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                     //If any of the tiles' tooltips are deemed "active", render them to the screen too
                 }
             }
+            else {
+                upgradeOverlay.act(delta);
+                upgradeOverlay.draw();
+            }
 
             if (drawRoboticonIcon) {
                 drawer.drawRoboticon(selectedTile.getRoboticonStored(),
@@ -294,9 +306,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 );
             }
 
-            if (upgradeOverlayVisible) {
-                upgradeOverlay.act(delta);
-                upgradeOverlay.draw();
+            if (eventMessageOverlayVisible) {
+                eventMessageOverlay.act(delta);
+                eventMessageOverlay.draw();
             }
             //Draw the roboticon upgrade overlay to the screen if the "upgrade" button has been selected
         } else if (engine.state() == GameEngine.State.PAUSE) {
@@ -477,6 +489,14 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 closeUpgradeOverlay();
+            }
+        });
+
+        closeEventMessageButton = new TextButton("CLOSE MESSAGE", gameButtonStyle);
+        closeEventMessageButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                hideEventMessage();
             }
         });
     }
@@ -726,6 +746,38 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         drawer.addTableRow(upgradeOverlay.table(), closeUpgradeOverlayButton);
         //Add a final button for closing the overlay
+    }
+
+    public boolean getUpgradeOverlayVisible() {
+        return upgradeOverlayVisible;
+    }
+
+    private void constructEventMessageOverlay() {
+        eventMessageOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 800, 200, 3);
+        eventMessage = new Label("", new Label.LabelStyle(gameFont.font(), Color.WHITE));
+
+        eventMessageOverlayVisible = false;
+
+        gameFont.setSize(26);
+
+        eventMessageOverlay.table().add(new Label("RANDOM EVENT!", new Label.LabelStyle(gameFont.font(), Color.WHITE)));
+
+        gameFont.setSize(20);
+        eventMessageOverlay.table().row();
+        eventMessageOverlay.table().add(eventMessage);
+
+        drawer.addTableRow(eventMessageOverlay.table(), closeEventMessageButton);
+    }
+
+    public void showEventMessage(String message) {
+        eventMessage.setText(message);
+        eventMessageOverlayVisible = true;
+        Gdx.input.setInputProcessor(eventMessageOverlay);
+    }
+
+    public void hideEventMessage() {
+        eventMessageOverlayVisible = false;
+        Gdx.input.setInputProcessor(gameStage);
     }
 
     /**
@@ -1065,4 +1117,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     public void updatePlayerName() {
         currentPlayerLabel.setText("Player " + engine.currentPlayerID());
     }
+
+
 }
