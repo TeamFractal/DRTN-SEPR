@@ -94,7 +94,6 @@ public class MiniGameScreen extends AbstractAnimationScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Player player = GameEngine.getInstance().currentPlayer();
-
                 GameEngine.getInstance().backToGame();
                 GameEngine.getInstance().updateCurrentPlayer(player);
             }
@@ -114,12 +113,15 @@ public class MiniGameScreen extends AbstractAnimationScreen implements Screen {
                 System.out.println(choose_gift.toString());
                 switch (choose_gift) {
                     case money:
+                        GameEngine.getInstance().currentPlayer().setMoney(GameEngine.getInstance().currentPlayer().getMoney() - 20);
                         player.setMoney(player.getMoney() + 100);
                         break;
                     case robotcoin:
+                        GameEngine.getInstance().currentPlayer().setMoney(GameEngine.getInstance().currentPlayer().getMoney() - 20);
                         player.increaseRoboticonInventory();
                         break;
                     case lose_money:
+                        GameEngine.getInstance().currentPlayer().setMoney(GameEngine.getInstance().currentPlayer().getMoney() - 20);
                         break;
                 }
 
