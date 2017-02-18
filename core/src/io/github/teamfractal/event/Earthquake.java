@@ -1,11 +1,13 @@
-package com.mygdx.game;
+package io.github.teamfractal.event;
+
+import io.github.teamfractal.GameEngine;
+import io.github.teamfractal.actor.Tile;
+import io.github.teamfractal.model.Player;
+import io.github.teamfractal.screens.GameScreen;
 
 import java.util.*;
 
-/**
- * Created by jack_holt on 06/02/17.
- */
-public class Earthquake extends RandomEvent {
+public class Earthquake extends GameEvent {
 
     private int playerAffected;
     private GameEngine gameEngine;

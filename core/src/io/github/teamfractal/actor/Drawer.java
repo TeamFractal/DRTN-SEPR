@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal.actor;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -18,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import io.github.teamfractal.model.Roboticon;
+import io.github.teamfractal.util.TTFont;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters

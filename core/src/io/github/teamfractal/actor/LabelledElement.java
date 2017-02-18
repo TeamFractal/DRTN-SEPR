@@ -1,9 +1,10 @@
-package com.mygdx.game;
+package io.github.teamfractal.actor;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import io.github.teamfractal.util.TTFont;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters

@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal.actor;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import io.github.teamfractal.actor.Drawer;
 import io.github.teamfractal.model.Player;
+import io.github.teamfractal.model.Roboticon;
 import io.github.teamfractal.util.TTFont;
 
 /**

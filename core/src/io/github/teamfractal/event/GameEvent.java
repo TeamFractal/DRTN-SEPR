@@ -1,18 +1,17 @@
-package com.mygdx.game;
+package io.github.teamfractal.event;
+
+import io.github.teamfractal.screens.GameScreen;
 
 import java.util.Random;
 
-/**
- * Created by jack_holt on 06/02/17.
- */
-public abstract class RandomEvent {
+public abstract class GameEvent {
 
     // Fields shared by all random events
     Random randomiser;
     protected GameScreen gameScreen;
     private int eventCooldown;
 
-    RandomEvent(GameScreen gameScreen) {
+    GameEvent(GameScreen gameScreen) {
         this.randomiser = new Random();
         this.gameScreen = gameScreen;
         this.eventCooldown = 0;

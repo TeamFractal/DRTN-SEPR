@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal.actor;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -9,7 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import io.github.teamfractal.actor.Drawer;
+import io.github.teamfractal.model.Trade;
+import io.github.teamfractal.GameEngine;
 import io.github.teamfractal.model.Player;
 import io.github.teamfractal.util.TTFont;
 
@@ -551,7 +552,7 @@ public class Market extends Table {
         confirmSale.addListener(new ChangeListener() {
         	@Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-        		Trade trade = new Trade(oreTradeAmount, energyTradeAmount, foodTradeAmount, 
+        		Trade trade = new Trade(oreTradeAmount, energyTradeAmount, foodTradeAmount,
             			tradePrice,engine.currentPlayer(), otherPlayer.get(playerListPosition));
             	engine.currentPlayer().setTrade(trade);
             	engine.addTrade(trade);
