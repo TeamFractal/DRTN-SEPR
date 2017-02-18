@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal.screens;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters
@@ -53,7 +53,7 @@ public class SplashScreen implements Screen {
         @Override
         public boolean keyDown(int keycode) {
             timer.stop();
-            game.setScreen(new MainMenu(game));
+            game.setScreen(new MainMenuScreen(game));
             return false;
             //Skip past the splash screen if the game receives any keyboard input
         }
@@ -71,7 +71,7 @@ public class SplashScreen implements Screen {
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             timer.stop();
-            game.setScreen(new MainMenu(game));
+            game.setScreen(new MainMenuScreen(game));
             return false;
             //Skip past the splash screen if the game receives any mouse input
         }
@@ -132,7 +132,7 @@ public class SplashScreen implements Screen {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                game.setScreen(new MainMenu(game));
+                game.setScreen(new MainMenuScreen(game));
             }
         }, delay);
         //Open the game's main menu when the timer reaches its first interval

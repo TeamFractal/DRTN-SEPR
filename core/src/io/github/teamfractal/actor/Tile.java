@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import io.github.teamfractal.actor.Drawer;
+import io.github.teamfractal.model.Player;
+import io.github.teamfractal.util.TTFont;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters

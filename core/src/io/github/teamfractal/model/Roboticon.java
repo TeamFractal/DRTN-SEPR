@@ -1,7 +1,8 @@
-package com.mygdx.game;
+package io.github.teamfractal.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import io.github.teamfractal.actor.Tile;
 
 import java.util.Random;
 

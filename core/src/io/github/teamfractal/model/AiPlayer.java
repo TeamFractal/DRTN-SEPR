@@ -1,4 +1,9 @@
-package com.mygdx.game;
+package io.github.teamfractal.model;
+
+import io.github.teamfractal.GameEngine;
+import io.github.teamfractal.actor.Market;
+import io.github.teamfractal.actor.Tile;
+import io.github.teamfractal.screens.GameScreen;
 
 import java.util.Random;
 

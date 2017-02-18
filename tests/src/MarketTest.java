@@ -1,8 +1,8 @@
 import com.badlogic.gdx.Game;
-import com.mygdx.game.GameEngine;
-import com.mygdx.game.GameScreen;
-import com.mygdx.game.Market;
-import com.mygdx.game.Player;
+import io.github.teamfractal.GameEngine;
+import io.github.teamfractal.screens.GameScreen;
+import io.github.teamfractal.actor.Market;
+import io.github.teamfractal.model.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

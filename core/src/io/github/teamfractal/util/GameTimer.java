@@ -1,7 +1,8 @@
-package com.mygdx.game;
+package io.github.teamfractal.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Timer;
+import io.github.teamfractal.util.TTFont;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters

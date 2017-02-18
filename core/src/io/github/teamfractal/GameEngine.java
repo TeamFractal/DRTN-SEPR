@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -6,6 +6,20 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import io.github.teamfractal.actor.Market;
+import io.github.teamfractal.model.Roboticon;
+import io.github.teamfractal.actor.Tile;
+import io.github.teamfractal.model.Trade;
+import io.github.teamfractal.actor.Drawer;
+import io.github.teamfractal.event.Earthquake;
+import io.github.teamfractal.event.GameEvent;
+import io.github.teamfractal.model.AiPlayer;
+import io.github.teamfractal.model.College;
+import io.github.teamfractal.model.Player;
+import io.github.teamfractal.screens.GameScreen;
+import io.github.teamfractal.screens.MiniGameScreen;
+import io.github.teamfractal.util.GameTimer;
+import io.github.teamfractal.util.TTFont;
 
 import java.util.*;
 
@@ -102,7 +116,7 @@ public class GameEngine {
 
 	private College[] colleges;
 
-    private ArrayList<RandomEvent> randomEvents = new ArrayList<RandomEvent>();
+    private ArrayList<GameEvent> gameEvents = new ArrayList<GameEvent>();
 
     /**
      * Constructs the game's engine. Imports the game's state (for direct renderer access) and the data held by the
@@ -258,11 +272,11 @@ public class GameEngine {
 
     public void checkEventDurations() {
 
-        Iterator<RandomEvent> randomEventIterator = randomEvents.iterator();
+        Iterator<GameEvent> randomEventIterator = gameEvents.iterator();
 
         while (randomEventIterator.hasNext()) {
 
-            RandomEvent event = randomEventIterator.next();
+            GameEvent event = randomEventIterator.next();
 
             if (event.getDuration() == 0) {
                 event.decDuration();
@@ -277,7 +291,7 @@ public class GameEngine {
                 event.decDuration();
             }
 
-            System.out.println(randomEvents.toString());
+            System.out.println(gameEvents.toString());
         }
     }
 
@@ -288,15 +302,15 @@ public class GameEngine {
         switch(eventValue) {
             case 0:
                 // Checks if any earthquakes have happened in the last x turns
-                for (RandomEvent event: randomEvents) {
+                for (GameEvent event: gameEvents) {
                     if ((event instanceof Earthquake)) {
                         eventHappened = true;
                     }
                 }
 
                 if (!eventHappened) {
-                    randomEvents.add(new Earthquake(this, gameScreen));
-                    randomEvents.get(randomEvents.size() - 1).eventHappen(true);
+                    gameEvents.add(new Earthquake(this, gameScreen));
+                    gameEvents.get(gameEvents.size() - 1).eventHappen(true);
                 }
                 break;
         }

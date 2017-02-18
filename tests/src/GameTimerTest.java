@@ -1,7 +1,7 @@
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.mygdx.game.GameTimer;
-import com.mygdx.game.TTFont;
+import io.github.teamfractal.util.GameTimer;
+import io.github.teamfractal.util.TTFont;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

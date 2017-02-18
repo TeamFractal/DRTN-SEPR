@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -14,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import io.github.teamfractal.actor.Drawer;
+import io.github.teamfractal.GameEngine;
+import io.github.teamfractal.util.TTFont;
 
 public class PlayerSelectScreen implements Screen {
 	

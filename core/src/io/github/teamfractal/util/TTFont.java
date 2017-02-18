@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal.util;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;

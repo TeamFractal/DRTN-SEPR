@@ -1,4 +1,6 @@
-package com.mygdx.game;
+package io.github.teamfractal.model;
+
+import io.github.teamfractal.actor.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class Player {
     /**
      * The college that the player is playing as.
      */
-    private College College;
+    private io.github.teamfractal.model.College College;
 
     /**
      * A list of the tiles that the player owns.

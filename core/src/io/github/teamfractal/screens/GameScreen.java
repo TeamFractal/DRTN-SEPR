@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal.screens;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters
@@ -29,10 +29,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
+import io.github.teamfractal.GameEngine;
+import io.github.teamfractal.actor.Drawer;
+import io.github.teamfractal.actor.LabelledElement;
+import io.github.teamfractal.actor.Tile;
 import io.github.teamfractal.animation.AnimationTileFlash;
 import io.github.teamfractal.animation.IAnimation;
-import io.github.teamfractal.screens.AbstractAnimationScreen;
 import io.github.teamfractal.animation.AnimationPlayerWin;
+import io.github.teamfractal.model.Trade;
+import io.github.teamfractal.util.TTFont;
 
 
 public class GameScreen extends AbstractAnimationScreen implements Screen {

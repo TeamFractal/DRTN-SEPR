@@ -1,11 +1,13 @@
-package com.mygdx.game;
+package io.github.teamfractal.model;
+
+import io.github.teamfractal.model.Player;
 
 public class Trade {
 	public final int oreAmount;
 	public final int energyAmount;
 	public final int foodAmount;
 	private int price;
-	private Player sender; 
+	private Player sender;
 	private Player targetPlayer;
 
 	public Trade(int oreAmount, int energyAmount, int foodAmount, int price,

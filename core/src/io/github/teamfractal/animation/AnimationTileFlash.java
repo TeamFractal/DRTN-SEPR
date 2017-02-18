@@ -2,7 +2,7 @@ package io.github.teamfractal.animation;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.game.GameEngine;
+import io.github.teamfractal.GameEngine;
 import io.github.teamfractal.screens.AbstractAnimationScreen;
 
 import java.util.ArrayList;

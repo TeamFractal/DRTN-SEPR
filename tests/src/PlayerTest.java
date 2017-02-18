@@ -1,5 +1,9 @@
 import com.badlogic.gdx.Game;
-import com.mygdx.game.*;
+import io.github.teamfractal.Main;
+import io.github.teamfractal.actor.Tile;
+import io.github.teamfractal.model.College;
+import io.github.teamfractal.model.Player;
+import io.github.teamfractal.model.Roboticon;
 import org.junit.Test;
 
 import java.util.ArrayList;

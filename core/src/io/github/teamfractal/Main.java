@@ -1,6 +1,7 @@
-package com.mygdx.game;
+package io.github.teamfractal;
 
 import com.badlogic.gdx.Game;
+import io.github.teamfractal.screens.SplashScreen;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters

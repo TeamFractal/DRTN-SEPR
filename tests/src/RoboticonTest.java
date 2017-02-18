@@ -1,8 +1,8 @@
 import com.badlogic.gdx.Game;
-import com.mygdx.game.Main;
-import com.mygdx.game.Player;
-import com.mygdx.game.Roboticon;
-import com.mygdx.game.Tile;
+import io.github.teamfractal.Main;
+import io.github.teamfractal.model.Player;
+import io.github.teamfractal.model.Roboticon;
+import io.github.teamfractal.actor.Tile;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;

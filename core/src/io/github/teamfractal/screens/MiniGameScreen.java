@@ -1,6 +1,5 @@
-package com.mygdx.game;
+package io.github.teamfractal.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,7 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import io.github.teamfractal.screens.AbstractAnimationScreen;
+import io.github.teamfractal.GameEngine;
+import io.github.teamfractal.util.TTFont;
+import io.github.teamfractal.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package io.github.teamfractal.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -15,6 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import io.github.teamfractal.actor.Drawer;
+import io.github.teamfractal.screens.PlayerSelectScreen;
+import io.github.teamfractal.util.TTFont;
 
 /**
  * @author Duck Related Team Name in Big Massive Letters
@@ -24,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
  * An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
  * Our website is: https://jm179796.github.io/SEPR/
  */
-public class MainMenu implements Screen {
+public class MainMenuScreen implements Screen {
 
     /**
      * Stores current game-state, enabling transitions between screens and external QOL drawing functions
@@ -84,7 +87,7 @@ public class MainMenu implements Screen {
      *
      * @param game Variable storing the game's state for rendering purposes
      */
-    public MainMenu(Game game) {
+    public MainMenuScreen(Game game) {
         this.game = game;
     }
     //Import current game-state
