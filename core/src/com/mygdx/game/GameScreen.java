@@ -250,6 +250,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         return gameFont;
     }
 
+    boolean shown = false;
     /**
      * Executes when the game-screen is loaded up, typically from the point of another screen
      * Serves as an extension of the screen's constructor that primarily builds visual elements
@@ -260,11 +261,14 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      */
     @Override
     public void show() {
+        if (gameStage != null) Gdx.input.setInputProcessor(gameStage);
+        if (shown) return ;
+
+        shown = true;
         drawer = new Drawer(game);
         //Import QOL drawing functions
 
         gameStage = new Stage();
-        Gdx.input.setInputProcessor(gameStage);
         //Prepare the local stage and set it up to accept inputs
 
         map = new Image(new Texture("image/TestMap.png"));
@@ -433,7 +437,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (engine.currentPlayer().getMoney() >= 20){
-                    engine.currentPlayer().setMoney(engine.currentPlayer().getMoney() - 20);
                     engine.miniGame();
                 }
                 else{
