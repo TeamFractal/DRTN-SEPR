@@ -638,6 +638,19 @@ public class GameEngine {
         gameScreen.closeTradeOverlay();
     }
 
+
+    public void miniGame() {
+        game.setScreen(new MiniGameScreen());
+    }
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
+
+    public void backToGame(){
+        game.setScreen(getGameScreen());
+
+    }
     /**
      * Encodes possible play-states
      * These are not to be confused with the game-state (which is directly linked to the renderer)

@@ -59,11 +59,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private Stage pauseStage;
 
     /**
-     * Font which will be adopted by the game-screen's main interface
-     */
-    private TTFont gameFont;
-
-    /**
      * Holds the image of the in-game map
      */
     private Image map;
@@ -125,6 +120,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private TextButton pauseButton;
 
     /**
+     * Button which can be clicked on to go to the mini game
+     */
+
+    private TextButton miniGameButton;
+    /**
      * Button which allows players to claim selected tiles
      */
     private TextButton claimTileButton;
@@ -155,9 +155,27 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     private TextButton closeUpgradeOverlayButton;
 
     /**
+     * Font which will be adopted by the game-screen's main interface
+     */
+    private static TTFont gameFont;
+
+    public static TextButton.TextButtonStyle getGameButtonStyle() {
+        return gameButtonStyle;
+    }
+
+    /**
      * Establish visual parameters for in-game buttons
      */
-    private TextButton.TextButtonStyle gameButtonStyle;
+    private static TextButton.TextButtonStyle gameButtonStyle;
+    static {
+        gameFont = new TTFont(Gdx.files.internal("font/testfontbignoodle.ttf"), 36);
+
+        gameButtonStyle = new TextButton.TextButtonStyle();
+        gameButtonStyle.font = gameFont.font();
+        gameButtonStyle.fontColor = Color.WHITE;
+        gameButtonStyle.pressedOffsetX = 1;
+        gameButtonStyle.pressedOffsetY = -1;
+    }
 
     /**
      * Icon representing the currently-active player's chosen college
@@ -228,6 +246,10 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         this(game, true);
     }
 
+    public static TTFont getGameFont() {
+        return gameFont;
+    }
+
     /**
      * Executes when the game-screen is loaded up, typically from the point of another screen
      * Serves as an extension of the screen's constructor that primarily builds visual elements
@@ -244,9 +266,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         gameStage = new Stage();
         Gdx.input.setInputProcessor(gameStage);
         //Prepare the local stage and set it up to accept inputs
-
-        gameFont = new TTFont(Gdx.files.internal("font/testfontbignoodle.ttf"), 36);
-        //Set fonts for game interface
 
         map = new Image(new Texture("image/TestMap.png"));
         map.setPosition((Gdx.graphics.getWidth() / 2) - (map.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (map.getHeight() / 2));
@@ -372,9 +391,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      */
     @Override
     public void dispose() {
-        gameFont.dispose();
-        //Dispose of the core BitmapFont object within this TTFont object
-
         gameStage.dispose();
         //Dispose of the stage
     }
@@ -384,13 +400,6 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      * on-click functions together
      */
     private void constructButtons() {
-        gameButtonStyle = new TextButton.TextButtonStyle();
-        gameButtonStyle.font = gameFont.font();
-        gameButtonStyle.fontColor = Color.WHITE;
-        gameButtonStyle.pressedOffsetX = 1;
-        gameButtonStyle.pressedOffsetY = -1;
-        //Set up visual parameters for buttons
-
         /**
          * Button that, when clicked, ends the current turn for the current player prematurely
          */
@@ -412,6 +421,24 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 engine.pauseGame();
+            }
+        });
+
+
+        /**
+         * Button which can be clicked on to go to the mini game
+         */
+        miniGameButton = new TextButton("Mini Game ($20)", gameButtonStyle);
+        miniGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (engine.currentPlayer().getMoney() >= 20){
+                    engine.currentPlayer().setMoney(engine.currentPlayer().getMoney() - 20);
+                    engine.miniGame();
+                }
+                else{
+                    System.out.println("not enough money");
+                }
             }
         });
 
@@ -623,7 +650,10 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         //Add resource-counters to the table
         //These will show the current resource stocks for the current player
 
-        drawer.addTableRow(tableLeft, pauseButton, 105, 0, 0, 0, 2);
+        drawer.addTableRow(tableLeft, miniGameButton, 105-40, 0, 0, 0, 2);
+
+
+        drawer.addTableRow(tableLeft, pauseButton, 0, 0, 0, 0, 2);
         //Prepare and add the pause button to the bottom of the table
 
         gameStage.addActor(tableLeft);
