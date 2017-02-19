@@ -3,6 +3,7 @@ import com.mygdx.game.GameEngine;
 import com.mygdx.game.GameScreen;
 import com.mygdx.game.Market;
 import com.mygdx.game.Player;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -19,8 +20,15 @@ public class MarketTest extends TesterFile{
     private Player TestPlayer = new Player(0);
     private Game testGame;
     private GameScreen testScreen;
-    private GameEngine testGameEngine = new GameEngine(testGame,testScreen);
-    private Market TestMarket = new Market(testGame,testGameEngine);
+    private GameEngine testGameEngine;
+    private Market testMarket;
+
+    @Before
+    public void setup() {
+        testGameEngine = new GameEngine(testGame,testScreen);
+        testGameEngine.initialisePlayers(0, 2);
+        testMarket = new Market(testGame,testGameEngine);
+    }
 
     /**
      * Tests Valid buy conditions for all resources.
@@ -38,12 +46,12 @@ public class MarketTest extends TesterFile{
         //Energy
         TestPlayer.setEnergyCount(10);
         TestPlayer.setMoney(100);
-        TestMarket.setEnergySellPrice(10);
-        TestMarket.setEnergyBuyPrice(10);
-        TestMarket.setEnergyStock(10);
+        testMarket.setEnergySellPrice(10);
+        testMarket.setEnergyBuyPrice(10);
+        testMarket.setEnergyStock(10);
 
         try {
-            TestMarket.buy("energy", 10, TestPlayer);
+            testMarket.buy("energy", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
@@ -53,21 +61,21 @@ public class MarketTest extends TesterFile{
         int TestMoney = 0;
         assertEquals(TestMoney, TestPlayer.getMoney());
         int TestSellPrice = 200;
-        assertEquals(TestSellPrice, TestMarket.getEnergySellPrice());
+        assertEquals(TestSellPrice, testMarket.getEnergySellPrice());
         int TestBuyPrice = 0;
-        assertEquals(TestBuyPrice, TestMarket.getEnergyBuyPrice());
+        assertEquals(TestBuyPrice, testMarket.getEnergyBuyPrice());
         int TestFoodStock = 0;
-        assertEquals(TestFoodStock, TestMarket.getEnergyStock());
+        assertEquals(TestFoodStock, testMarket.getEnergyStock());
 
         //Ore
         TestPlayer.setOreCount(10);
         TestPlayer.setMoney(100);
-        TestMarket.setOreSellPrice(10);
-        TestMarket.setOreBuyPrice(10);
-        TestMarket.setOreStock(10);
+        testMarket.setOreSellPrice(10);
+        testMarket.setOreBuyPrice(10);
+        testMarket.setOreStock(10);
 
         try {
-            TestMarket.buy("ore", 10, TestPlayer);
+            testMarket.buy("ore", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
@@ -77,21 +85,21 @@ public class MarketTest extends TesterFile{
         TestMoney = 0;
         assertEquals(TestMoney, TestPlayer.getMoney());
         TestSellPrice = 200;
-        assertEquals(TestSellPrice, TestMarket.getOreSellPrice());
+        assertEquals(TestSellPrice, testMarket.getOreSellPrice());
         TestBuyPrice = 0;
-        assertEquals(TestBuyPrice, TestMarket.getOreBuyPrice());
+        assertEquals(TestBuyPrice, testMarket.getOreBuyPrice());
         int TestOreStock = 0;
-        assertEquals(TestOreStock, TestMarket.getOreStock());
+        assertEquals(TestOreStock, testMarket.getOreStock());
 
         //Food
         TestPlayer.setFoodCount(10);
         TestPlayer.setMoney(100);
-        TestMarket.setFoodSellPrice(10);
-        TestMarket.setFoodBuyPrice(10);
-        TestMarket.setFoodStock(10);
+        testMarket.setFoodSellPrice(10);
+        testMarket.setFoodBuyPrice(10);
+        testMarket.setFoodStock(10);
 
         try {
-            TestMarket.buy("food", 10, TestPlayer);
+            testMarket.buy("food", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
@@ -101,19 +109,19 @@ public class MarketTest extends TesterFile{
         TestMoney = 0;
         assertEquals(TestMoney, TestPlayer.getMoney());
         TestSellPrice = 200;
-        assertEquals(TestSellPrice, TestMarket.getFoodSellPrice());
+        assertEquals(TestSellPrice, testMarket.getFoodSellPrice());
         TestBuyPrice = 0;
-        assertEquals(TestBuyPrice, TestMarket.getFoodBuyPrice());
+        assertEquals(TestBuyPrice, testMarket.getFoodBuyPrice());
         TestFoodStock = 0;
-        assertEquals(TestFoodStock, TestMarket.getFoodStock());
+        assertEquals(TestFoodStock, testMarket.getFoodStock());
 
         //Roboticon
         TestPlayer.setMoney(1000);
-        TestMarket.setRoboticonBuyPrice(10);
-        TestMarket.setRoboticonStock(10);
+        testMarket.setRoboticonBuyPrice(10);
+        testMarket.setRoboticonStock(10);
 
         try {
-            TestMarket.buy("roboticon", 1, TestPlayer);
+            testMarket.buy("roboticon", 1, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
@@ -138,12 +146,12 @@ public class MarketTest extends TesterFile{
         //Energy
         TestPlayer.setEnergyCount(10);
         TestPlayer.setMoney(100);
-        TestMarket.setEnergySellPrice(10);
-        TestMarket.setEnergyBuyPrice(10);
-        TestMarket.setEnergyStock(100);
+        testMarket.setEnergySellPrice(10);
+        testMarket.setEnergyBuyPrice(10);
+        testMarket.setEnergyStock(100);
 
         try {
-            TestMarket.buy("energy", 100, TestPlayer);
+            testMarket.buy("energy", 100, TestPlayer);
             fail("Expected an exception to be thrown");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Insufficient money");
@@ -154,21 +162,21 @@ public class MarketTest extends TesterFile{
         int TestMoney = 100;
         assertEquals(TestMoney, TestPlayer.getMoney());
         int TestSellPrice = 10;
-        assertEquals(TestSellPrice, TestMarket.getEnergySellPrice());
+        assertEquals(TestSellPrice, testMarket.getEnergySellPrice());
         int TestBuyPrice = 10;
-        assertEquals(TestBuyPrice, TestMarket.getEnergyBuyPrice());
+        assertEquals(TestBuyPrice, testMarket.getEnergyBuyPrice());
         int TestEnergyStock = 100;
-        assertEquals(TestEnergyStock, TestMarket.getEnergyStock());
+        assertEquals(TestEnergyStock, testMarket.getEnergyStock());
 
         //Ore
         TestPlayer.setOreCount(10);
         TestPlayer.setMoney(100);
-        TestMarket.setOreSellPrice(10);
-        TestMarket.setOreBuyPrice(10);
-        TestMarket.setOreStock(100);
+        testMarket.setOreSellPrice(10);
+        testMarket.setOreBuyPrice(10);
+        testMarket.setOreStock(100);
 
         try {
-            TestMarket.buy("ore", 100, TestPlayer);
+            testMarket.buy("ore", 100, TestPlayer);
             fail("Expected an exception to be thrown");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Insufficient money");
@@ -179,21 +187,21 @@ public class MarketTest extends TesterFile{
         TestMoney = 100;
         assertEquals(TestMoney, TestPlayer.getMoney());
         TestSellPrice = 10;
-        assertEquals(TestSellPrice, TestMarket.getOreSellPrice());
+        assertEquals(TestSellPrice, testMarket.getOreSellPrice());
         TestBuyPrice = 10;
-        assertEquals(TestBuyPrice, TestMarket.getOreBuyPrice());
+        assertEquals(TestBuyPrice, testMarket.getOreBuyPrice());
         int TestOreStock = 100;
-        assertEquals(TestOreStock, TestMarket.getOreStock());
+        assertEquals(TestOreStock, testMarket.getOreStock());
 
         //Food
         TestPlayer.setFoodCount(10);
         TestPlayer.setMoney(100);
-        TestMarket.setFoodSellPrice(10);
-        TestMarket.setFoodBuyPrice(10);
-        TestMarket.setFoodStock(100);
+        testMarket.setFoodSellPrice(10);
+        testMarket.setFoodBuyPrice(10);
+        testMarket.setFoodStock(100);
 
         try {
-            TestMarket.buy("food", 100, TestPlayer);
+            testMarket.buy("food", 100, TestPlayer);
             fail("Expected an exception to be thrown");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Insufficient money");
@@ -204,30 +212,30 @@ public class MarketTest extends TesterFile{
         TestMoney = 100;
         assertEquals(TestMoney, TestPlayer.getMoney());
         TestSellPrice = 10;
-        assertEquals(TestSellPrice, TestMarket.getFoodSellPrice());
+        assertEquals(TestSellPrice, testMarket.getFoodSellPrice());
         TestBuyPrice = 10;
-        assertEquals(TestBuyPrice, TestMarket.getFoodBuyPrice());
+        assertEquals(TestBuyPrice, testMarket.getFoodBuyPrice());
         int TestFoodStock = 100;
-        assertEquals(TestFoodStock, TestMarket.getFoodStock());
+        assertEquals(TestFoodStock, testMarket.getFoodStock());
 
         //Roboticon
         TestPlayer.setMoney(1);
-        TestMarket.setRoboticonBuyPrice(10);
-        TestMarket.setRoboticonStock(10);
+        testMarket.setRoboticonBuyPrice(10);
+        testMarket.setRoboticonStock(10);
 
         try {
-            TestMarket.buy("roboticon", 10, TestPlayer);
+            testMarket.buy("roboticon", 10, TestPlayer);
             fail("Expected an exception to be thrown");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Insufficient money");
         }
 
         TestPlayer.setMoney(100);
-        TestMarket.setRoboticonBuyPrice(10);
-        TestMarket.setRoboticonStock(0);
+        testMarket.setRoboticonBuyPrice(10);
+        testMarket.setRoboticonStock(0);
 
         try {
-            TestMarket.buy("roboticon", 10, TestPlayer);
+            testMarket.buy("roboticon", 10, TestPlayer);
             fail("Expected an exception to be thrown");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "No available Roboticons");
@@ -249,12 +257,12 @@ public class MarketTest extends TesterFile{
         //ore
         TestPlayer.setOreCount(10);
         TestPlayer.setMoney(10);
-        TestMarket.setOreSellPrice(10);
-        TestMarket.setOreBuyPrice(10);
-        TestMarket.setOreStock(10);
+        testMarket.setOreSellPrice(10);
+        testMarket.setOreBuyPrice(10);
+        testMarket.setOreStock(10);
 
         try {
-            TestMarket.sell("ore", 10, TestPlayer);
+            testMarket.sell("ore", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
@@ -262,12 +270,12 @@ public class MarketTest extends TesterFile{
         //food
         TestPlayer.setFoodCount(10);
         TestPlayer.setMoney(10);
-        TestMarket.setFoodSellPrice(10);
-        TestMarket.setFoodBuyPrice(10);
-        TestMarket.setFoodStock(10);
+        testMarket.setFoodSellPrice(10);
+        testMarket.setFoodBuyPrice(10);
+        testMarket.setFoodStock(10);
 
         try {
-            TestMarket.sell("food", 10, TestPlayer);
+            testMarket.sell("food", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
@@ -275,11 +283,11 @@ public class MarketTest extends TesterFile{
         //energy
         TestPlayer.setEnergyCount(10);
         TestPlayer.setMoney(10);
-        TestMarket.setEnergySellPrice(10);
-        TestMarket.setEnergyBuyPrice(10);
-        TestMarket.setEnergyStock(10);
+        testMarket.setEnergySellPrice(10);
+        testMarket.setEnergyBuyPrice(10);
+        testMarket.setEnergyStock(10);
         try {
-            TestMarket.sell("energy", 10, TestPlayer);
+            testMarket.sell("energy", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
@@ -302,12 +310,12 @@ public class MarketTest extends TesterFile{
         //ore
         TestPlayer.setOreCount(10);
         TestPlayer.setMoney(10);
-        TestMarket.setOreSellPrice(10);
-        TestMarket.setOreBuyPrice(10);
-        TestMarket.setOreStock(10);
+        testMarket.setOreSellPrice(10);
+        testMarket.setOreBuyPrice(10);
+        testMarket.setOreStock(10);
 
         try {
-            TestMarket.sell("ore", 100, TestPlayer);
+            testMarket.sell("ore", 100, TestPlayer);
             fail("Expected an exception to be thrown");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Insufficient resources");
@@ -316,12 +324,12 @@ public class MarketTest extends TesterFile{
         //food
         TestPlayer.setFoodCount(10);
         TestPlayer.setMoney(10);
-        TestMarket.setFoodSellPrice(10);
-        TestMarket.setFoodBuyPrice(10);
-        TestMarket.setFoodStock(10);
+        testMarket.setFoodSellPrice(10);
+        testMarket.setFoodBuyPrice(10);
+        testMarket.setFoodStock(10);
 
         try {
-            TestMarket.sell("food", 100, TestPlayer);
+            testMarket.sell("food", 100, TestPlayer);
             fail("Expected an exception to be thrown");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Insufficient resources");
@@ -330,11 +338,11 @@ public class MarketTest extends TesterFile{
         //energy
         TestPlayer.setEnergyCount(10);
         TestPlayer.setMoney(10);
-        TestMarket.setEnergySellPrice(10);
-        TestMarket.setEnergyBuyPrice(10);
-        TestMarket.setEnergyStock(10);
+        testMarket.setEnergySellPrice(10);
+        testMarket.setEnergyBuyPrice(10);
+        testMarket.setEnergyStock(10);
         try {
-            TestMarket.sell("energy", 100, TestPlayer);
+            testMarket.sell("energy", 100, TestPlayer);
             fail("Expected an exception to be thrown");
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Insufficient resources");
@@ -348,9 +356,9 @@ public class MarketTest extends TesterFile{
 
         for (int j = 0; j < 100; j++) {
             if (TestPlayer.getMoney() < 50) {
-                assertNull(TestMarket.gamble(100, TestPlayer));
+                assertNull(testMarket.gamble(100, TestPlayer));
             } else if (TestPlayer.getMoney() >= 50) {
-                Boolean current = TestMarket.gamble(50, TestPlayer);
+                Boolean current = testMarket.gamble(50, TestPlayer);
                 assertTrue(((current == Boolean.TRUE) || (current == Boolean.FALSE)));
             }
         }
@@ -362,54 +370,54 @@ public class MarketTest extends TesterFile{
 
         TestPlayer.setEnergyCount(10);
         TestPlayer.setMoney(1000 );
-        TestMarket.setEnergySellPrice(2);
-        TestMarket.setEnergyBuyPrice(2);
-        TestMarket.setEnergyStock(100);
-        int initialbuyprice = TestMarket.getEnergyBuyPrice();
-        int initialsellprice = TestMarket.getEnergySellPrice();
+        testMarket.setEnergySellPrice(2);
+        testMarket.setEnergyBuyPrice(2);
+        testMarket.setEnergyStock(100);
+        int initialbuyprice = testMarket.getEnergyBuyPrice();
+        int initialsellprice = testMarket.getEnergySellPrice();
 
         try {
-            TestMarket.buy("energy", 10, TestPlayer);
+            testMarket.buy("energy", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
 
-        assertTrue(initialbuyprice < TestMarket.getEnergyBuyPrice());
-        assertTrue(initialsellprice > TestMarket.getEnergySellPrice());
+        assertTrue(initialbuyprice < testMarket.getEnergyBuyPrice());
+        assertTrue(initialsellprice > testMarket.getEnergySellPrice());
 
         TestPlayer.setOreCount(10);
         TestPlayer.setMoney(1000 );
-        TestMarket.setOreSellPrice(2);
-        TestMarket.setOreBuyPrice(2);
-        TestMarket.setOreStock(100);
-        initialbuyprice = TestMarket.getOreBuyPrice();
-        initialsellprice = TestMarket.getOreSellPrice();
+        testMarket.setOreSellPrice(2);
+        testMarket.setOreBuyPrice(2);
+        testMarket.setOreStock(100);
+        initialbuyprice = testMarket.getOreBuyPrice();
+        initialsellprice = testMarket.getOreSellPrice();
 
         try {
-            TestMarket.buy("ore", 10, TestPlayer);
+            testMarket.buy("ore", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
 
-        assertTrue(initialbuyprice < TestMarket.getOreBuyPrice());
-        assertTrue(initialsellprice > TestMarket.getOreSellPrice());
+        assertTrue(initialbuyprice < testMarket.getOreBuyPrice());
+        assertTrue(initialsellprice > testMarket.getOreSellPrice());
 
         TestPlayer.setFoodCount(10);
         TestPlayer.setMoney(1000 );
-        TestMarket.setFoodSellPrice(2);
-        TestMarket.setFoodBuyPrice(2);
-        TestMarket.setFoodStock(100);
-        initialbuyprice = TestMarket.getFoodBuyPrice();
-        initialsellprice = TestMarket.getFoodSellPrice();
+        testMarket.setFoodSellPrice(2);
+        testMarket.setFoodBuyPrice(2);
+        testMarket.setFoodStock(100);
+        initialbuyprice = testMarket.getFoodBuyPrice();
+        initialsellprice = testMarket.getFoodSellPrice();
 
         try {
-            TestMarket.buy("food", 10, TestPlayer);
+            testMarket.buy("food", 10, TestPlayer);
         } catch (Exception e) {
             fail("Expected to pass");
         }
 
-        assertTrue(initialbuyprice < TestMarket.getFoodBuyPrice());
-        assertTrue(initialsellprice > TestMarket.getFoodSellPrice());
+        assertTrue(initialbuyprice < testMarket.getFoodBuyPrice());
+        assertTrue(initialsellprice > testMarket.getFoodSellPrice());
     }
 
 
