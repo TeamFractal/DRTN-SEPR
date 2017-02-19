@@ -297,8 +297,8 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         constructUpgradeOverlay();
         //Construct roboticon upgrade overlay (and, again, hide it for the moment)
-        constructTooExpensiveOverlay();
         constructEventMessageOverlay();
+        constructTooExpensiveOverlay();
         //drawer.debug(gameStage);
         //Call this to draw temporary debug lines around all of the actors on the stage
 

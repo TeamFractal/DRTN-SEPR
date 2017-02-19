@@ -246,8 +246,9 @@ public class GameEngine {
         market.setPlayerListPosition(0);
         market.refreshAuction();
 
-        //If the upgrade overlay is open, close it when the next phase begins
-        gameScreen.closeUpgradeOverlay();
+        if (gameScreen.getUpgradeOverlayVisible()) {
+            gameScreen.closeUpgradeOverlay();
+        }
         testTrade();
 
         if (isCurrentlyAiPlayer()) {
@@ -281,24 +282,39 @@ public class GameEngine {
         }
     }
 
+    public boolean eventCurrentlyHappening(Integer eventValue) {
+        boolean eventHappened = false;
+        HashMap<Integer, String> eventLookUp = new HashMap<Integer, String>();
+
+        eventLookUp.put(0, "com.mygdx.game.Earthquake");
+        eventLookUp.put(1, "com.mygdx.game.Malfunction");
+
+        for (RandomEvent event : randomEvents) {
+            System.out.println(event.getClass().getName());
+            if ((event.getClass().getName() == eventLookUp.get(eventValue))) {
+                eventHappened = true;
+            }
+        }
+
+        return eventHappened;
+    }
+
+
     public void selectRandomEvent() {
         Random random = new Random();
-        boolean eventHappened = false;
-        int eventValue = random.nextInt(2);
-        switch(eventValue) {
-            case 0:
-                // Checks if any earthquakes have happened in the last x turns
-                for (RandomEvent event: randomEvents) {
-                    if ((event instanceof Earthquake)) {
-                        eventHappened = true;
-                    }
-                }
-
-                if (!eventHappened) {
+        int eventValue = random.nextInt(4);
+        boolean eventHappened = eventCurrentlyHappening(eventValue);
+        if (!eventHappened) {
+            switch (eventValue) {
+                case 0:
                     randomEvents.add(new Earthquake(this, gameScreen));
                     randomEvents.get(randomEvents.size() - 1).eventHappen(true);
-                }
-                break;
+                    break;
+                case 1:
+                    randomEvents.add(new Malfunction(this, gameScreen));
+                    randomEvents.get(randomEvents.size() - 1).eventHappen(true);
+                    break;
+            }
         }
     }
 
