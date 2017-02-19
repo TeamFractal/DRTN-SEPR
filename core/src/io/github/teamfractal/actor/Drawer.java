@@ -30,6 +30,9 @@ import io.github.teamfractal.util.TTFont;
  * Our website is: https://jm179796.github.io/SEPR/
  */
 public class Drawer {
+    private static Drawer _instance;
+    public static Drawer getInstance() { return _instance; }
+
     /**
      * Holds game-state
      */
@@ -43,7 +46,8 @@ public class Drawer {
      */
     public Drawer (Game game) {
         this.game = game;
-        //Import current game-state
+
+        _instance = this;
     }
 
     private static SpriteBatch batch;
@@ -86,12 +90,6 @@ public class Drawer {
             ex.printStackTrace();
         }
     }
-
-
-
-
-
-
 
 
     /**

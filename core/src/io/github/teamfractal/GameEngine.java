@@ -69,11 +69,6 @@ public class GameEngine {
     private int phase;
 
     /**
-     * Defines whether or not a tile has been acquired in the current phase of the game
-     */
-    private boolean tileAcquired;
-
-    /**
      * Timer used to dictate the pace and flow of the game
      * This has a visual interface which will be displayed in the top-left corner of the game-screen
      */
@@ -127,17 +122,12 @@ public class GameEngine {
      * primary interface.
      *
      * @param game Variable storing the game's state
-     * @param gameScreen The object encoding the in-game interface which is to be controlled by this engine
      */
-    public GameEngine(Game game, GameScreen gameScreen) {
+    public GameEngine(Game game) {
         _instance = this;
 
         this.game = game;
         //Import current game-state to access the game's renderer
-
-        this.gameScreen = gameScreen;
-        //Bind the engine to the main in-game interface
-        //Required to alter the visuals and logic of the interface directly through this engine
 
         drawer = new Drawer(this.game);
         //Import QOL drawing function
@@ -163,12 +153,11 @@ public class GameEngine {
 
         for (int i = 0; i < 16; i++) {
             final int fi = i;
-            final GameScreen gs = gameScreen;
 
             tiles[i] = new Tile(this.game, i + 1, 5, 5, 5, false, new Runnable() {
                 @Override
                 public void run() {
-                    gs.selectTile(tiles[fi], true);
+                    gameScreen.selectTile(tiles[fi], true);
                     selectedTile = tiles[fi];
                 }
             });
@@ -198,7 +187,6 @@ public class GameEngine {
         phase = 0;
         currentPlayerID = 0;
         trades = new Array<Trade>();
-
     }
 
     public void selectTile(Tile tile) {
@@ -226,7 +214,6 @@ public class GameEngine {
         market.refreshButtonAvailability();
         switch (phase) {
             case 1:
-                tileAcquired = false;
                 drawer.toggleButton(gameScreen.endTurnButton(), false, Color.GRAY);
                 break;
 
@@ -403,57 +390,14 @@ public class GameEngine {
      */
     public void claimTile() {
         if (phase == 1 && !selectedTile.isOwned()) {
-            players[currentPlayerID].assignTile(selectedTile);
             //Assign selected tile to current player
+            players[currentPlayerID].assignTile(selectedTile);
 
-            selectedTile.setOwner(players[currentPlayerID]);
             //Set the owner of the currently selected tile to be the current player
+            selectedTile.setOwner(players[currentPlayerID]);
 
-            tileAcquired = true;
-            //Mark that a tile has been acquired on this turn
-
-            switch (players[currentPlayerID].getCollege().getID()) {
-                case 0:
-                    //DERWENT
-                    selectedTile.setTileBorderColor(Color.BLUE);
-                    break;
-                case 1:
-                    //LANGWITH
-                    selectedTile.setTileBorderColor(Color.CHARTREUSE);
-                    break;
-                case 2:
-                    //VANBURGH
-                    selectedTile.setTileBorderColor(Color.TEAL);
-                    break;
-                case 3:
-                    //JAMES
-                    selectedTile.setTileBorderColor(Color.CYAN);
-                    break;
-                case 4:
-                    //WENTWORTH
-                    selectedTile.setTileBorderColor(Color.MAROON);
-                    break;
-                case 5:
-                    //HALIFAX
-                    selectedTile.setTileBorderColor(Color.YELLOW);
-                    break;
-                case 6:
-                    //ALCUIN
-                    selectedTile.setTileBorderColor(Color.RED);
-                    break;
-                case 7:
-                    //GOODRICKE
-                    selectedTile.setTileBorderColor(Color.GREEN);
-                    break;
-                case 8:
-                    //CONSTANTINE
-                    selectedTile.setTileBorderColor(Color.PINK);
-                    break;
-            }
-            //Set the colour of the tile's new border based on the college of the player who claimed it
-
-            nextPhase(); // at ClaimTile
-            //Advance the game
+            selectedTile.setTileBorderColor(players[currentPlayerID].getCollege().getColour());
+            nextPhase();
         }
     }
 
@@ -654,14 +598,14 @@ public class GameEngine {
     		Player player = new Player(i);
     		players[i] = player;
     		College college = colleges[i];
-    		college.assignPlayer(player);
+    		college.setPlayer(player);
     		player.assignCollege(college);
     	}
     	for(int i = playerAmount; i < length; i++){
     		Player player = new AiPlayer(i);
     		players[i] = player;
     		College college = colleges[i];
-    		college.assignPlayer(player);
+    		college.setPlayer(player);
     		player.assignCollege(college);
     	}
     	currentPlayerID = length - 1;
@@ -691,6 +635,11 @@ public class GameEngine {
         game.setScreen(getGameScreen());
 
     }
+
+    public void setScreen(GameScreen screen) {
+        this.gameScreen = screen;
+    }
+
     /**
      * Encodes possible play-states
      * These are not to be confused with the game-state (which is directly linked to the renderer)

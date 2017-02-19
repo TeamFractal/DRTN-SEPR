@@ -1,14 +1,5 @@
 package io.github.teamfractal.screens;
 
-/**
- * @author Duck Related Team Name in Big Massive Letters
- * @since Assessment 2
- * @version Assessment 2
- *
- * An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
- * Our website is: https://jm179796.github.io/SEPR/
- */
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -37,11 +28,12 @@ import io.github.teamfractal.animation.AnimationTileFlash;
 import io.github.teamfractal.animation.IAnimation;
 import io.github.teamfractal.animation.AnimationPlayerWin;
 import io.github.teamfractal.model.Trade;
+import io.github.teamfractal.stage.MainGame;
 import io.github.teamfractal.util.TTFont;
-
 
 public class GameScreen extends AbstractAnimationScreen implements Screen {
     private final static int tileXOffset = 256;
+    private final MainGame actors;
 
     /**
      * Stores current game-state, enabling transitions between screens and external QOL drawing functions
@@ -182,6 +174,10 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         gameButtonStyle.pressedOffsetY = -1;
     }
 
+    public static TTFont getFont() {
+        return gameFont;
+    }
+
     /**
      * Icon representing the currently-active player's chosen college
      */
@@ -242,20 +238,19 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      *
      * @param game Variable storing the game's state for rendering purposes
      */
-    public GameScreen(Game game, boolean vsPlayer) {
+    public GameScreen(Game game) {
+        this.drawer = new Drawer(game);
         this.game = game;
-        //Import current game-state to access the game's renderer
 
-        
+        gameStage = new Stage();
+        actors = new MainGame(this);
+        gameStage.addActor(actors);
+
         //Start game engine up
 
         batch = new SpriteBatch();
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-    }
-
-    public GameScreen(Game game) {
-        this(game, true);
     }
 
     public static TTFont getGameFont() {
@@ -273,15 +268,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      */
     @Override
     public void show() {
-        if (gameStage != null) Gdx.input.setInputProcessor(gameStage);
+        Gdx.input.setInputProcessor(gameStage);
         if (shown) return ;
 
         shown = true;
-        drawer = new Drawer(game);
-        //Import QOL drawing functions
-
-        gameStage = new Stage();
-        //Prepare the local stage and set it up to accept inputs
+        this.drawer = new Drawer(game);
 
         map = new Image(new Texture("image/TestMap.png"));
         map.setPosition((Gdx.graphics.getWidth() / 2) - (map.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (map.getHeight() / 2));
@@ -626,7 +617,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         tableLeft.center().top();
         //Shift the table towards the top of the screen
 
-        tableLeft.add(engine.timer()).colspan(2);
+        //tableLeft.add(engine.timer()).colspan(2);
         //Add the timer to the table
 
         gameFont.setSize(22);
@@ -684,12 +675,13 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         drawer.addTableRow(tableLeft, pauseButton, 0, 0, 0, 0, 2);
         //Prepare and add the pause button to the bottom of the table
 
-        gameStage.addActor(tableLeft);
+        // gameStage.addActor(tableLeft);
         //Add left-hand table to the stage
 
 
         updatePhaseLabel();
         updatePlayerName();
+        tableLeft.setVisible(false);
     }
 
     /**
@@ -750,7 +742,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         drawer.addTableRow(tableRight, engine.market(), 2);
         //Establish market and add market interface to right-hand table
 
-        gameStage.addActor(tableRight);
+        // gameStage.addActor(tableRight);
         //Add right-hand table to the stage
     }
 
@@ -771,7 +763,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
             tileGrid.row();
         }
 
-        gameStage.addActor(tileGrid);
+        // gameStage.addActor(tileGrid);
     }
 
     /**
@@ -1308,6 +1300,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     public void assignEngine(GameEngine engine){
     	this.engine = engine;
     }
-	
-    
+
+
+    public Stage getStage() {
+        return gameStage;
+    }
 }

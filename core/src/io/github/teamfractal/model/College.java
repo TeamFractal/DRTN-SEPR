@@ -1,179 +1,132 @@
 package io.github.teamfractal.model;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import io.github.teamfractal.model.Player;
 
-/**
- * @author Duck Related Team Name in Big Massive Letters
- * @version Assessment 2
- *          <p>
- *          An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
- *          Our website is: https://jm179796.github.io/SEPR/
- * @since Assessment 2
- */
 public class College {
 
-  /**
-   * The numeric representation of the college
-   *
-   * DERWENT: 1
-   * LANGWITH: 2
-   * VANBURGH: 3
-   * JAMES: 4
-   * WENTWORTH: 5
-   * HALIFAX: 6
-   * ALCUIN: 7
-   * GOODRICKE: 8
-   * CONSTANTINE: 9
-   */
-  private int ID;
+    /**
+     * The numeric representation of the college.
+     *
+     * DERWENT: 0
+     * LANGWITH: 1
+     * VANBURGH: 2
+     * JAMES: 3
+     * WENTWORTH: 4
+     * HALIFAX: 5
+     * ALCUIN: 6
+     * GOODRICKE: 7
+     * CONSTANTINE: 8
+     */
+    private int ID;
 
-  /**
-   * The name of the College.
-   */
-  private String Name;
+    /**
+     * The custom name that a player can choose for the college.
+     */
+    private String customName;
 
-  /**
-   * The custom name that a player can choose for the college.
-   */
-  private String CustomName;
+    /**
+     * The player is playing as the college.
+     */
+    private Player owner;
 
-  /**
-   * The effect(bonus) that the college uniquely has.
-   */
-  //private Effect Effect;
-  /**
-   * The player is playing as the college.
-   */
+    private final static Texture[] textures = new Texture[9];
+    private final static Image[] logos = new Image[9];
+    private final static String[] names = {
+            "Derwent", "Langwith", "Vanburgh", "James", "Wentworth",
+            "Halifax", "Alcuin", "Goodricke", "Constantine"};
+    private final static Color[] colours = {
+            Color.BLUE, Color.CHARTREUSE, Color.TEAL, Color.CYAN, Color.MAROON,
+            Color.YELLOW, Color.RED, Color.GREEN, Color.PINK
+    };
 
-  private Player Owner;
-
-  /**
-   * The description of the College.
-   */
-  private String Description;
-
-  /**
-   * The symbol of the college
-   */
-  private Image logo;
-
-  /**
-   * The texture encoding the symbol of the college
-   */
-  private Texture logoTexture;
-
-  /**
-   * The constructor for the College class
-   * This will assign a name and a logo to the College based on the ID provided
-   *
-   * @param ID The ID of the college.
-   * @param Description The description of the college.
-   */
-  public College(int ID, String Description){
-
-    this.ID = ID;
-    //Assign it to the college object otherwise
-
-    switch (this.ID) {
-      case 0:
-        this.Name = "Derwent";
-        this.logoTexture = new Texture("image/Derwent.png");
-        break;
-      case 1:
-        this.Name = "Langwith";
-        this.logoTexture = new Texture("image/Langwith.png");
-        break;
-      case 2:
-        this.Name = "Vanburgh";
-        this.logoTexture = new Texture("image/Vanbrugh.png");
-        break;
-      case 3:
-        this.Name = "James";
-        this.logoTexture = new Texture("image/James.png");
-        break;
-      case 4:
-        this.Name = "Wentworth";
-        this.logoTexture = new Texture("image/Wentworth.png");
-        break;
-      case 5:
-        this.Name = "Halifax";
-        this.logoTexture = new Texture("image/Halifax.png");
-        break;
-      case 6:
-        this.Name = "Alcuin";
-        this.logoTexture = new Texture("image/Alcuin.png");
-        break;
-      case 7:
-        this.Name = "Goodricke";
-        this.logoTexture = new Texture("image/Goodricke.png");
-        break;
-      case 8:
-        this.Name = "Constantine";
-        this.logoTexture = new Texture("image/Constantine.png");
-        break;
+    /**
+     * The constructor for the College class
+     * This will assign a name and a logo to the College based on the ID provided
+     *
+     * @param ID          The ID of the college.
+     * @param Description The description of the college.
+     */
+    public College(int ID, String Description) {
+        this.ID = ID;
     }
-    //College ID determines name and logo
 
-    this.logo = new Image(logoTexture);
-    //Map the college's associated logo texture to an image object
+    /**
+     * Setter for the custom name.
+     *
+     * @param Name The name that the custom name is to be changed to.
+     */
+    public void changeCustomName(String Name) {
+        this.customName = Name;
+    }
 
-    this.Description = Description;
-    //Set the description of the college
-    //This will be displayed on the college-selection screen
-  }
+    /**
+     * Assigns a player to the college.
+     *
+     * @param Player The player that has chosen the college.
+     */
+    public void setPlayer(Player Player) {
+        this.owner = Player;
+    }
 
-  /**
-   * Setter for the custom name.
-   * @param Name The name that the custom name is to be changed to.
-   */
-  public void changeCustomName(String Name) {
-    this.CustomName = Name;
-  }
+    /**
+     * Get the player for this college.
+     * @return The assigned player.
+     */
+    public Player getPlayer() {
+        return this.owner;
+    }
 
-  /**
-   * Assigns a player to the college.
-   * @param Player The player that has chosen the college.
-   */
-  public void assignPlayer( Player Player) {
-      this.Owner = Player;
-  }
+    /**
+     * Returns the college's assigned name
+     *
+     * @return String The college's name
+     */
+    public String getName() {
+        return names[ID];
+    }
 
-  /**
-   * Returns the college's assigned name
-   *
-   * @return String The college's name
-   */
-  public String getName() {
-    return this.Name;
-  }
+    /**
+     * Returns the college's associated ID
+     *
+     * @return int The college's associated ID
+     */
+    public int getID() {
+        return this.ID;
+    }
 
-  /**
-   * Returns the college's associated ID
-   *
-   * @return int The college's associated ID
-   */
-  public int getID() {
-    return this.ID;
-  }
+    /**
+     * Returns an Image object with the texture of the college's logo mapped to it
+     *
+     * @return Image Icon representing the college
+     */
+    public Image getLogo() {
+        if (logos[ID] == null) {
+            logos[ID] = new Image(getLogoTexture());
+        }
 
-  /**
-   * Returns an Image object with the texture of the college's logo mapped to it
-   *
-   * @return Image Icon representing the college
-   */
-  public Image getLogo() {
-    return this.logo;
-  }
+        return logos[ID];
+    }
 
-  /**
-   * Returns the texture file encoding the college's logo
-   *
-   * @return Texture The texture encoding the college's logo
-   */
-  public Texture getLogoTexture() {
-    return logoTexture;
+    /**
+     * Returns the texture file encoding the college's logo
+     *
+     * @return Texture The texture encoding the college's logo
+     */
+    public Texture getLogoTexture() {
+        if (textures[ID] == null) {
+            textures[ID] = new Texture("image/" + getName() + ".png");
+        }
 
-  }
+        return textures[ID];
+    }
+
+    /**
+     * Get tile border colour for current college.
+     * @return  College colour.
+     */
+    public Color getColour () {
+        return colours[ID];
+    }
 }

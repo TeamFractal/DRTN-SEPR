@@ -5,14 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-/**
- * @author Duck Related Team Name in Big Massive Letters
- * @since Assessment 2
- * @version Assessment 2
- *
- * An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
- * Our website is: https://jm179796.github.io/SEPR/
- */
 public class TTFont {
 
     /**
@@ -52,7 +44,8 @@ public class TTFont {
      * @param shadowOffsetY Determines the Y-offset of the shadows beneath all characters in the resulting BitmapFont
      * @param shadowColor Determines the colour of the shadows beneath all characters in the resulting BitmapFont
      */
-    public TTFont(FileHandle fontFile, int size, Color color, float borderWidth, Color borderColor, boolean borderStraight, int shadowOffsetX, int shadowOffsetY, Color shadowColor) {
+    public TTFont(FileHandle fontFile, int size, Color color, float borderWidth, Color borderColor,
+                  boolean borderStraight, int shadowOffsetX, int shadowOffsetY, Color shadowColor) {
         TTFGenerator = new FreeTypeFontGenerator(fontFile);
         TTFStyle = new FreeTypeFontGenerator.FreeTypeFontParameter();
         //Initialise font-generator and font-style parameters with the provided font-file

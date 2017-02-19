@@ -103,10 +103,10 @@ public class PlayerSelectScreen implements Screen {
      */
     public PlayerSelectScreen(Game game) {
         this.game = game;
+        this.engine = new GameEngine(this.game);
         this.gameScreen =  new GameScreen(this.game);
-        this.engine = new GameEngine(this.game, this.gameScreen);
         gameScreen.assignEngine(engine);
-        
+        this.engine.setScreen(gameScreen);
     }
     //Import current game-state
 
