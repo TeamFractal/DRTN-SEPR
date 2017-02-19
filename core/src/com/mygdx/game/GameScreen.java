@@ -823,7 +823,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     }
 
     private void constructEventMessageOverlay() {
-        eventMessageOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 800, 200, 3);
+        eventMessageOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 900, 200, 3);
         eventMessage = new Label("", new Label.LabelStyle(gameFont.font(), Color.WHITE));
 
         eventMessageOverlayVisible = false;
