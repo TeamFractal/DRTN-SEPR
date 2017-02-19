@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -76,6 +77,8 @@ public class MainMenu implements Screen {
      */
     private Sprite background;
 
+
+
     /**
      * The menu-screen's initial constructor
      *
@@ -131,15 +134,18 @@ public class MainMenu implements Screen {
         buttons[0] = new TextButton("Start Game", menuButtonStyle);
         buttons[0].addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new PlayerSelectScreen(game));
             }
         });
+
+
         buttons[1] = new TextButton("How to Play", menuButtonStyle);
         buttons[2] = new TextButton("Leaderboard", menuButtonStyle);
 
         //hideing the how to play and leaderboard button.
+        // buttons[0].setVisible(false);
         buttons[1].setVisible(false);
-        buttons[2].setVisible((false));
+        buttons[2].setVisible(false);
 
 
         //Initialise menu buttons using defined style
@@ -149,8 +155,8 @@ public class MainMenu implements Screen {
         drawer.addTableRow(table, new Label("(Title TBC)", new Label.LabelStyle(tempFont.font(), Color.WHITE)), 0, 0, 50, 0);
 
         //ADD BUTTONS
-        for (int i = 0; i < buttons.length; i++) {
-            drawer.addTableRow(table, buttons[i]);
+        for (Button button : buttons) {
+            drawer.addTableRow(table, button);
         }
 
         //FINALISE TABLE

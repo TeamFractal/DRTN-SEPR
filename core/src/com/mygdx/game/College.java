@@ -76,39 +76,39 @@ public class College {
     //Assign it to the college object otherwise
 
     switch (this.ID) {
-      case (1):
+      case 0:
         this.Name = "Derwent";
         this.logoTexture = new Texture("image/Derwent.png");
         break;
-      case (2):
+      case 1:
         this.Name = "Langwith";
         this.logoTexture = new Texture("image/Langwith.png");
         break;
-      case (3):
+      case 2:
         this.Name = "Vanburgh";
         this.logoTexture = new Texture("image/Vanbrugh.png");
         break;
-      case (4):
+      case 3:
         this.Name = "James";
         this.logoTexture = new Texture("image/James.png");
         break;
-      case (5):
+      case 4:
         this.Name = "Wentworth";
         this.logoTexture = new Texture("image/Wentworth.png");
         break;
-      case (6):
+      case 5:
         this.Name = "Halifax";
         this.logoTexture = new Texture("image/Halifax.png");
         break;
-      case (7):
+      case 6:
         this.Name = "Alcuin";
         this.logoTexture = new Texture("image/Alcuin.png");
         break;
-      case (8):
+      case 7:
         this.Name = "Goodricke";
         this.logoTexture = new Texture("image/Goodricke.png");
         break;
-      case (9):
+      case 8:
         this.Name = "Constantine";
         this.logoTexture = new Texture("image/Constantine.png");
         break;

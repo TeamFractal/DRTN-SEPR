@@ -227,14 +227,17 @@ public class Tile extends Button {
             int OreProduce = modifiers[0] * this.OreCount;
             owner.varyResource("Ore", OreProduce);
             //Add the tile's ore yields to the owner's resource-counters
+                System.out.println("Ore produced: " + OreProduce);
 
             int EnergyProduce = modifiers[1] * this.EnergyCount;
             owner.varyResource("Energy", EnergyProduce);
             //Add the tile's energy yields to the owner's resource-counters
+                System.out.println("Energy produced: " + EnergyProduce);
 
             int FoodProduce = modifiers[2] * this.FoodCount;
             owner.varyResource("Food", FoodProduce);
             //Add the tile's food yields to the owner's resource-counters
+                System.out.println("Food produced: " + FoodProduce);
             }
         }
     }
@@ -267,14 +270,16 @@ public class Tile extends Button {
         this.owner = Owner;
     }
 
+    public int getOreCount() {return this.OreCount;}
+
     /**
      * Setter for the ore count of the tile.
      *
      * @param Count What the count is to be changed to.
      */
-    public void changeOreCount(int Count) {
-        this.OreCount = Count;
-    }
+    public void changeOreCount(int Count) {this.OreCount = Count;}
+
+    public int getEnergyCount() {return this.EnergyCount;}
 
     /**
      * Setter for the ore count of the tile.
@@ -284,6 +289,9 @@ public class Tile extends Button {
     public void changeEnergyCount(int Count) {
         this.EnergyCount = Count;
     }
+
+    public int getFoodCount() {return this.FoodCount;}
+    public void changeFoodCount(int count) {this.FoodCount = count;}
 
     /**
      * Adds a Roboticon to the roboticon list.
@@ -432,6 +440,5 @@ public class Tile extends Button {
     public Roboticon getRoboticonStored(){
         return this.roboticonStored;
     }
-
 
 }

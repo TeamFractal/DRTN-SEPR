@@ -295,8 +295,13 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         constructUpgradeOverlay();
         //Construct roboticon upgrade overlay (and, again, hide it for the moment)
+<<<<<<< HEAD
+        constructEventMessageOverlay();
+        constructTooExpensiveOverlay();
+=======
         constructTooExpensiveOverlay();
         constructEventMessageOverlay();
+>>>>>>> jack
         //drawer.debug(gameStage);
         //Call this to draw temporary debug lines around all of the actors on the stage
 
@@ -553,6 +558,17 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 closeUpgradeOverlay();
             }
         });
+<<<<<<< HEAD
+
+        closeEventMessageButton = new TextButton("CLOSE MESSAGE", gameButtonStyle);
+        closeEventMessageButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                hideEventMessage();
+            }
+        });
+=======
+>>>>>>> jack
         
         confirmTradeButton = new TextButton("Confirm", gameButtonStyle);
         confirmTradeButton.addListener(new ChangeListener() {
@@ -587,6 +603,11 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         	}
         });
         
+       
+        	
+<<<<<<< HEAD
+=======
+
         closeEventMessageButton = new TextButton("CLOSE MESSAGE", gameButtonStyle);
         closeEventMessageButton.addListener(new ChangeListener() {
             @Override
@@ -594,6 +615,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
                 hideEventMessage();
             }
         });
+>>>>>>> jack
     }
 
     /**
@@ -845,7 +867,9 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         drawer.addTableRow(upgradeOverlay.table(), closeUpgradeOverlayButton);
         //Add a final button for closing the overlay
     }
-    
+<<<<<<< HEAD
+=======
+
     public boolean getUpgradeOverlayVisible() {
         return upgradeOverlayVisible;
     }
@@ -883,6 +907,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         }
     }
 
+>>>>>>> jack
     private void constructTradeOverlay(Trade trade){
     	tradeOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 250, 300, 3);
     	tradeOverlayVisible = false;
@@ -917,6 +942,42 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     	
     }
     
+<<<<<<< HEAD
+
+    public boolean getUpgradeOverlayVisible() {
+        return upgradeOverlayVisible;
+    }
+
+    private void constructEventMessageOverlay() {
+        eventMessageOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 800, 200, 3);
+        eventMessage = new Label("", new Label.LabelStyle(gameFont.font(), Color.WHITE));
+
+        eventMessageOverlayVisible = false;
+
+        gameFont.setSize(26);
+
+        eventMessageOverlay.table().add(new Label("RANDOM EVENT!", new Label.LabelStyle(gameFont.font(), Color.WHITE)));
+
+        gameFont.setSize(20);
+        eventMessageOverlay.table().row();
+        eventMessageOverlay.table().add(eventMessage);
+
+        drawer.addTableRow(eventMessageOverlay.table(), closeEventMessageButton);
+    }
+
+    public void showEventMessage(String message) {
+        eventMessage.setText(message);
+        eventMessageOverlayVisible = true;
+        Gdx.input.setInputProcessor(eventMessageOverlay);
+    }
+
+    public void hideEventMessage() {
+        eventMessageOverlayVisible = false;
+        Gdx.input.setInputProcessor(gameStage);
+    }
+
+=======
+>>>>>>> jack
     /**
      * Draw auxiliary rectangles to provide window-dressing for the interface
      */

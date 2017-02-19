@@ -569,7 +569,7 @@ public class Market extends Table {
         	@Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	playerListPosition += 1;
-            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerID());
+            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerNumber());
             	refreshAuction();
         	}
         });
@@ -578,7 +578,7 @@ public class Market extends Table {
         	@Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
             	playerListPosition -= 1;
-            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerID());
+            	playerLabel.setText("Player " + otherPlayer.get(playerListPosition).getPlayerNumber());
             	refreshAuction();
         	}
         });
@@ -1339,10 +1339,10 @@ public class Market extends Table {
     	otherPlayer = new Array<Player>();
         for (Player player : engine.players()) {
             if (player != null && engine.currentPlayer() != player) {
-                otherPlayer.add(player);
-                playerLabel.setText("Player " + player.getPlayerID());
-            }
+                otherPlayer.add(player); 
+            } 
         }
+        playerLabel.setText("Player " + otherPlayer.get(0).getPlayerID());
     }
 
 	public void setPlayerListPosition(int i) {

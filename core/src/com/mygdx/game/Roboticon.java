@@ -94,6 +94,14 @@ public class Roboticon {
         return levels;
     }
 
+    public void setOreLevel(int newLevel) {this.oreLevel = newLevel;}
+
+    public void setEnergyLevel(int newLevel) {this.energyLevel = newLevel;}
+
+    public void setFoodLevel(int newLevel) {this.foodLevel = newLevel;}
+
+
+
     public int getRoboticonID(){
         return RoboticonID;
     }
@@ -109,16 +117,20 @@ public class Roboticon {
      * 2: FOOD
      */
     public void upgrade(int resource) {
-        switch (resource) {
-            case (0):
-                oreLevel += 1;
-                break;
-            case (1):
-                energyLevel += 1;
-                break;
-            case (2):
-                foodLevel += 1;
-                break;
+        if (!(this.getLevel()[0] == 0)) {
+
+            switch (resource) {
+                case (0):
+                    oreLevel += 1;
+                    break;
+                case (1):
+                    energyLevel += 1;
+                    break;
+                case (2):
+                    foodLevel += 1;
+                    break;
+            }
+
         }
     }
 

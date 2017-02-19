@@ -29,6 +29,7 @@ public class Main extends Game {
 	@Override
 	public void create () {
 		setScreen(new SplashScreen(game));
+		// setScreen(new MiniGameScreen());
 		//Load the splash screen as soon as the game opens
 	}
 

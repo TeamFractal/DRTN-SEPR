@@ -75,6 +75,10 @@ public class Player {
         return playerID;
     }
 
+    public int getPlayerNumber() {
+        return playerID + 1;
+    }
+
     /**
      * Getter for the tile list of the Player
      *
