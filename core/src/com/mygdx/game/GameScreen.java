@@ -247,6 +247,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         batch = new SpriteBatch();
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
+        gameStage = new Stage();
     }
 
     public GameScreen(Game game) {
@@ -268,15 +269,12 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      */
     @Override
     public void show() {
-        if (gameStage != null) Gdx.input.setInputProcessor(gameStage);
+        Gdx.input.setInputProcessor(gameStage);
         if (shown) return ;
 
         shown = true;
         drawer = new Drawer(game);
         //Import QOL drawing functions
-
-        gameStage = new Stage();
-        //Prepare the local stage and set it up to accept inputs
 
         map = new Image(new Texture("image/TestMap.png"));
         map.setPosition((Gdx.graphics.getWidth() / 2) - (map.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (map.getHeight() / 2));
