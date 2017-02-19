@@ -17,7 +17,7 @@ public class Earthquake extends RandomEvent {
         super(gameScreen);
         this.gameEngine = engine;
         this.tilesDamaged = chooseAffectedTiles();
-        this.tileDamageValue = getNumberGreaterThanX(5, 3);
+        this.tileDamageValue = getNumberGreaterThanX(5, 2);
         this.duration = 2;
     }
 

@@ -777,7 +777,12 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
     public void hideEventMessage() {
         eventMessageOverlayVisible = false;
-        Gdx.input.setInputProcessor(gameStage);
+        if (upgradeOverlayVisible) {
+            Gdx.input.setInputProcessor(upgradeOverlay);
+        }
+        else {
+            Gdx.input.setInputProcessor(gameStage);
+        }
     }
 
     /**

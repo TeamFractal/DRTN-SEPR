@@ -292,7 +292,7 @@ public class GameEngine {
 
     public void selectRandomEvent() {
         Random random = new Random();
-        int eventValue = random.nextInt(4);
+        int eventValue = random.nextInt(2);
         boolean eventHappened = eventCurrentlyHappening(eventValue);
         if (!eventHappened) {
             switch (eventValue) {
@@ -301,8 +301,20 @@ public class GameEngine {
                     randomEvents.get(randomEvents.size() - 1).eventHappen(true);
                     break;
                 case 1:
-                    randomEvents.add(new Malfunction(this, gameScreen));
-                    randomEvents.get(randomEvents.size() - 1).eventHappen(true);
+                    int playerToAffect = random.nextInt(players().length);
+                    boolean playerHasRoboticons = false;
+
+                    for (Tile tile: players()[playerToAffect].getTileList()) {
+                        if (tile.getRoboticonStored() != null) {
+                            playerHasRoboticons = true;
+                        }
+                    }
+
+                    if (playerHasRoboticons) {
+                        randomEvents.add(new Malfunction(this, gameScreen, playerToAffect));
+                        randomEvents.get(randomEvents.size() - 1).eventHappen(true);
+                    }
+
                     break;
             }
         }
@@ -577,7 +589,10 @@ public class GameEngine {
      * @param resource The type of resource which the roboticon will gather more of {0: ore | 1: energy | 2: food}
      */
     public void upgradeRoboticon(int resource) {
-        if (selectedTile().getRoboticonStored().getLevel()[resource] < selectedTile().getRoboticonStored().getMaxLevel()) {
+        if (selectedTile().getRoboticonStored().getLevel()[resource] == 0) {
+            gameScreen.showEventMessage("The roboticon on this tile has malfunctioned!");
+        }
+         else if (selectedTile().getRoboticonStored().getLevel()[resource] < selectedTile().getRoboticonStored().getMaxLevel()) {
             switch (resource) {
                 case (0):
                     currentPlayer().setMoney(currentPlayer().getMoney() - selectedTile.getRoboticonStored().getOreUpgradeCost());

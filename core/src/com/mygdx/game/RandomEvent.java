@@ -10,7 +10,7 @@ public abstract class RandomEvent {
     // Fields shared by all random events
     Random randomiser;
     protected GameScreen gameScreen;
-    private int eventCooldown;
+    protected int eventCooldown;
 
     RandomEvent(GameScreen gameScreen) {
         this.randomiser = new Random();
@@ -46,8 +46,8 @@ public abstract class RandomEvent {
 
     public int getNumberGreaterThanX(int limit, int x) {
         int numberGenerated = randomiser.nextInt(limit);
-        if (numberGenerated == 0) {
-            numberGenerated += 1;
+        if (numberGenerated == 0 || numberGenerated == 1) {
+            numberGenerated += x;
         }
         return numberGenerated;
     }
