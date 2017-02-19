@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.*;
 
@@ -95,7 +96,11 @@ public class GameEngine {
      * An integer signifying the ID of the next roboticon to be created
      *
      */
-    private Integer roboticonIDCounter = 0;
+    private int roboticonIDCounter = 0;
+    
+    private Array<Trade> trades;
+
+	private College[] colleges;
 
     private ArrayList<RandomEvent> randomEvents = new ArrayList<RandomEvent>();
 
@@ -123,12 +128,10 @@ public class GameEngine {
         drawer = new Drawer(this.game);
         //Import QOL drawing function
 
-        players = new Player[2];
-        currentPlayerID = 0;
+        
         //Set up objects to hold player-data
         //Start the game such that player 1 makes the first move
 
-        phase = 1;
         //Start the game in the first phase (of 5, which recur until all tiles are claimed)
 
         timer = new GameTimer(0, new TTFont(Gdx.files.internal("font/testfontbignoodle.ttf"), 120), Color.WHITE, new Runnable() {
@@ -159,23 +162,29 @@ public class GameEngine {
         //Configure all 16 tiles with independent yields and landmark data
         //Also assign listeners to them so that they can detect mouse clicks
 
-        market = new Market(game, this);
+        
         //Instantiates the game's market and hands it direct renderer access
 
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
-        Player goodrickePlayer = new Player(1);
-        Player derwentPlayer = new AiPlayer(2);
-        players[0] = goodrickePlayer;
-        players[1] = derwentPlayer;
-        College Goodricke = new College(1, "Goodricke");
-        College Derwent = new College(2, "Derwent");
-        goodrickePlayer.assignCollege(Goodricke);
-        derwentPlayer.assignCollege(Derwent);
-        Goodricke.assignPlayer(goodrickePlayer);
-        Derwent.assignPlayer(derwentPlayer);
+        colleges = new College[9];
+        colleges[0] = new College(0, "Goodricke");
+        colleges[1] = new College(1, "Derwent");
+        colleges[2] = new College(2, "Langwith");
+        colleges[3] = new College(3, "Alcuin");
+        colleges[4] = new College(4, "Constantine");
+        colleges[5] = new College(5, "Halifax");
+        colleges[6] = new College(6, "James");
+        colleges[7] = new College(7, "Vanbrugh");
+        colleges[8] = new College(8, "Wentworth");
+        
         //Temporary assignment of player-data for testing purposes
+
+        phase = 0;
+        currentPlayerID = 0;
+        trades = new Array<Trade>();
+
     }
 
     public void selectTile(Tile tile) {
@@ -199,7 +208,7 @@ public class GameEngine {
         timer.stop();
         nextPlayer();
         System.out.println("Player " + currentPlayerID + " | Phase " + phase);
-
+        
         market.refreshButtonAvailability();
         switch (phase) {
             case 1:
@@ -228,18 +237,20 @@ public class GameEngine {
         }
 
         if(checkGameEnd()){
+            System.out.println("Someone win");
             gameScreen.showPlayerWin(getWinner());
         }
-        //Temporary code for determining the game's winner once all tiles have been acquired
-        //Each player should own 8 tiles when this block is executed
 
         gameScreen.updatePhaseLabel();
+        market.refreshPlayers();
+        market.setPlayerListPosition(0);
+        market.refreshAuction();
 
+        //If the upgrade overlay is open, close it when the next phase begins
         if (gameScreen.getUpgradeOverlayVisible()) {
             gameScreen.closeUpgradeOverlay();
         }
-
-        //If the upgrade overlay is open, close it when the next phase begins
+        testTrade();
 
         if (isCurrentlyAiPlayer()) {
             AiPlayer aiPlayer = (AiPlayer)currentPlayer();
@@ -342,7 +353,7 @@ public class GameEngine {
             }
 
             phase ++;
-            if (phase == 6) {
+            if (phase >= 6) {
                 phase = 1;
             }
             System.out.print("Move to phase " + phase + ", ");
@@ -350,13 +361,15 @@ public class GameEngine {
         System.out.println("Change to player " + currentPlayerID);
 
         // Find and draw the icon representing the "new" player's associated college
-        gameScreen.currentPlayerIcon().setDrawable(new TextureRegionDrawable(new TextureRegion(players[currentPlayerID].getCollege().getLogoTexture())));
-        gameScreen.currentPlayerIcon().setSize(64, 64);
-
-        // Display the "new" player's inventory on-screen
-        gameScreen.updateInventoryLabels();
-
-        gameScreen.updatePlayerName();
+        if (!isCurrentlyAiPlayer()){
+	        gameScreen.currentPlayerIcon().setDrawable(new TextureRegionDrawable(new TextureRegion(players[currentPlayerID].getCollege().getLogoTexture())));
+	        gameScreen.currentPlayerIcon().setSize(64, 64);
+	
+	        // Display the "new" player's inventory on-screen
+	        gameScreen.updateInventoryLabels();
+	
+	        gameScreen.updatePlayerName();
+        }
     }
 
     /**
@@ -404,7 +417,7 @@ public class GameEngine {
      * border for owner identification purposes and moves the game on to the next player/phase
      */
     public void claimTile() {
-        if (phase == 1 && selectedTile.isOwned() == false) {
+        if (phase == 1 && !selectedTile.isOwned()) {
             players[currentPlayerID].assignTile(selectedTile);
             //Assign selected tile to current player
 
@@ -415,39 +428,39 @@ public class GameEngine {
             //Mark that a tile has been acquired on this turn
 
             switch (players[currentPlayerID].getCollege().getID()) {
-                case (1):
+                case 0:
                     //DERWENT
                     selectedTile.setTileBorderColor(Color.BLUE);
                     break;
-                case (2):
+                case 1:
                     //LANGWITH
                     selectedTile.setTileBorderColor(Color.CHARTREUSE);
                     break;
-                case (3):
+                case 2:
                     //VANBURGH
                     selectedTile.setTileBorderColor(Color.TEAL);
                     break;
-                case (4):
+                case 3:
                     //JAMES
                     selectedTile.setTileBorderColor(Color.CYAN);
                     break;
-                case (5):
+                case 4:
                     //WENTWORTH
                     selectedTile.setTileBorderColor(Color.MAROON);
                     break;
-                case (6):
+                case 5:
                     //HALIFAX
                     selectedTile.setTileBorderColor(Color.YELLOW);
                     break;
-                case (7):
+                case 6:
                     //ALCUIN
                     selectedTile.setTileBorderColor(Color.RED);
                     break;
-                case (8):
+                case 7:
                     //GOODRICKE
                     selectedTile.setTileBorderColor(Color.GREEN);
                     break;
-                case (9):
+                case 8:
                     //CONSTANTINE
                     selectedTile.setTileBorderColor(Color.PINK);
                     break;
@@ -490,7 +503,7 @@ public class GameEngine {
     /**
      * Return's the game's phase as a number between (or possibly one of) 1 and 5
      *
-     * @return Integer The game's current phase
+     * @return int The game's current phase
      */
     public int phase() {
         return phase;
@@ -514,7 +527,7 @@ public class GameEngine {
     /**
      * Returns the ID of the player who is active at the time when this is called
      *
-     * @return Integer The current player's ID
+     * @return int The current player's ID
      */
     public int currentPlayerID() {
         return currentPlayerID;
@@ -563,7 +576,7 @@ public class GameEngine {
      */
     private boolean checkGameEnd(){
         for(Tile tile : tiles){
-            if (tile.getOwner() != null){
+            if (tile.getOwner() == null){
                 return false;
             }
         }
@@ -629,6 +642,58 @@ public class GameEngine {
     }
     public boolean isCurrentlyAiPlayer() {
         return currentPlayer().isAi();
+    }
+
+    
+    
+    public void addTrade(Trade trade){
+    	trades.add(trade);
+    }
+
+    public Trade getCurrentPendingTrade() {
+        Iterator<Trade> it = trades.iterator();
+
+        while (it.hasNext()) {
+            Trade trade = it.next();
+            if (trade.getTargetPlayer() == currentPlayer()) {
+                it.remove();
+                return trade;
+            }
+        }
+
+        return null;
+    }
+    
+    public void initialisePlayers(int AIAmount, int playerAmount){
+    	int length = AIAmount + playerAmount;
+    	
+    	players = new Player[length];
+    	for(int i = 0; i < playerAmount; i++){
+    		Player player = new Player(i);
+    		players[i] = player;
+    		College college = colleges[i];
+    		college.assignPlayer(player);
+    		player.assignCollege(college);
+    	}
+    	for(int i = playerAmount; i < length; i++){
+    		Player player = new AiPlayer(i);
+    		players[i] = player;
+    		College college = colleges[i];
+    		college.assignPlayer(player);
+    		player.assignCollege(college);
+    	}
+    	currentPlayerID = length - 1;
+        market = new Market(game, this);
+    }
+
+    public void testTrade(){
+        Trade trade = getCurrentPendingTrade();
+        if (trade == null) return ;
+        gameScreen.activeTrade(trade);
+    }
+
+    public void closeTrade(){
+        gameScreen.closeTradeOverlay();
     }
 
     /**

@@ -17,27 +17,27 @@ public class Player {
     /**
      * Unique numerical identifier of the player.
      */
-    private Integer playerID;
+    private int playerID;
 
     /**
      * An integer storing the amount of ore the player owns.
      */
-    private Integer OreCount = 0;
+    private int OreCount = 0;
 
     /**
      * An integer storing the amount of food a player owns.
      */
-    private Integer FoodCount = 5;
+    private int FoodCount = 5;
 
     /**
      * An integer storing the amount of energy a player owns.
      */
-    private Integer EnergyCount = 5;
+    private int EnergyCount = 5;
 
     /**
      * An integer storing the amount of money a player owns.
      */
-    private Integer money = 50;
+    private int money = 50;
 
     /**
      * A variable determining if the player is currently active. True means that they are active.
@@ -57,20 +57,26 @@ public class Player {
     /**
      * The number of Roboticons that the player owns
      */
-    private Integer inventoryRoboticons = 0;
+    private int inventoryRoboticons = 0;
+    
+    private Trade currentTrade;
 
     /**
      * The constructor of the class
      *
      * @param playerID The id of the player that is being created. Should be an integer greater than 0.
      */
-    public Player(Integer playerID) {
+    public Player(int playerID) {
         this.playerID = playerID;
     }
 
 
     public int getPlayerID() {
         return playerID;
+    }
+
+    public int getPlayerNumber() {
+        return playerID + 1;
     }
 
     /**
@@ -94,10 +100,10 @@ public class Player {
     /**
      * Setter for the money attribute
      *
-     * @param newMoney Integer value corresponding to the new money value desired
+     * @param newMoney int value corresponding to the new money value desired
      */
     public void setMoney(int newMoney) {
-        if (newMoney > 0) {
+        if (newMoney >= 0) {
             this.money = newMoney;
         }
     }
@@ -107,16 +113,16 @@ public class Player {
      *
      * @return this.OreCount the orecount of the player as an integer
      */
-    public Integer getOreCount() {
+    public int getOreCount() {
         return this.OreCount;
     }
 
     /**
      * Setter for Orecount
      *
-     * @param Newcount Integer value that the Orecount is set to
+     * @param Newcount int value that the Orecount is set to
      */
-    public void setOreCount(Integer Newcount) {
+    public void setOreCount(int Newcount) {
         this.OreCount = Newcount;
     }
 
@@ -125,16 +131,16 @@ public class Player {
      *
      * @return this.EnergyCount the Energycount of the player as an integer
      */
-    public Integer getEnergyCount() {
+    public int getEnergyCount() {
         return this.EnergyCount;
     }
 
     /**
      * Setter for Energycount
      *
-     * @param Newcount Integer value that the Energycount is set to
+     * @param Newcount int value that the Energycount is set to
      */
-    public void setEnergyCount(Integer Newcount) {
+    public void setEnergyCount(int Newcount) {
         this.EnergyCount = Newcount;
     }
 
@@ -143,16 +149,16 @@ public class Player {
      *
      * @return this.FoodCount the Foodcount of the player as an integer
      */
-    public Integer getFoodCount() {
+    public int getFoodCount() {
         return this.FoodCount;
     }
 
     /**
      * Setter for Foodcount
      *
-     * @param Newcount Integer value that the Foodcount is set to
+     * @param Newcount int value that the Foodcount is set to
      */
-    public void setFoodCount(Integer Newcount) {
+    public void setFoodCount(int Newcount) {
         this.FoodCount = Newcount;
     }
 
@@ -196,7 +202,7 @@ public class Player {
             this.EnergyCount += amount;
         } else if (resource.equals("Food")) {
             this.FoodCount += amount;
-        } else if (resource.equals("money")) {
+        } else if (resource.equals("Money")) {
             this.money += amount;
         }
 
@@ -205,9 +211,9 @@ public class Player {
     /**
      * Calculates the score of the player based on the resources that they own.
      *
-     * @return Integer The player's current score
+     * @return int The player's current score
      */
-    public Integer calculateScore() {
+    public int calculateScore() {
         return this.EnergyCount + this.FoodCount + this.OreCount;
 
     }
@@ -228,18 +234,18 @@ public class Player {
 
     /**
      * Getter for Inventory Roboticon Count
-     * @return Integer value for roboticons in inventory.
+     * @return int value for roboticons in inventory.
      */
-    public Integer getInventoryRoboticons(){
+    public int getInventoryRoboticons(){
         return this.inventoryRoboticons;
     }
 
     /**
      * Returns the number of Roboticons owned by the player
      *
-     * @return Integer The number of Roboticons owned by the player
+     * @return int The number of Roboticons owned by the player
      */
-    public Integer getRoboticonInventory() {
+    public int getRoboticonInventory() {
         return this.inventoryRoboticons;
     }
 
@@ -250,5 +256,13 @@ public class Player {
      */
     public College getCollege() {
         return this.College;
+    }
+    
+    public void setTrade(Trade trade){
+    	this.currentTrade = trade;
+    }
+    
+    public Trade getTrade() {
+    	return this.currentTrade;
     }
 }

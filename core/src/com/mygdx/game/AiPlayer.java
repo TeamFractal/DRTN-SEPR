@@ -1,6 +1,10 @@
 package com.mygdx.game;
 
+import java.util.Random;
+
 public class AiPlayer extends Player {
+    static private Random rnd = new Random();
+
     public AiPlayer(int i) {
         super(i);
     }
@@ -12,6 +16,28 @@ public class AiPlayer extends Player {
 
     public void performPhase(GameEngine engine, GameScreen screen) {
         Market market = engine.market();
+
+        Trade trade = engine.getCurrentPendingTrade();
+        if (trade != null) {
+            // trade.oreAmount * trade.energyAmount * trade.foodAmount;
+            // Likelihood:
+            int total = market.getOreBuyPrice() * trade.oreAmount
+                    + market.getEnergyBuyPrice() * trade.energyAmount
+                    + market.getFoodBuyPrice() * trade.foodAmount;
+
+            double likelihood = (double)trade.getPrice() / total;
+
+            if (rnd.nextDouble() < likelihood) {
+                trade.execute();
+                System.out.println("Accept offer.");
+            } else {
+                System.out.println("Reject offer.");
+            }
+
+            engine.closeTrade();
+        }
+
+
         switch(engine.getPhase()) {
             // Claim land
             case 1:
@@ -78,7 +104,7 @@ public class AiPlayer extends Player {
                         e.printStackTrace();
                     }
                 }
-
+                engine.nextPhase();
                 break;
         }
     }
