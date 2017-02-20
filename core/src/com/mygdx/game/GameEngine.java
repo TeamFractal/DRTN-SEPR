@@ -18,6 +18,7 @@ import java.util.*;
  * An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
  * Our website is: https://jm179796.github.io/SEPR/
  */
+// Changed in Assessment 3: Added so no more than one GameEngine can be instantiated at any one time.
 public class GameEngine {
     private static GameEngine _instance;
     public static GameEngine getInstance() {
@@ -97,12 +98,16 @@ public class GameEngine {
      *
      */
     private int roboticonIDCounter = 0;
-    
+
+
+    // Added in Assessment 3: Added to keep track of trades, colleges and random events.
+    // ---------------------------------------------------------------------------------
     private Array<Trade> trades;
 
 	private College[] colleges;
 
     private ArrayList<RandomEvent> randomEvents = new ArrayList<RandomEvent>();
+    // ---------------------------------------------------------------------------------
 
     /**
      * Constructs the game's engine. Imports the game's state (for direct renderer access) and the data held by the
@@ -168,6 +173,8 @@ public class GameEngine {
         state = State.RUN;
         //Mark the game's current play-state as "running" (IE: not paused)
 
+        // Added in Assessment 3: Stores each college in the college array.
+        // ----------------------------------------------------------------
         colleges = new College[9];
         colleges[0] = new College(0, "Goodricke");
         colleges[1] = new College(1, "Derwent");
@@ -178,8 +185,7 @@ public class GameEngine {
         colleges[6] = new College(6, "James");
         colleges[7] = new College(7, "Vanbrugh");
         colleges[8] = new College(8, "Wentworth");
-        
-        //Temporary assignment of player-data for testing purposes
+        // ----------------------------------------------------------------
 
         phase = 0;
         currentPlayerID = 0;
@@ -204,6 +210,8 @@ public class GameEngine {
      * PHASE 4: Production of Resources by Roboticons
      * PHASE 5: Market Trading
      */
+
+    // Changed in Assessment 3: Refactored nextPhase() from giant if-else statement to switch statement.
     public void nextPhase() {
         timer.stop();
         nextPlayer();
@@ -262,6 +270,7 @@ public class GameEngine {
         }
     }
 
+    // Added in Assessment 3: Added to keep track of random events.
     public void checkEventDurations() {
 
         Iterator<RandomEvent> randomEventIterator = randomEvents.iterator();
@@ -287,6 +296,7 @@ public class GameEngine {
         }
     }
 
+    // Added in Assessment 3: Added to check whether a specific event is currently happening.
     public boolean eventCurrentlyHappening(Integer eventValue) {
         boolean eventHappened = false;
         HashMap<Integer, String> eventLookUp = new HashMap<Integer, String>();
@@ -305,7 +315,8 @@ public class GameEngine {
     }
 
 
-    public void selectRandomEvent() {
+    // Added in Assessment 3: Added to select random events.
+    private void selectRandomEvent() {
         Random random = new Random();
         int eventValue = random.nextInt(4);
         boolean eventHappened = eventCurrentlyHappening(eventValue);
@@ -629,6 +640,8 @@ public class GameEngine {
         //1: ENERGY
         //2: FOOD
     }
+
+    // Added in Assessment 3 from here down to EOF.
 
     public int getPhase() {
         return phase;

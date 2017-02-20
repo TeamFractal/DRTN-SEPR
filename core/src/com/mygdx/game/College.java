@@ -73,8 +73,8 @@ public class College {
   public College(int ID, String Description){
 
     this.ID = ID;
-    //Assign it to the college object otherwise
 
+    // Changed in Assessment 3: Switch value ranges from 0-8, rather than 1-9.
     switch (this.ID) {
       case 0:
         this.Name = "Derwent";
