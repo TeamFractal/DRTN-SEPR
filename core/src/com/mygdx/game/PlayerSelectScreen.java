@@ -67,27 +67,60 @@ public class PlayerSelectScreen implements Screen {
      * The object which will encode the menu's background
      */
     private Sprite background;
-
+    
+    /**
+     * increase number of human players
+     */
 	private TextButton addPlayerButton;
 
+	/**
+     * increase number of AI players
+     */
 	private TextButton addAIPlayerButton;
 
+	/**
+     * decrease number of human players
+     */
 	private TextButton removePlayerButton;
 
+	/**
+     * decrease number of AI players
+     */
 	private TextButton removeAIPlayerButton;
-
+	
+	/**
+	 * show which part of the screen changes the number of human players
+	 */
 	private Label playerLabel;
 
+	/**
+	 * show which part of the screen changes the number of AI players
+	 */
 	private Label AIPlayerLabel;
-
+	
+	/**
+	 * display number of human players
+	 */
 	private Label playerAmountLabel;
 
+	/**
+	 * display number of AI players
+	 */
 	private Label AIPlayerAmountLabel;
-
+	
+	/**
+	 * button to confirm number of players
+	 */
 	private TextButton confirmButton;
 
+	/**
+	 * variable to store number of human players
+	 */
 	private int playerAmount;
 
+	/**
+	 * variable to store number of AI players
+	 */
 	private int AIPlayerAmount;
 
 	private GameEngine engine;
@@ -107,6 +140,7 @@ public class PlayerSelectScreen implements Screen {
         
     }
     //Import current game-state
+    //create engine and game screen
 
 
 	@Override
@@ -145,7 +179,7 @@ public class PlayerSelectScreen implements Screen {
         menuButtonStyle.pressedOffsetX = 1;
         menuButtonStyle.pressedOffsetY = -1;
         //Set up the format for the buttons on the menu
-        //STILL NEED TO SORT OUT BUTTON ANIMATIONS
+       
         
         playerAmount = 0;
         AIPlayerAmount = 0;
@@ -161,6 +195,7 @@ public class PlayerSelectScreen implements Screen {
                 refreshLabels();
             }
         });
+        //increase number of human players
         
         addAIPlayerButton = new TextButton("more", menuButtonStyle);
         addAIPlayerButton.addListener(new ChangeListener() {
@@ -169,6 +204,7 @@ public class PlayerSelectScreen implements Screen {
                 refreshLabels();
             }
         });
+        //increase number of AI players
         
         removePlayerButton = new TextButton("less", menuButtonStyle);
         removePlayerButton.addListener(new ChangeListener() {
@@ -177,6 +213,7 @@ public class PlayerSelectScreen implements Screen {
                 refreshLabels();
             }
         });
+        //decrease number of human players
         
         removeAIPlayerButton = new TextButton("less", menuButtonStyle);
         removeAIPlayerButton.addListener(new ChangeListener() {
@@ -185,6 +222,7 @@ public class PlayerSelectScreen implements Screen {
                 refreshLabels();
             }
         });
+        //decrease number of AI players
         
         confirmButton = new TextButton("Confirm", menuButtonStyle);
         confirmButton.addListener(new ChangeListener() {
@@ -193,7 +231,10 @@ public class PlayerSelectScreen implements Screen {
                game.setScreen(gameScreen);
             }
         });
+        //confirm number of players
         
+        
+        //add all buttons to the table
         drawer.addTableRow(table, playerLabel);
         drawer.addTableRow(table, removePlayerButton);
         table.add(playerAmountLabel).width(30);
@@ -260,7 +301,13 @@ public class PlayerSelectScreen implements Screen {
 
 	}
 	
+	/**
+	 * update labels and buttons on screen
+	 * disable buttons which should not be pressed
+	 * change numbers displayed when incremented/decremented
+	 */
 	public void refreshLabels(){
+		//default gray and disabled
 		drawer.toggleButton(addPlayerButton, false, Color.GRAY);
 		drawer.toggleButton(addAIPlayerButton, false, Color.GRAY);
 		drawer.toggleButton(removePlayerButton, false, Color.GRAY);

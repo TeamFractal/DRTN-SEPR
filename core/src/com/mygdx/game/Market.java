@@ -152,61 +152,145 @@ public class Market extends Table {
      * Visualises the amount of Roboticon stocks currently held by the market
      */
     private Label roboticonStockLabel;
-
+    
+    /**
+     * button to move from market to auction
+     */
 	private TextButton marketButton;
-
+	
+	/**
+	 * Button to move from market to auction
+	 */
 	private TextButton auctionButton;
-
+	
+	/**
+	 * Button to add ore to a trade
+	 */
 	private TextButton playerBuyOre;
 
+	/**
+	 * Button to add energy to a trade
+	 */
 	private TextButton playerBuyEnergy;
 
+	/**
+	 * Button to add food to a trade
+	 */
 	private TextButton playerBuyFood;
 
+	/**
+	 * Button to remove ore from a trade
+	 */
 	private TextButton playerSellOre;
 
+	/**
+	 * Button to remove energy from a trade
+	 */
 	private TextButton playerSellEnergy;
 
+	/**
+	 * Button to remove food from a trade
+	 */
 	private TextButton playerSellFood;
 
+	/**
+	 * variable storing amount of ore to be traded
+	 */
 	private int oreTradeAmount;
 	
+	/**
+	 * variable storing amount of energy to be traded
+	 */
 	private int energyTradeAmount;
 
+	/**
+	 * variable storing amount of food to be traded
+	 */
 	private int foodTradeAmount;
 
+	/**
+	 * button to confirm a trade
+	 */
 	private TextButton confirmSale;
 
+	/**
+	 * button to add 1 to the price of a trade
+	 */
 	private TextButton pricePlus1;
-
+	
+	/**
+	 * button to add 10 to the price of a trade
+	 */
 	private TextButton pricePlus10;
-
+	
+	/**
+	 * button to add 100 to the price of a trade
+	 */
 	private TextButton pricePlus100;
 
+	/**
+	 * button to take 1 from the price of a trade
+	 */
 	private TextButton priceMinus1;
 
+	/**
+	 * button to take 10 from the price of a trade
+	 */
 	private TextButton priceMinus10;
 
+	/**
+	 * button to take 100 from price of a trade
+	 */
 	private TextButton priceMinus100;
 
+	/**
+	 * label to show amount of ore being traded
+	 */
 	private Label oreTradeLabel;
-
+	
+	/**
+	 * label to show amount of energy being traded
+	 */	
 	private Label energyTradeLabel;
-
+	
+	/**
+	 * label to show amount of food being traded
+	 */
 	private Label foodTradeLabel;
-
+	
+	/**
+	 * variable storing price of trade
+	 */
 	private int tradePrice;
 
+	/**
+	 * label to show the price of a trade
+	 */
 	private Label tradePriceLabel;
-
+	
+	/**
+	 * move forward through list of players you want to trade with in auction
+	 */
 	private TextButton nextPlayerButton;
 
+	/**
+	 * move backwardward through list of players you want to trade with in auction
+	 */
 	private TextButton prevPlayerButton;
-
+	
+	/**
+	 * Label to show which player a trade is going to be sent to
+	 */
 	private Label playerLabel;
-
+	
+	/**
+	 * a list of players  that the current player can trade with
+	 */
 	private Array<Player> otherPlayer;
-
+	
+	/**
+	 * current position in other player list in auction
+	 */
 	private int playerListPosition;
 	
 	
@@ -670,14 +754,17 @@ public class Market extends Table {
     }
     
     
-    
+    /**
+     * Builds the auction's visual interface by populating it with labels and buttons
+     * Once this method has finished executing, the market can be drawn to a stage like any other actor
+     */
     private void constructAuctionInterface(){
     	tableFont.setSize(36);
         drawer.toggleButton(auctionButton, false, Color.GRAY);
         drawer.toggleButton(marketButton, true, Color.WHITE);
         drawer.addTableRow(this, marketButton);
         this.add(auctionButton).left();
-        //Add a heading to the market interface
+        //Add a heading to the market/ auction interface
 
         tableFont.setSize(24);
 
@@ -1273,6 +1360,10 @@ public class Market extends Table {
         }
     }
     
+    /**
+     * Enables and disables various buttons in the auction based on the players inventory and the value
+     * of the current resources and price of the current trade
+    */
     public void refreshAuction(){
     	drawer.toggleButton(playerBuyOre, false, Color.GRAY);
     	drawer.toggleButton(playerSellOre, false, Color.GRAY);
@@ -1335,6 +1426,9 @@ public class Market extends Table {
     	}
     }
     
+    /**
+     * updates the other player list so all players except the current player are in it
+     */
     public void refreshPlayers(){
     	otherPlayer = new Array<Player>();
         for (Player player : engine.players()) {
@@ -1344,12 +1438,17 @@ public class Market extends Table {
         }
         playerLabel.setText("Player " + otherPlayer.get(0).getPlayerID());
     }
-
+    
+    
 	public void setPlayerListPosition(int i) {
 		playerListPosition = i;
 		
 	}
 	
+	/**
+	 * allows the market to get it's inventory of roboticons up to 10 so long as it has
+	 * at least 10 ore, each roboticon costs 3 ore
+	 */
 	public void produceRoboticon(){
 		while (this.OreStock > 10 && RoboticonStock < 10 ){
 			OreStock -= 3;
