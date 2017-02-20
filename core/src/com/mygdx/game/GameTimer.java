@@ -193,16 +193,18 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
      * Specifically changes the internal minutes/seconds variables as necessary and updates the core label's
      * appearance to visualise the new timer provided
      *
+     * Changed in Assessment 3
+     *
      * @param minutes The number of minutes to which the timer should be clocked
      * @param seconds The number of seconds to which the timer should be clocked
      */
     public void setTime(int minutes, int seconds) {
-        if (seconds < 0) seconds = 0;
-        if (minutes < 0) minutes = 0;
+        if (seconds < 0) seconds = 0; // New
+        if (minutes < 0) minutes = 0; // New
 
         this.minutes = minutes + (seconds / 60);
         this.seconds = seconds % 60;
-        this.setText(String.format("%02d:%02d", this.minutes, this.seconds));
+        this.setText(String.format("%02d:%02d", this.minutes, this.seconds)); // Changed to make cleaner
         //Instantiate private time variables with new values and render it out
     }
 
@@ -244,6 +246,8 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
     /**
      * Returns the number of minutes currently clocked on the timer
      *
+     * Changed in Assessment 3 (Integer -> int)
+     *
      * @return int The number of minutes left on the clock
      */
     public int minutes() {
@@ -252,6 +256,8 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
 
     /**
      * Returns the number of seconds currently clocked on the timer (within the current minute)
+     *
+     * Changed in assessment 3 (Integer -> int)
      *
      * @return int The number of seconds left on the clock during the current minute
      */
@@ -270,6 +276,8 @@ public class GameTimer extends com.badlogic.gdx.scenes.scene2d.ui.Label {
 
     /**
      * Stops the timer (and changes the timer's colour appropriately)
+     *
+     * Changed in Assessment 3 (to reset back to 0:0)
      */
     public void stop() {
         timer.stop();
