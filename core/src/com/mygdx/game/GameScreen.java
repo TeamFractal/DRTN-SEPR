@@ -637,7 +637,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         gameFont.setSize(24);
         Table collegeInfo = new Table();
-        currentPlayerIcon = engine.currentPlayer().getCollege().getLogo();
+        currentPlayerIcon = new Image();
         currentPlayerLabel = new Label("", new Label.LabelStyle(gameFont.font(), Color.WHITE));
         drawer.addTableRow(collegeInfo, currentPlayerIcon, 64, 64);
         drawer.addTableRow(collegeInfo, new Label("COLLEGE", new Label.LabelStyle(gameFont.font(), Color.WHITE)));
@@ -1066,7 +1066,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      * @return Image The image object visualising the current player's associated college
      */
     public Image currentPlayerIcon() {
-        return engine.currentPlayer().getCollege().getLogo();
+        return currentPlayerIcon;
     }
 
     /**
