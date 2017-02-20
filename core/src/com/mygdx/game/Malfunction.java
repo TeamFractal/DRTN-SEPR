@@ -77,6 +77,14 @@ public class Malfunction extends RandomEvent {
         }
     }
 
+    public int[] getStartingRoboticonLevels() {
+        return this.startingRoboticonLevels;
+    }
+
+    public Roboticon getRoboticonToMalfunction() {
+        return this.roboticonToMalfunction;
+    }
+
     public String toString() {
         return "<Malfunction: Duration = " + this.duration + ">";
     }
