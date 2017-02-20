@@ -5,14 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-/**
- * @author Duck Related Team Name in Big Massive Letters
- * @since Assessment 2
- * @version Assessment 2
- *
- * An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
- * Our website is: https://jm179796.github.io/SEPR/
- */
+
 public class LabelledElement extends Table {
 
     /**

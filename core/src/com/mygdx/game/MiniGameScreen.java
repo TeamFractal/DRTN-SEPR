@@ -22,12 +22,8 @@ import java.util.Random;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
-/**
- * Created by chankaichi on 13/02/2017.
- */
 
-// MiniGameScreen added in Assessment 3.
-
+//new class for assessment 3
 public class MiniGameScreen extends AbstractAnimationScreen implements Screen {
     enum GameActions {money, robotcoin, lose_money }
 

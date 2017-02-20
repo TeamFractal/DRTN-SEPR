@@ -10,14 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.*;
 
 
-/**
- * @author Duck Related Team Name in Big Massive Letters
- * @since Assessment 2
- * @version Assessment 2
- *
- * An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
- * Our website is: https://jm179796.github.io/SEPR/
- */
+
 // Changed in Assessment 3: Added so no more than one GameEngine can be instantiated at any one time.
 public class GameEngine {
     private static GameEngine _instance;

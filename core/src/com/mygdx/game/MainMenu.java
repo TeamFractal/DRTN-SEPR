@@ -16,14 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-/**
- * @author Duck Related Team Name in Big Massive Letters
- * @since Assessment 2
- * @version Assessment 2
- *
- * An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
- * Our website is: https://jm179796.github.io/SEPR/
- */
 public class MainMenu implements Screen {
 
     /**

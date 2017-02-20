@@ -3,14 +3,7 @@ package com.mygdx.game;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Duck Related Team Name in Big Massive Letters
- * @since Assessment 2
- * @version Assessment 2
- *
- * An executable version of the game can be found at: https://jm179796.github.io/SEPR/DRTN-Assessment2.jar
- * Our website is: https://jm179796.github.io/SEPR/
- */
+
 public class Player {
     public boolean isAi () { return false; }
 
