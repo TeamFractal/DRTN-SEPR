@@ -25,7 +25,7 @@ public class AiPlayer extends Player {
                     + market.getEnergyBuyPrice() * trade.energyAmount
                     + market.getFoodBuyPrice() * trade.foodAmount;
 
-            double likelihood = (double)trade.getPrice() / total;
+            double likelihood = 1 - (double)trade.getPrice() / total;
 
             if (rnd.nextDouble() < likelihood) {
                 trade.execute();

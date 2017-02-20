@@ -1342,7 +1342,7 @@ public class Market extends Table {
                 otherPlayer.add(player); 
             } 
         }
-        playerLabel.setText("Player " + otherPlayer.get(0).getPlayerID());
+        playerLabel.setText("Player " + otherPlayer.get(0).getPlayerNumber());
     }
 
 	public void setPlayerListPosition(int i) {

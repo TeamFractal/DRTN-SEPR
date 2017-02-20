@@ -891,7 +891,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     	
         gameFont.setSize(24);
         tradeOverlay.table().row();
-        tradeOverlay.table().add(new Label("From: Player " + trade.getSender().getPlayerID(), new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
+        tradeOverlay.table().add(new Label("From: Player " + trade.getSender().getPlayerNumber(), new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
         tradeOverlay.table().row();
         tradeOverlay.table().add(new Label("ORE: " + trade.oreAmount, new Label.LabelStyle(gameFont.font(), Color.WHITE))).left();
         tradeOverlay.table().row();
