@@ -144,8 +144,8 @@ public class MainMenu implements Screen {
 
         //hideing the how to play and leaderboard button.
         // buttons[0].setVisible(false);
-        buttons[1].setVisible(false);
-        buttons[2].setVisible(false);
+        buttons[1].setVisible(false); // New
+        buttons[2].setVisible(false); // New
 
 
         //Initialise menu buttons using defined style
@@ -154,7 +154,7 @@ public class MainMenu implements Screen {
         drawer.addTableRow(table, new Label("Sabbaticoup", new Label.LabelStyle(titleFont.font(), Color.WHITE)), 0, 0, 0, 0);
         drawer.addTableRow(table, new Label("(Title TBC)", new Label.LabelStyle(tempFont.font(), Color.WHITE)), 0, 0, 50, 0);
 
-        //ADD BUTTONS
+        //ADD BUTTONS - refactored for Assessment 3
         for (Button button : buttons) {
             drawer.addTableRow(table, button);
         }

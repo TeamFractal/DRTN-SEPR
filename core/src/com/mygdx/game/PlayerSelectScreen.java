@@ -16,6 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
+/**
+ * New Class for Assessment 3, allows user to slect the number of players
+ * @author jc1850
+ *
+ */
+//new class for assessment 3
 public class PlayerSelectScreen implements Screen {
 	
 	/**

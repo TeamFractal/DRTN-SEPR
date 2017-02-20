@@ -413,6 +413,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
      * Sets up the buttons to be placed onto the interface later by defining their visual representations and their
      * on-click functions together
      */
+    //Extended for Assessment 3 with new buttons
     private void constructButtons() {
         /**
          * Button that, when clicked, ends the current turn for the current player prematurely
@@ -850,6 +851,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         return upgradeOverlayVisible;
     }
 
+    //new for assessment 3
     private void constructEventMessageOverlay() {
         eventMessageOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 900, 200, 3);
         eventMessage = new Label("", new Label.LabelStyle(gameFont.font(), Color.WHITE));
@@ -866,13 +868,14 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
         drawer.addTableRow(eventMessageOverlay.table(), closeEventMessageButton);
     }
-
+    //new for assessment 3
     public void showEventMessage(String message) {
         eventMessage.setText(message);
         eventMessageOverlayVisible = true;
         Gdx.input.setInputProcessor(eventMessageOverlay);
     }
 
+  //new for assessment 3
     public void hideEventMessage() {
         eventMessageOverlayVisible = false;
         if (upgradeOverlayVisible) {
@@ -883,6 +886,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         }
     }
 
+    //new for assessment 3
     private void constructTradeOverlay(Trade trade){
     	tradeOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 250, 300, 3);
     	tradeOverlayVisible = false;
@@ -905,6 +909,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         tradeOverlay.table().add(cancelTradeButton);
     }
     
+  //new for assessment 3
     private void constructTooExpensiveOverlay(){
     	tooExpensiveOverlay = new Overlay(this.game, Color.GRAY, Color.WHITE, 250, 300, 3);
     	tooExpensiveOverlayVisible = false;
@@ -1187,6 +1192,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
     /**
      * Closes the upgrade overlay and restores the functionality of the game's main stage
      */
+    //new for assessment 3
     public void closeUpgradeOverlay() {
         upgradeOverlayVisible = false;
         
@@ -1254,6 +1260,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
         return s;
     }
 
+  //all below is new for assessment 3
     public void showPlayerWin(int playerId){
         playerWin = new AnimationPlayerWin(playerId);
         addAnimation(playerWin);

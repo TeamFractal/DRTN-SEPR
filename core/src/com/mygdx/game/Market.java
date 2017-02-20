@@ -501,6 +501,8 @@ public class Market extends Table {
         });
         //Set the button for selling food to do just that (but only when the game is in phase 5)
         
+        //rest of method is new for assessment 3
+        
         playerBuyOre = new TextButton("+", tableButtonStyle);
         oreTradeLabel = new Label("Ore:        " + oreTradeAmount, 
         		new Label.LabelStyle(tableFont.font(), Color.WHITE));
@@ -758,6 +760,7 @@ public class Market extends Table {
      * Builds the auction's visual interface by populating it with labels and buttons
      * Once this method has finished executing, the market can be drawn to a stage like any other actor
      */
+    //new for assessment 3
     private void constructAuctionInterface(){
     	tableFont.setSize(36);
         drawer.toggleButton(auctionButton, false, Color.GRAY);
@@ -1364,6 +1367,7 @@ public class Market extends Table {
      * Enables and disables various buttons in the auction based on the players inventory and the value
      * of the current resources and price of the current trade
     */
+    //new for assessment 3
     public void refreshAuction(){
     	drawer.toggleButton(playerBuyOre, false, Color.GRAY);
     	drawer.toggleButton(playerSellOre, false, Color.GRAY);
@@ -1429,6 +1433,7 @@ public class Market extends Table {
     /**
      * updates the other player list so all players except the current player are in it
      */
+    //all below is new for assessment 3
     public void refreshPlayers(){
     	otherPlayer = new Array<Player>();
         for (Player player : engine.players()) {
