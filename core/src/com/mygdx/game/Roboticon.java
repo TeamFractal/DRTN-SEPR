@@ -94,10 +94,25 @@ public class Roboticon {
         return levels;
     }
 
+    /**
+     * Setter for oreLevel
+     * New in Assessment 3
+     * @param newLevel
+     */
     public void setOreLevel(int newLevel) {this.oreLevel = newLevel;}
 
+    /**
+     * Setter for energyLevel
+     * New in Assessment 3
+     * @param newLevel
+     */
     public void setEnergyLevel(int newLevel) {this.energyLevel = newLevel;}
 
+    /**
+     * Setter for foodLevel
+     * New in Assessment 3
+     * @param newLevel
+     */
     public void setFoodLevel(int newLevel) {this.foodLevel = newLevel;}
 
 
@@ -111,7 +126,7 @@ public class Roboticon {
      * <p>
      * The parameter 'Resource' specifies 'Ore', 'Energy' or 'Food' to be upgraded one level.
      * </p>
-     *
+     * Changed in Assessment 3 - refactored to use switch statement instead of if-else
      * 0: ORE
      * 1: ENERGY
      * 2: FOOD

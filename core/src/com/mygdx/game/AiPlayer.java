@@ -2,6 +2,11 @@ package com.mygdx.game;
 
 import java.util.Random;
 
+/**
+ * @Author Team Fractal
+ *
+ * New for Assessment 3
+ */
 public class AiPlayer extends Player {
     static private Random rnd = new Random();
 
@@ -14,6 +19,12 @@ public class AiPlayer extends Player {
         return true;
     }
 
+    /**
+     * Called by GameEngine to get the AI player's action, according to the current phase in the game engine
+     *
+     * @param engine The game engine
+     * @param screen The game screen
+     */
     public void performPhase(GameEngine engine, GameScreen screen) {
         Market market = engine.market();
 
@@ -109,6 +120,13 @@ public class AiPlayer extends Player {
         }
     }
 
+    /**
+     * Calculates a value for the likelihood of the AI accepting a trade. Used in performPhase.
+     *
+     * @param marketPrice The current price of a certain resource at the market
+     * @param offerPrice The proce another player has offered for the resource
+     * @return the likelyhood
+     */
     public double calculateLikelihood(double marketPrice, double offerPrice){
         if (offerPrice > marketPrice * 1.5) return 0;
         if (marketPrice > offerPrice * 1.5) return 1;
