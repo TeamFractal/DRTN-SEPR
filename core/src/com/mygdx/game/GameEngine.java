@@ -251,11 +251,12 @@ public class GameEngine {
         if (gameScreen.getUpgradeOverlayVisible()) {
             gameScreen.closeUpgradeOverlay();
         }
-        testTrade();
 
         if (isCurrentlyAiPlayer()) {
             AiPlayer aiPlayer = (AiPlayer)currentPlayer();
             aiPlayer.performPhase(this, gameScreen);
+        } else {
+            testTrade();
         }
     }
 
