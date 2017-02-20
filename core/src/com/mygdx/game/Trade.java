@@ -1,5 +1,10 @@
 package com.mygdx.game;
-
+/**
+ * Class to facilitate trades for assessment 3
+ * @author jc1850
+ *
+ */
+//new class for assessment 3
 public class Trade {
 	public final int oreAmount;
 	public final int energyAmount;

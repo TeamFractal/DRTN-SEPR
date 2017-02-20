@@ -52,7 +52,9 @@ public class Drawer {
     private static BitmapFont defaultFont;
     private static BitmapFont font04b08;
     private static GlyphLayout glyphLayout;
-
+    
+    
+    //new method for assessment 3
     static {
         roboticonSprite = new Sprite(new Texture("roboticon/roboticon.png"));
         defaultTTFont = new TTFont(Gdx.files.internal("font/earthorbiter.ttf"),
@@ -103,6 +105,7 @@ public class Drawer {
      * @param width Width of the new rectangle
      * @param height Height of the new rectangle
      */
+    //all below has been refactored for assessment3 in this class
     public void rectangle(ShapeRenderer.ShapeType type, Color color, int x, int y, int width, int height, int thickness) {
         synchronized (renderer) {
             renderer.begin(type);

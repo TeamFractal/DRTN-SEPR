@@ -258,6 +258,7 @@ public class Player {
         return this.College;
     }
     
+    //two methods below are new for assessment3
     public void setTrade(Trade trade){
     	this.currentTrade = trade;
     }
