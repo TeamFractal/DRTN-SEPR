@@ -4,36 +4,49 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by jack on 18/02/2017.
- */
+// This class was implemented during Assessment 3.
+
 public class Malfunction extends RandomEvent {
 
-    private GameEngine gameEngine;
     private int playerAffected;
     private List<Tile> playerTiles;
     private ArrayList<Tile> tilesWithRoboticons = new ArrayList<Tile>();
-    private Tile selectedRoboticonTile;
     private int roboticonTileNo;
     private Roboticon roboticonToMalfunction;
     private int[] startingRoboticonLevels;
-    private int duration;
-
 
     public Malfunction(GameEngine gameEngine, GameScreen gameScreen, int playerToAffect) {
         super(gameScreen);
-        this.gameEngine = gameEngine;
         this.playerAffected = playerToAffect;
         this.playerTiles = gameEngine.players()[this.playerAffected].getTileList();
         this.gatherRoboticonTiles();
-        this.selectedRoboticonTile = this.tilesWithRoboticons.get(randomiser.nextInt(this.tilesWithRoboticons.size()));
-        this.roboticonTileNo = this.selectedRoboticonTile.getID();
-        this.roboticonToMalfunction = this.selectedRoboticonTile.getRoboticonStored();
+        Tile selectedRoboticonTile = this.tilesWithRoboticons.get(randomiser.nextInt(this.tilesWithRoboticons.size()));
+        this.roboticonTileNo = selectedRoboticonTile.getID();
+        this.roboticonToMalfunction = selectedRoboticonTile.getRoboticonStored();
         this.startingRoboticonLevels = this.roboticonToMalfunction.getLevel();
-        System.out.println(Arrays.toString(this.startingRoboticonLevels));
-        this.duration = 2;
     }
 
+    /**
+     * Gets the roboticon production levels before the malfunction occurs.
+     * @return: An int[] array storing the roboticon production levels.
+     */
+    public int[] getStartingRoboticonLevels() {
+        return this.startingRoboticonLevels;
+    }
+
+    /**
+     * Gets the roboticon which will malfunction.
+     * @return: The roboticon object representing the roboticon to malfunction.
+     */
+    public Roboticon getRoboticonToMalfunction() {
+        return this.roboticonToMalfunction;
+    }
+
+    /**
+     * Overridden eventEffect() method initially found in the RandomEvent class.
+     * @param doOrUndo: boolean determining whether to cause the event effect, or
+     *                reverse it. True -> Cause, False -> Reverse.
+     */
     public void eventEffect(boolean doOrUndo) {
         if (doOrUndo) {
             this.roboticonToMalfunction.setOreLevel(0);
@@ -47,12 +60,12 @@ public class Malfunction extends RandomEvent {
         }
     }
 
-    public int getDuration() {
-        return this.duration;
-    }
-
-    public void decDuration() {this.duration -= 1;}
-
+    /**
+     * Overridden eventMessage() method initially found in the RandomEvent class.
+     * @param doOrUndo: boolean determining whether to cause the event effect, or
+     *                reverse it. True -> Cause, False -> Reverse.
+     * @return: A String containing the event message.
+     */
     public String eventMessage(boolean doOrUndo) {
         String messageToReturn;
         if (doOrUndo) {
@@ -67,9 +80,10 @@ public class Malfunction extends RandomEvent {
         return messageToReturn;
     }
 
-    public void eventAnimation() {}
-
-    public void gatherRoboticonTiles() {
+    /**
+     * A method which gathers all player tiles which currently have roboticons stored on them.
+     */
+    private void gatherRoboticonTiles() {
         for (Tile tile: this.playerTiles) {
             if (tile.getRoboticonStored() != null) {
                 this.tilesWithRoboticons.add(tile);
@@ -77,14 +91,10 @@ public class Malfunction extends RandomEvent {
         }
     }
 
-    public int[] getStartingRoboticonLevels() {
-        return this.startingRoboticonLevels;
-    }
-
-    public Roboticon getRoboticonToMalfunction() {
-        return this.roboticonToMalfunction;
-    }
-
+    /**
+     * Returns a string representation of a Malfunction random event.
+     * @return: The string <Malfunction: Duration = x> where x = duration.
+     */
     public String toString() {
         return "<Malfunction: Duration = " + this.duration + ">";
     }

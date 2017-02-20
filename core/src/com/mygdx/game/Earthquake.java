@@ -2,33 +2,43 @@ package com.mygdx.game;
 
 import java.util.*;
 
-/**
- * Created by jack_holt on 06/02/17.
- */
+// This class was implemented during Assessment 3.
+
 public class Earthquake extends RandomEvent {
 
     private int playerAffected;
     private GameEngine gameEngine;
     private ArrayList<Tile> tilesDamaged;
     private int tileDamageValue;
-    private int duration;
 
     public Earthquake(GameEngine engine, GameScreen gameScreen) {
         super(gameScreen);
         this.gameEngine = engine;
         this.tilesDamaged = chooseAffectedTiles();
         this.tileDamageValue = getNumberGreaterThanX(5, 2);
-        this.duration = 2;
     }
 
-    public int getDuration() {
-        return this.duration;
+    /**
+     * A method which returns the tiles chosen to be damaged by the earthquake.
+     * @return: An ArrayList<Tile> containing tiles to be damaged.
+     */
+    public ArrayList<Tile> getTilesDamaged() {
+        return this.tilesDamaged;
     }
 
-    public void decDuration () {
-        this.duration -= 1;
+    /**
+     * A method which returns the value which production will be divided by on the damaged tiles.
+     * @return: An integer x, where x is the value production will be divided by.
+     */
+    public int getTileDamageValue() {
+        return this.tileDamageValue;
     }
 
+    /**
+     * Overridden eventEffect() method initially found in the RandomEvent abstract class.
+     * @param doOrUndo: boolean determining whether to cause the event effect, or
+     *                reverse it. True -> Cause, False -> Reverse.
+     */
     public void eventEffect(boolean doOrUndo) {
         // Divides production on each tile by damage value
         for (Tile tile : this.tilesDamaged) {
@@ -44,7 +54,12 @@ public class Earthquake extends RandomEvent {
         }
     }
 
-    // Message that appears when
+    /**
+     * Overridden eventMessage() method initially found in the RandomEvent abstract class.
+     * @param doOrUndo: boolean determining whether to cause the event effect, or
+     *                reverse it. True -> Cause, False -> Reverse.
+     * @return: A String containing the message to be displayed.
+     */
     public String eventMessage(boolean doOrUndo) {
         String messageToReturn;
         if (doOrUndo) {
@@ -56,12 +71,13 @@ public class Earthquake extends RandomEvent {
             messageToReturn = "The damage to Player " + (this.playerAffected + 1) +" from the earthquake 2 turns ago " +
                     "has been repaired! The effects of this have been reversed.";
         }
-        
         return messageToReturn;
     }
 
-    public void eventAnimation() {}
-
+    /**
+     * A method which chooses the tiles to be damaged by the earthquake.
+     * @return: An ArrayList<Tile> containing the affected tiles.
+     */
     private ArrayList<Tile> chooseAffectedTiles() {
 
         ArrayList<Tile> tilesAffected = new ArrayList<Tile>();
@@ -82,14 +98,24 @@ public class Earthquake extends RandomEvent {
         return tilesAffected;
     }
 
-    public ArrayList<Tile> getTilesDamaged() {
-        return this.tilesDamaged;
+    /**
+     * A method which returns an integer i where x <= i < limit.
+     * @param limit
+     * @param x
+     * @return: Integer i
+     */
+    private int getNumberGreaterThanX(int limit, int x) {
+        int numberGenerated = randomiser.nextInt(limit);
+        if (numberGenerated == 0 || numberGenerated == 1) {
+            numberGenerated += x;
+        }
+        return numberGenerated;
     }
 
-    public int getTileDamageValue() {
-        return this.tileDamageValue;
-    }
-
+    /**
+     * Returns a string representation of an Earthquake instance.
+     * @return: The string "<Earthquake: Duration = x> where x = duration."
+     */
     public String toString() {
         return "<Earthquake: Duration = " + this.duration + ">";
     }
