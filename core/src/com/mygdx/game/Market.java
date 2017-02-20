@@ -1349,6 +1349,17 @@ public class Market extends Table {
 		playerListPosition = i;
 		
 	}
+	
+	public void produceRoboticon(){
+		while (this.OreStock > 10 && RoboticonStock < 10 ){
+			OreStock -= 3;
+			oreStockLabel.setText("" + getOreStock());
+			RoboticonStock += 1;
+			roboticonStockLabel.setText("" + RoboticonStock);
+			refreshButtonAvailability();
+
+		}
+	}
 }
 
 

@@ -214,6 +214,7 @@ public class GameEngine {
             case 1:
                 tileAcquired = false;
                 drawer.toggleButton(gameScreen.endTurnButton(), false, Color.GRAY);
+                market.produceRoboticon();
                 break;
 
             case 2:
