@@ -225,6 +225,8 @@ public class GameEngine {
                 break;
 
             case 3:
+            	timer.setTime(0, 30);
+                timer.start();
                 break;
 
             case 4:
