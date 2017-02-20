@@ -82,6 +82,14 @@ public class Earthquake extends RandomEvent {
         return tilesAffected;
     }
 
+    public ArrayList<Tile> getTilesDamaged() {
+        return this.tilesDamaged;
+    }
+
+    public int getTileDamageValue() {
+        return this.tileDamageValue;
+    }
+
     public String toString() {
         return "<Earthquake: Duration = " + this.duration + ">";
     }
