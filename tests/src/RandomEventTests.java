@@ -88,4 +88,30 @@ public class RandomEventTests extends TesterFile {
         assertArrayEquals(expectedRoboticonLevels, roboticonLevelsAfterMalfunction);
     }
 
+    @Test
+    public void testRoboticonRevertsAfterMalfunction() {
+        Tile testTile = new Tile(game, 0,0,0,0, true, new Runnable() {
+            @Override
+            public void run() {
+            }
+        });
+
+        gameEngine.players()[0].assignTile(testTile);
+        Roboticon testRoboticon = new Roboticon(1, gameEngine.players()[0], gameEngine.players()[0].getTileList().get(0));
+        Malfunction testMalfunction = new Malfunction(gameEngine, gameScreen, 0);
+        int[] startingRoboticonLevels = testMalfunction.getStartingRoboticonLevels();
+        try {
+            testMalfunction.eventHappen(true);
+        }
+        catch (Exception e) {}
+        try {
+            testMalfunction.eventHappen(false);
+        }
+        catch (Exception e) {}
+
+        int[] roboticonLevelsAfterFix = testMalfunction.getRoboticonToMalfunction().getLevel();
+        assertArrayEquals(startingRoboticonLevels, roboticonLevelsAfterFix);
+
+    }
+
 }
