@@ -303,7 +303,7 @@ public class GameEngine {
 
     public void selectRandomEvent() {
         Random random = new Random();
-        int eventValue = random.nextInt(2);
+        int eventValue = random.nextInt(4);
         boolean eventHappened = eventCurrentlyHappening(eventValue);
         if (!eventHappened) {
             switch (eventValue) {
