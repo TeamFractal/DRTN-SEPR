@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.Main;
 
 /**
- * URL for executable: https://teamfractal.github.io/
+ * URL for executable: https://teamfractal.github.io/assessment3/Game.jar
  */
 public class DesktopLauncher {
 	/**

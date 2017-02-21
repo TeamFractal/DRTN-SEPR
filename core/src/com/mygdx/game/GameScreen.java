@@ -1254,7 +1254,7 @@ public class GameScreen extends AbstractAnimationScreen implements Screen {
 
   //all below is new for assessment 3
     public void showPlayerWin(int playerId){
-        playerWin = new AnimationPlayerWin(playerId);
+        playerWin = new AnimationPlayerWin(playerId + 1);
         addAnimation(playerWin);
     }
 
